@@ -2,3 +2,8 @@ db/
 incremental_db/
 output_files/
 simulation/
+*.bak
+work/
+transcript
+test_bench/modelsim.ini
+test_bench/vsim.wlf
