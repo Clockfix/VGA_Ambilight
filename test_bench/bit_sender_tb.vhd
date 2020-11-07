@@ -67,12 +67,9 @@ BEGIN
         i_data <= X"F0FFF2";
         WAIT FOR 10 us;
         i_enable <= '1';
-        --   wait for 10 ns;
-        --     EN_1   <= '1';
-        --     EN_2   <= '0';
-        --   wait for 10 ns;
-        --     EN_1 <= '0';
-        WAIT FOR 40 us;
+        WAIT FOR 20 us;
+        i_data <= X"70CCA2";
+        WAIT FOR 20 us;
         -- wait; -- end of test
         REPORT"TEST SUCCESSFUL";
 
