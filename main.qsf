@@ -53,7 +53,7 @@ set_global_assignment -name MAX_CORE_JUNCTION_TEMP 85
 # Analysis & Synthesis Assignments
 # ================================
 set_global_assignment -name FAMILY "Cyclone V"
-set_global_assignment -name TOP_LEVEL_ENTITY bit_sender
+set_global_assignment -name TOP_LEVEL_ENTITY ram2port
 
 # Fitter Assignments
 # ==================
@@ -140,6 +140,7 @@ set_global_assignment -name VHDL_TEST_BENCH_FILE test_bench/bit_sender_tb.vhd
 set_global_assignment -name VHDL_FILE source/functions.vhd
 set_global_assignment -name VHDL_FILE source/bit_sender.vhd
 set_global_assignment -name VHDL_FILE source/main.vhd
+set_global_assignment -name QIP_FILE source/ram2port/ram2port.qip
 set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top
 set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id Top
 set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
