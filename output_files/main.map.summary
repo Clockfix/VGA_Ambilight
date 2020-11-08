@@ -1,7 +1,7 @@
-Analysis & Synthesis Status : Successful - Sun Nov  8 14:21:24 2020
+Analysis & Synthesis Status : Successful - Sun Nov  8 14:45:18 2020
 Quartus Prime Version : 20.1.0 Build 711 06/05/2020 SJ Lite Edition
 Revision Name : main
-Top-level Entity Name : ram2port
+Top-level Entity Name : led_ram
 Family : Cyclone V
 Logic utilization (in ALMs) : N/A
 Total registers : 0
