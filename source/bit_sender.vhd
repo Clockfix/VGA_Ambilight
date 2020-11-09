@@ -9,8 +9,8 @@
 --
 -- Revision:
 -- A - initial design
--- B - 
---
+-- B - add another wire(w_is_timer_almost_done) and shift o_send_done output by one clock cycle, to use it for address increase counter 
+-- C - 
 -----------------------------
 LIBRARY ieee; --always use this library
 USE ieee.std_logic_1164.ALL; --always use this library
@@ -51,6 +51,7 @@ ARCHITECTURE rtl OF bit_sender IS
     SIGNAL w_demux_out : STD_LOGIC; -- outout of DEMUX (selects one of bits)
     SIGNAL w_is_bit_max : STD_LOGIC; -- is HIGH when bit_counter = g_DATA_WIDTH-1
     SIGNAL w_is_timer_max : STD_LOGIC; -- is HIGH when timer_counter = g_BIT_COUNTER_MAX_VALUE
+    SIGNAL w_is_timer_almost_done : STD_LOGIC; -- is HIGH when timer_counter = g_BIT_COUNTER_MAX_VALUE - 1
     SIGNAL w_is_timer_first : STD_LOGIC; -- is HIGH when timer_counter = g_FIRST_MAX_VALUE
     SIGNAL w_is_timer_second : STD_LOGIC; -- is HIGH when timer_counter = g_SECOND_MAX_VALUE
     SIGNAL w_is_bit_zero : STD_LOGIC; -- is HIGH when bit_counter = g_DATA_WIDTH-1
@@ -65,13 +66,15 @@ ARCHITECTURE rtl OF bit_sender IS
 BEGIN
     -- enable wires
     w_en_data_in <= w_enable_read_in;
-    w_en_sending <= w_enable_read_in  OR r_send_done_next;
+    w_en_sending <= w_enable_read_in  OR r_send_done_reg;
     w_en_timer <= r_sending_reg;
     w_en_bit_counter <= w_is_timer_max;
     w_en_data_out <= r_data_out_reg XOR r_data_out_next;
     w_en_send_done <= r_send_done_reg XOR r_send_done_next;
 
     -- other wires
+    w_is_timer_almost_done <= '1' WHEN (r_timer_reg = g_BIT_COUNTER_MAX_VALUE-1) ELSE
+    '0';
     w_is_timer_max <= '1' WHEN (r_timer_reg = g_BIT_COUNTER_MAX_VALUE) ELSE
         '0';
     w_is_bit_max <= '1' WHEN (r_bit_counter_reg = g_DATA_WIDTH - 1) ELSE
@@ -163,7 +166,7 @@ BEGIN
     r_bit_counter_next <= to_unsigned(0, log2c(g_DATA_WIDTH + 1)) WHEN w_is_bit_max ELSE
         r_bit_counter_reg + 1;
 
-    r_send_done_next <= w_is_bit_max AND w_is_timer_max;
+    r_send_done_next <= w_is_bit_max AND w_is_timer_almost_done;
     r_data_out_next <= (w_is_timer_second AND w_demux_out) WHEN w_demux_out ELSE
         (w_is_timer_first AND (NOT w_demux_out));
     ------------------------ outputs ------------------------

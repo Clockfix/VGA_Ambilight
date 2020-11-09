@@ -1,11 +1,11 @@
-Analysis & Synthesis Status : Successful - Sun Nov  8 14:45:18 2020
+Analysis & Synthesis Status : Successful - Tue Nov 10 00:19:28 2020
 Quartus Prime Version : 20.1.0 Build 711 06/05/2020 SJ Lite Edition
 Revision Name : main
-Top-level Entity Name : led_ram
+Top-level Entity Name : output_module
 Family : Cyclone V
 Logic utilization (in ALMs) : N/A
-Total registers : 0
-Total pins : 71
+Total registers : 64
+Total pins : 38
 Total virtual pins : 0
 Total block memory bits : 24,576
 Total DSP Blocks : 0
