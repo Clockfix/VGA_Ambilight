@@ -53,7 +53,7 @@ set_global_assignment -name MAX_CORE_JUNCTION_TEMP 85
 # Analysis & Synthesis Assignments
 # ================================
 set_global_assignment -name FAMILY "Cyclone V"
-set_global_assignment -name TOP_LEVEL_ENTITY bit_sender
+set_global_assignment -name TOP_LEVEL_ENTITY output_module
 
 # Fitter Assignments
 # ==================
