@@ -1,0 +1,1 @@
+vsim -do "output_module.do" 

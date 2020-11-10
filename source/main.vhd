@@ -15,6 +15,10 @@
 LIBRARY ieee; --always use this library
 USE ieee.std_logic_1164.ALL; --always use this library
 USE ieee.numeric_std.ALL; --use this library if arithmetic require
+
+LIBRARY work; -- this is implicit
+USE work.functions.ALL;
+
 ENTITY main IS
     PORT (
         i_clk : IN STD_LOGIC
