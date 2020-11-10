@@ -29,7 +29,7 @@ ENTITY led_ram IS
         o_data : OUT STD_LOGIC_VECTOR(23 DOWNTO 0);
         i_rd_addr : IN STD_LOGIC_VECTOR(9 DOWNTO 0);
         i_wr_addr : IN STD_LOGIC_VECTOR(9 DOWNTO 0);
-        i_ren : IN STD_LOGIC;
+      --  i_ren : IN STD_LOGIC;
         i_wen : IN STD_LOGIC
     );
 END ENTITY;
@@ -42,7 +42,7 @@ BEGIN
             clock => i_clk,
             data => i_data,
             rdaddress => i_rd_addr,
-            rden => i_ren,
+           -- rden => i_ren,
             wraddress => i_wr_addr,
             wren => i_wen,
             q => o_data

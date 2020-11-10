@@ -22,6 +22,7 @@ USE ieee.std_logic_1164.ALL;
 USE ieee.numeric_std.ALL; --use this library if arithmetic require
 
 USE work.functions.ALL;
+LIBRARY work; 
 
 ENTITY output_module IS
     GENERIC (
@@ -57,7 +58,7 @@ BEGIN
             o_data => w_rd_data,
             i_rd_addr => w_rd_addr,
             i_wr_addr => i_wr_addr,
-            i_ren => '1',
+           -- i_ren => '1',
             i_wen => i_wen
         );
 
