@@ -22,7 +22,7 @@ USE ieee.std_logic_1164.ALL;
 USE ieee.numeric_std.ALL; --use this library if arithmetic require
 
 USE work.functions.ALL;
-LIBRARY work; 
+LIBRARY work;
 
 ENTITY output_module IS
     GENERIC (
@@ -34,7 +34,7 @@ ENTITY output_module IS
         i_clk : IN STD_LOGIC;
         i_data : IN STD_LOGIC_VECTOR(23 DOWNTO 0);
         i_wr_addr : IN STD_LOGIC_VECTOR(9 DOWNTO 0);
-        i_wen : IN STD_LOGIC;
+        i_wen : IN STD_LOGIC_VECTOR(0 DOWNTO 0);
         o_data_out : OUT STD_LOGIC;
         o_sent_done : OUT STD_LOGIC
     );
@@ -58,13 +58,13 @@ BEGIN
             o_data => w_rd_data,
             i_rd_addr => w_rd_addr,
             i_wr_addr => i_wr_addr,
-           -- i_ren => '1',
+            -- i_ren => '1',
             i_wen => i_wen
         );
 
     sender_fsm_inst : ENTITY work.sender_fsm
         GENERIC MAP(
-            g_LED_COUNT => g_LED_COUNT,
+--            g_LED_COUNT => g_LED_COUNT,
             g_RESET_TIME => g_RESET_TIME
         )
         PORT MAP(
@@ -72,7 +72,7 @@ BEGIN
             i_enable => '1',
             o_send_en => w_send_en,
             o_send_dv => w_send_dv,
-				i_active_leds => (OTHERS => '1'),
+            i_active_leds => std_logic_vector(to_unsigned(g_LED_COUNT,10)),
             o_rd_addr => w_rd_addr,
             i_new_data => '1',
             i_sent_done => w_send_done, -- from bit_sender
@@ -81,9 +81,9 @@ BEGIN
 
     bit_sender_inst : ENTITY work.bit_sender
         GENERIC MAP(
-            g_FIRST_MAX_VALUE => 20,
-            g_SECOND_MAX_VALUE => 40,
-            g_BIT_COUNTER_MAX_VALUE => 60,
+            g_FIRST_MAX_VALUE => 20 * 2,
+            g_SECOND_MAX_VALUE => 40 * 2,
+            g_BIT_COUNTER_MAX_VALUE => 60 * 2,
             g_DATA_WIDTH => 24
         )
         PORT MAP(

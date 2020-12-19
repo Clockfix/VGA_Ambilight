@@ -24,7 +24,6 @@ USE work.functions.ALL;
 ENTITY sender_fsm IS
     GENERIC (
         -- generic parameters - passed here from calling entity
-        g_LED_COUNT : NATURAL := 20;
         g_STATES : NATURAL := 4;
         g_RESET_TIME : NATURAL := 2500 -- mus be larger then 50us => 2500 * 20ns =50us
     );
