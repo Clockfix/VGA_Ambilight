@@ -11,7 +11,7 @@
 -----------------------------
 LIBRARY ieee; --always use this library
 USE ieee.std_logic_1164.ALL; --always use this library
-USE ieee.numeric_std.ALL; --use this library if arithmetic requir
+USE ieee.numeric_std.ALL; --use this library if arithmetic require
 
 
 

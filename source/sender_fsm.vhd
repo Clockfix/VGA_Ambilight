@@ -24,16 +24,15 @@ USE work.functions.ALL;
 ENTITY sender_fsm IS
     GENERIC (
         -- generic parameters - passed here from calling entity
-        g_LED_COUNT : NATURAL := 20;
         g_STATES : NATURAL := 4;
-        g_RESET_TIME : NATURAL := 2500 -- mus be larger then 50us => 2500 * 20ns =50us
+        g_RESET_TIME : NATURAL := 2500 -- must be larger then 50us => 2500 * 20ns =50us
     );
     PORT (
         i_clk : IN STD_LOGIC;
         i_enable : IN STD_LOGIC;
         o_send_en : OUT STD_LOGIC;
         o_send_dv : OUT STD_LOGIC;
-        o_rd_addr : OUT STD_LOGIC_VECTOR(9 DOWNTO 0); --reed address from memory
+        o_rd_addr : OUT STD_LOGIC_VECTOR(9 DOWNTO 0); --read address from memory
         i_active_leds : IN STD_LOGIC_VECTOR(9 DOWNTO 0); -- led count in strip (active)
         i_new_data : IN STD_LOGIC;
         i_sent_done : IN STD_LOGIC; -- word send done 

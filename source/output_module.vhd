@@ -28,7 +28,7 @@ ENTITY output_module IS
     GENERIC (
         -- generic parameters - passed here from calling entity
         g_LED_COUNT : NATURAL := 1024;
-        g_RESET_TIME : NATURAL := 2500 -- mus be larger then 50us => 2500 * 20ns =50us
+        g_RESET_TIME : NATURAL := 2700 -- mus be larger then 50us => 2500 * 20ns =50us
     );
     PORT (
         i_clk : IN STD_LOGIC;
@@ -64,7 +64,6 @@ BEGIN
 
     sender_fsm_inst : ENTITY work.sender_fsm
         GENERIC MAP(
-            g_LED_COUNT => g_LED_COUNT,
             g_RESET_TIME => g_RESET_TIME
         )
         PORT MAP(
@@ -72,7 +71,7 @@ BEGIN
             i_enable => '1',
             o_send_en => w_send_en,
             o_send_dv => w_send_dv,
-				i_active_leds => (OTHERS => '1'),
+			i_active_leds => std_logic_vector(to_unsigned(g_LED_COUNT),10),
             o_rd_addr => w_rd_addr,
             i_new_data => '1',
             i_sent_done => w_send_done, -- from bit_sender

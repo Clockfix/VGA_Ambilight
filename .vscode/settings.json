@@ -1,8 +1,14 @@
 {
     "cSpell.words": [
+        "Ambilight",
+        "DEMUX",
+        "altera",
         "leds",
         "rdaddress",
         "rden",
         "wraddress"
+    ],
+    "cSpell.enableFiletypes": [
+        "vhdl"
     ]
 }
