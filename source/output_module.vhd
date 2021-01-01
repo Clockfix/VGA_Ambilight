@@ -71,7 +71,7 @@ BEGIN
             i_enable => '1',
             o_send_en => w_send_en,
             o_send_dv => w_send_dv,
-			i_active_leds => std_logic_vector(to_unsigned(g_LED_COUNT),10),
+			i_active_leds => std_logic_vector(to_unsigned(g_LED_COUNT,10)),
             o_rd_addr => w_rd_addr,
             i_new_data => '1',
             i_sent_done => w_send_done, -- from bit_sender
