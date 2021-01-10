@@ -19,24 +19,286 @@ USE ieee.numeric_std.ALL; --use this library if arithmetic require
 LIBRARY work; -- this is implicit
 USE work.functions.ALL;
 
+LIBRARY altera_mf;
+USE altera_mf.altera_mf_components.ALL;
+
 ENTITY main IS
     PORT (
-        i_clk : IN STD_LOGIC
+        i_clk : IN STD_LOGIC;
+        o_data_out : OUT STD_LOGIC;
+        o_led : OUT STD_LOGIC;
+        --------------------------------------------
+        --  HPS connections
+        --------------------------------------------
+        hps_io_hps_io_emac1_inst_TX_CLK : OUT STD_LOGIC; -- hps_io_emac1_inst_TX_CLK
+        hps_io_hps_io_emac1_inst_TXD0 : OUT STD_LOGIC; -- hps_io_emac1_inst_TXD0
+        hps_io_hps_io_emac1_inst_TXD1 : OUT STD_LOGIC; -- hps_io_emac1_inst_TXD1
+        hps_io_hps_io_emac1_inst_TXD2 : OUT STD_LOGIC; -- hps_io_emac1_inst_TXD2
+        hps_io_hps_io_emac1_inst_TXD3 : OUT STD_LOGIC; -- hps_io_emac1_inst_TXD3
+        hps_io_hps_io_emac1_inst_RXD0 : IN STD_LOGIC := 'X'; -- hps_io_emac1_inst_RXD0
+        hps_io_hps_io_emac1_inst_MDIO : INOUT STD_LOGIC := 'X'; -- hps_io_emac1_inst_MDIO
+        hps_io_hps_io_emac1_inst_MDC : OUT STD_LOGIC; -- hps_io_emac1_inst_MDC
+        hps_io_hps_io_emac1_inst_RX_CTL : IN STD_LOGIC := 'X'; -- hps_io_emac1_inst_RX_CTL
+        hps_io_hps_io_emac1_inst_TX_CTL : OUT STD_LOGIC; -- hps_io_emac1_inst_TX_CTL
+        hps_io_hps_io_emac1_inst_RX_CLK : IN STD_LOGIC := 'X'; -- hps_io_emac1_inst_RX_CLK
+        hps_io_hps_io_emac1_inst_RXD1 : IN STD_LOGIC := 'X'; -- hps_io_emac1_inst_RXD1
+        hps_io_hps_io_emac1_inst_RXD2 : IN STD_LOGIC := 'X'; -- hps_io_emac1_inst_RXD2
+        hps_io_hps_io_emac1_inst_RXD3 : IN STD_LOGIC := 'X'; -- hps_io_emac1_inst_RXD3
+        hps_io_hps_io_qspi_inst_IO0 : INOUT STD_LOGIC := 'X'; -- hps_io_qspi_inst_IO0
+        hps_io_hps_io_qspi_inst_IO1 : INOUT STD_LOGIC := 'X'; -- hps_io_qspi_inst_IO1
+        hps_io_hps_io_qspi_inst_IO2 : INOUT STD_LOGIC := 'X'; -- hps_io_qspi_inst_IO2
+        hps_io_hps_io_qspi_inst_IO3 : INOUT STD_LOGIC := 'X'; -- hps_io_qspi_inst_IO3
+        hps_io_hps_io_qspi_inst_SS0 : OUT STD_LOGIC; -- hps_io_qspi_inst_SS0
+        hps_io_hps_io_qspi_inst_CLK : OUT STD_LOGIC; -- hps_io_qspi_inst_CLK
+        hps_io_hps_io_sdio_inst_CMD : INOUT STD_LOGIC := 'X'; -- hps_io_sdio_inst_CMD
+        hps_io_hps_io_sdio_inst_D0 : INOUT STD_LOGIC := 'X'; -- hps_io_sdio_inst_D0
+        hps_io_hps_io_sdio_inst_D1 : INOUT STD_LOGIC := 'X'; -- hps_io_sdio_inst_D1
+        hps_io_hps_io_sdio_inst_CLK : OUT STD_LOGIC; -- hps_io_sdio_inst_CLK
+        hps_io_hps_io_sdio_inst_D2 : INOUT STD_LOGIC := 'X'; -- hps_io_sdio_inst_D2
+        hps_io_hps_io_sdio_inst_D3 : INOUT STD_LOGIC := 'X'; -- hps_io_sdio_inst_D3
+        hps_io_hps_io_usb1_inst_D0 : INOUT STD_LOGIC := 'X'; -- hps_io_usb1_inst_D0
+        hps_io_hps_io_usb1_inst_D1 : INOUT STD_LOGIC := 'X'; -- hps_io_usb1_inst_D1
+        hps_io_hps_io_usb1_inst_D2 : INOUT STD_LOGIC := 'X'; -- hps_io_usb1_inst_D2
+        hps_io_hps_io_usb1_inst_D3 : INOUT STD_LOGIC := 'X'; -- hps_io_usb1_inst_D3
+        hps_io_hps_io_usb1_inst_D4 : INOUT STD_LOGIC := 'X'; -- hps_io_usb1_inst_D4
+        hps_io_hps_io_usb1_inst_D5 : INOUT STD_LOGIC := 'X'; -- hps_io_usb1_inst_D5
+        hps_io_hps_io_usb1_inst_D6 : INOUT STD_LOGIC := 'X'; -- hps_io_usb1_inst_D6
+        hps_io_hps_io_usb1_inst_D7 : INOUT STD_LOGIC := 'X'; -- hps_io_usb1_inst_D7
+        hps_io_hps_io_usb1_inst_CLK : IN STD_LOGIC := 'X'; -- hps_io_usb1_inst_CLK
+        hps_io_hps_io_usb1_inst_STP : OUT STD_LOGIC; -- hps_io_usb1_inst_STP
+        hps_io_hps_io_usb1_inst_DIR : IN STD_LOGIC := 'X'; -- hps_io_usb1_inst_DIR
+        hps_io_hps_io_usb1_inst_NXT : IN STD_LOGIC := 'X'; -- hps_io_usb1_inst_NXT
+        hps_io_hps_io_spim0_inst_CLK : OUT STD_LOGIC; -- hps_io_spim0_inst_CLK
+        hps_io_hps_io_spim0_inst_MOSI : OUT STD_LOGIC; -- hps_io_spim0_inst_MOSI
+        hps_io_hps_io_spim0_inst_MISO : IN STD_LOGIC := 'X'; -- hps_io_spim0_inst_MISO
+        hps_io_hps_io_spim0_inst_SS0 : OUT STD_LOGIC; -- hps_io_spim0_inst_SS0
+        hps_io_hps_io_spim1_inst_CLK : OUT STD_LOGIC; -- hps_io_spim1_inst_CLK
+        hps_io_hps_io_spim1_inst_MOSI : OUT STD_LOGIC; -- hps_io_spim1_inst_MOSI
+        hps_io_hps_io_spim1_inst_MISO : IN STD_LOGIC := 'X'; -- hps_io_spim1_inst_MISO
+        hps_io_hps_io_spim1_inst_SS0 : OUT STD_LOGIC; -- hps_io_spim1_inst_SS0
+        hps_io_hps_io_uart0_inst_RX : IN STD_LOGIC := 'X'; -- hps_io_uart0_inst_RX
+        hps_io_hps_io_uart0_inst_TX : OUT STD_LOGIC; -- hps_io_uart0_inst_TX
+        hps_io_hps_io_i2c1_inst_SDA : INOUT STD_LOGIC := 'X'; -- hps_io_i2c1_inst_SDA
+        hps_io_hps_io_i2c1_inst_SCL : INOUT STD_LOGIC := 'X'; -- hps_io_i2c1_inst_SCL
+        memory_mem_a : OUT STD_LOGIC_VECTOR(14 DOWNTO 0); -- mem_a
+        memory_mem_ba : OUT STD_LOGIC_VECTOR(2 DOWNTO 0); -- mem_ba
+        memory_mem_ck : OUT STD_LOGIC; -- mem_ck
+        memory_mem_ck_n : OUT STD_LOGIC; -- mem_ck_n
+        memory_mem_cke : OUT STD_LOGIC; -- mem_cke
+        memory_mem_cs_n : OUT STD_LOGIC; -- mem_cs_n
+        memory_mem_ras_n : OUT STD_LOGIC; -- mem_ras_n
+        memory_mem_cas_n : OUT STD_LOGIC; -- mem_cas_n
+        memory_mem_we_n : OUT STD_LOGIC; -- mem_we_n
+        memory_mem_reset_n : OUT STD_LOGIC; -- mem_reset_n
+        memory_mem_dq : INOUT STD_LOGIC_VECTOR(31 DOWNTO 0) := (OTHERS => 'X'); -- mem_dq
+        memory_mem_dqs : INOUT STD_LOGIC_VECTOR(3 DOWNTO 0) := (OTHERS => 'X'); -- mem_dqs
+        memory_mem_dqs_n : INOUT STD_LOGIC_VECTOR(3 DOWNTO 0) := (OTHERS => 'X'); -- mem_dqs_n
+        memory_mem_odt : OUT STD_LOGIC; -- mem_odt
+        memory_mem_dm : OUT STD_LOGIC_VECTOR(3 DOWNTO 0); -- mem_dm
+        memory_oct_rzqin : IN STD_LOGIC := 'X'--;             -- oct_rzqin
+
     );
 END main;
 
 ARCHITECTURE rtl OF main IS
     -- signal declaration
     -- <your code goes here>
+    SIGNAL w_clock_100m : STD_LOGIC; -- main clock 100MHz from HPS to FPGA
+    SIGNAL w_reset : STD_LOGIC; -- main reset for HPS and FPGA
+    --------------------------------------------
+    --  SoC HPS system component
+    --------------------------------------------
+    COMPONENT soc_system IS
+        PORT (
+            clk_clk : IN STD_LOGIC := 'X'; -- clk
+            hps_io_hps_io_emac1_inst_TX_CLK : OUT STD_LOGIC; -- hps_io_emac1_inst_TX_CLK
+            hps_io_hps_io_emac1_inst_TXD0 : OUT STD_LOGIC; -- hps_io_emac1_inst_TXD0
+            hps_io_hps_io_emac1_inst_TXD1 : OUT STD_LOGIC; -- hps_io_emac1_inst_TXD1
+            hps_io_hps_io_emac1_inst_TXD2 : OUT STD_LOGIC; -- hps_io_emac1_inst_TXD2
+            hps_io_hps_io_emac1_inst_TXD3 : OUT STD_LOGIC; -- hps_io_emac1_inst_TXD3
+            hps_io_hps_io_emac1_inst_RXD0 : IN STD_LOGIC := 'X'; -- hps_io_emac1_inst_RXD0
+            hps_io_hps_io_emac1_inst_MDIO : INOUT STD_LOGIC := 'X'; -- hps_io_emac1_inst_MDIO
+            hps_io_hps_io_emac1_inst_MDC : OUT STD_LOGIC; -- hps_io_emac1_inst_MDC
+            hps_io_hps_io_emac1_inst_RX_CTL : IN STD_LOGIC := 'X'; -- hps_io_emac1_inst_RX_CTL
+            hps_io_hps_io_emac1_inst_TX_CTL : OUT STD_LOGIC; -- hps_io_emac1_inst_TX_CTL
+            hps_io_hps_io_emac1_inst_RX_CLK : IN STD_LOGIC := 'X'; -- hps_io_emac1_inst_RX_CLK
+            hps_io_hps_io_emac1_inst_RXD1 : IN STD_LOGIC := 'X'; -- hps_io_emac1_inst_RXD1
+            hps_io_hps_io_emac1_inst_RXD2 : IN STD_LOGIC := 'X'; -- hps_io_emac1_inst_RXD2
+            hps_io_hps_io_emac1_inst_RXD3 : IN STD_LOGIC := 'X'; -- hps_io_emac1_inst_RXD3
+            hps_io_hps_io_qspi_inst_IO0 : INOUT STD_LOGIC := 'X'; -- hps_io_qspi_inst_IO0
+            hps_io_hps_io_qspi_inst_IO1 : INOUT STD_LOGIC := 'X'; -- hps_io_qspi_inst_IO1
+            hps_io_hps_io_qspi_inst_IO2 : INOUT STD_LOGIC := 'X'; -- hps_io_qspi_inst_IO2
+            hps_io_hps_io_qspi_inst_IO3 : INOUT STD_LOGIC := 'X'; -- hps_io_qspi_inst_IO3
+            hps_io_hps_io_qspi_inst_SS0 : OUT STD_LOGIC; -- hps_io_qspi_inst_SS0
+            hps_io_hps_io_qspi_inst_CLK : OUT STD_LOGIC; -- hps_io_qspi_inst_CLK
+            hps_io_hps_io_sdio_inst_CMD : INOUT STD_LOGIC := 'X'; -- hps_io_sdio_inst_CMD
+            hps_io_hps_io_sdio_inst_D0 : INOUT STD_LOGIC := 'X'; -- hps_io_sdio_inst_D0
+            hps_io_hps_io_sdio_inst_D1 : INOUT STD_LOGIC := 'X'; -- hps_io_sdio_inst_D1
+            hps_io_hps_io_sdio_inst_CLK : OUT STD_LOGIC; -- hps_io_sdio_inst_CLK
+            hps_io_hps_io_sdio_inst_D2 : INOUT STD_LOGIC := 'X'; -- hps_io_sdio_inst_D2
+            hps_io_hps_io_sdio_inst_D3 : INOUT STD_LOGIC := 'X'; -- hps_io_sdio_inst_D3
+            hps_io_hps_io_usb1_inst_D0 : INOUT STD_LOGIC := 'X'; -- hps_io_usb1_inst_D0
+            hps_io_hps_io_usb1_inst_D1 : INOUT STD_LOGIC := 'X'; -- hps_io_usb1_inst_D1
+            hps_io_hps_io_usb1_inst_D2 : INOUT STD_LOGIC := 'X'; -- hps_io_usb1_inst_D2
+            hps_io_hps_io_usb1_inst_D3 : INOUT STD_LOGIC := 'X'; -- hps_io_usb1_inst_D3
+            hps_io_hps_io_usb1_inst_D4 : INOUT STD_LOGIC := 'X'; -- hps_io_usb1_inst_D4
+            hps_io_hps_io_usb1_inst_D5 : INOUT STD_LOGIC := 'X'; -- hps_io_usb1_inst_D5
+            hps_io_hps_io_usb1_inst_D6 : INOUT STD_LOGIC := 'X'; -- hps_io_usb1_inst_D6
+            hps_io_hps_io_usb1_inst_D7 : INOUT STD_LOGIC := 'X'; -- hps_io_usb1_inst_D7
+            hps_io_hps_io_usb1_inst_CLK : IN STD_LOGIC := 'X'; -- hps_io_usb1_inst_CLK
+            hps_io_hps_io_usb1_inst_STP : OUT STD_LOGIC; -- hps_io_usb1_inst_STP
+            hps_io_hps_io_usb1_inst_DIR : IN STD_LOGIC := 'X'; -- hps_io_usb1_inst_DIR
+            hps_io_hps_io_usb1_inst_NXT : IN STD_LOGIC := 'X'; -- hps_io_usb1_inst_NXT
+            hps_io_hps_io_spim0_inst_CLK : OUT STD_LOGIC; -- hps_io_spim0_inst_CLK
+            hps_io_hps_io_spim0_inst_MOSI : OUT STD_LOGIC; -- hps_io_spim0_inst_MOSI
+            hps_io_hps_io_spim0_inst_MISO : IN STD_LOGIC := 'X'; -- hps_io_spim0_inst_MISO
+            hps_io_hps_io_spim0_inst_SS0 : OUT STD_LOGIC; -- hps_io_spim0_inst_SS0
+            hps_io_hps_io_spim1_inst_CLK : OUT STD_LOGIC; -- hps_io_spim1_inst_CLK
+            hps_io_hps_io_spim1_inst_MOSI : OUT STD_LOGIC; -- hps_io_spim1_inst_MOSI
+            hps_io_hps_io_spim1_inst_MISO : IN STD_LOGIC := 'X'; -- hps_io_spim1_inst_MISO
+            hps_io_hps_io_spim1_inst_SS0 : OUT STD_LOGIC; -- hps_io_spim1_inst_SS0
+            hps_io_hps_io_uart0_inst_RX : IN STD_LOGIC := 'X'; -- hps_io_uart0_inst_RX
+            hps_io_hps_io_uart0_inst_TX : OUT STD_LOGIC; -- hps_io_uart0_inst_TX
+            hps_io_hps_io_i2c1_inst_SDA : INOUT STD_LOGIC := 'X'; -- hps_io_i2c1_inst_SDA
+            hps_io_hps_io_i2c1_inst_SCL : INOUT STD_LOGIC := 'X'; -- hps_io_i2c1_inst_SCL
+            memory_mem_a : OUT STD_LOGIC_VECTOR(14 DOWNTO 0); -- mem_a
+            memory_mem_ba : OUT STD_LOGIC_VECTOR(2 DOWNTO 0); -- mem_ba
+            memory_mem_ck : OUT STD_LOGIC; -- mem_ck
+            memory_mem_ck_n : OUT STD_LOGIC; -- mem_ck_n
+            memory_mem_cke : OUT STD_LOGIC; -- mem_cke
+            memory_mem_cs_n : OUT STD_LOGIC; -- mem_cs_n
+            memory_mem_ras_n : OUT STD_LOGIC; -- mem_ras_n
+            memory_mem_cas_n : OUT STD_LOGIC; -- mem_cas_n
+            memory_mem_we_n : OUT STD_LOGIC; -- mem_we_n
+            memory_mem_reset_n : OUT STD_LOGIC; -- mem_reset_n
+            memory_mem_dq : INOUT STD_LOGIC_VECTOR(31 DOWNTO 0) := (OTHERS => 'X'); -- mem_dq
+            memory_mem_dqs : INOUT STD_LOGIC_VECTOR(3 DOWNTO 0) := (OTHERS => 'X'); -- mem_dqs
+            memory_mem_dqs_n : INOUT STD_LOGIC_VECTOR(3 DOWNTO 0) := (OTHERS => 'X'); -- mem_dqs_n
+            memory_mem_odt : OUT STD_LOGIC; -- mem_odt
+            memory_mem_dm : OUT STD_LOGIC_VECTOR(3 DOWNTO 0); -- mem_dm
+            memory_oct_rzqin : IN STD_LOGIC := 'X'; -- oct_rzqin
+            ram_address : IN STD_LOGIC_VECTOR(12 DOWNTO 0) := (OTHERS => 'X'); -- address
+            ram_chipselect : IN STD_LOGIC := 'X'; -- chipselect
+            ram_clken : IN STD_LOGIC := 'X'; -- clken
+            ram_write : IN STD_LOGIC := 'X'; -- write
+            ram_readdata : OUT STD_LOGIC_VECTOR(7 DOWNTO 0); -- readdata
+            ram_writedata : IN STD_LOGIC_VECTOR(7 DOWNTO 0) := (OTHERS => 'X'); -- writedata
+            reset_reset_n : IN STD_LOGIC := 'X'; -- reset_n
+            clk_100m_clk : OUT STD_LOGIC; -- clk
+            ram_clk_clk : IN STD_LOGIC := 'X'; -- clk
+            ram_rst_reset : IN STD_LOGIC := 'X' -- reset
+        );
+    END COMPONENT soc_system;
 
 BEGIN
-    -- reg-state logic
-    -- <your code goes here>
+    soc_system_inst : component soc_system
+        PORT MAP(
+            clk_clk => i_clk, --      clk.clk
+            hps_io_hps_io_emac1_inst_TX_CLK => hps_io_hps_io_emac1_inst_TX_CLK, --   hps_io.hps_io_emac1_inst_TX_CLK
+            hps_io_hps_io_emac1_inst_TXD0 => hps_io_hps_io_emac1_inst_TXD0, --         .hps_io_emac1_inst_TXD0
+            hps_io_hps_io_emac1_inst_TXD1 => hps_io_hps_io_emac1_inst_TXD1, --         .hps_io_emac1_inst_TXD1
+            hps_io_hps_io_emac1_inst_TXD2 => hps_io_hps_io_emac1_inst_TXD2, --         .hps_io_emac1_inst_TXD2
+            hps_io_hps_io_emac1_inst_TXD3 => hps_io_hps_io_emac1_inst_TXD3, --         .hps_io_emac1_inst_TXD3
+            hps_io_hps_io_emac1_inst_RXD0 => hps_io_hps_io_emac1_inst_RXD0, --         .hps_io_emac1_inst_RXD0
+            hps_io_hps_io_emac1_inst_MDIO => hps_io_hps_io_emac1_inst_MDIO, --         .hps_io_emac1_inst_MDIO
+            hps_io_hps_io_emac1_inst_MDC => hps_io_hps_io_emac1_inst_MDC, --         .hps_io_emac1_inst_MDC
+            hps_io_hps_io_emac1_inst_RX_CTL => hps_io_hps_io_emac1_inst_RX_CTL, --         .hps_io_emac1_inst_RX_CTL
+            hps_io_hps_io_emac1_inst_TX_CTL => hps_io_hps_io_emac1_inst_TX_CTL, --         .hps_io_emac1_inst_TX_CTL
+            hps_io_hps_io_emac1_inst_RX_CLK => hps_io_hps_io_emac1_inst_RX_CLK, --         .hps_io_emac1_inst_RX_CLK
+            hps_io_hps_io_emac1_inst_RXD1 => hps_io_hps_io_emac1_inst_RXD1, --         .hps_io_emac1_inst_RXD1
+            hps_io_hps_io_emac1_inst_RXD2 => hps_io_hps_io_emac1_inst_RXD2, --         .hps_io_emac1_inst_RXD2
+            hps_io_hps_io_emac1_inst_RXD3 => hps_io_hps_io_emac1_inst_RXD3, --         .hps_io_emac1_inst_RXD3
+            hps_io_hps_io_qspi_inst_IO0 => hps_io_hps_io_qspi_inst_IO0, --         .hps_io_qspi_inst_IO0
+            hps_io_hps_io_qspi_inst_IO1 => hps_io_hps_io_qspi_inst_IO1, --         .hps_io_qspi_inst_IO1
+            hps_io_hps_io_qspi_inst_IO2 => hps_io_hps_io_qspi_inst_IO2, --         .hps_io_qspi_inst_IO2
+            hps_io_hps_io_qspi_inst_IO3 => hps_io_hps_io_qspi_inst_IO3, --         .hps_io_qspi_inst_IO3
+            hps_io_hps_io_qspi_inst_SS0 => hps_io_hps_io_qspi_inst_SS0, --         .hps_io_qspi_inst_SS0
+            hps_io_hps_io_qspi_inst_CLK => hps_io_hps_io_qspi_inst_CLK, --         .hps_io_qspi_inst_CLK
+            hps_io_hps_io_sdio_inst_CMD => hps_io_hps_io_sdio_inst_CMD, --         .hps_io_sdio_inst_CMD
+            hps_io_hps_io_sdio_inst_D0 => hps_io_hps_io_sdio_inst_D0, --         .hps_io_sdio_inst_D0
+            hps_io_hps_io_sdio_inst_D1 => hps_io_hps_io_sdio_inst_D1, --         .hps_io_sdio_inst_D1
+            hps_io_hps_io_sdio_inst_CLK => hps_io_hps_io_sdio_inst_CLK, --         .hps_io_sdio_inst_CLK
+            hps_io_hps_io_sdio_inst_D2 => hps_io_hps_io_sdio_inst_D2, --         .hps_io_sdio_inst_D2
+            hps_io_hps_io_sdio_inst_D3 => hps_io_hps_io_sdio_inst_D3, --         .hps_io_sdio_inst_D3
+            hps_io_hps_io_usb1_inst_D0 => hps_io_hps_io_usb1_inst_D0, --         .hps_io_usb1_inst_D0
+            hps_io_hps_io_usb1_inst_D1 => hps_io_hps_io_usb1_inst_D1, --         .hps_io_usb1_inst_D1
+            hps_io_hps_io_usb1_inst_D2 => hps_io_hps_io_usb1_inst_D2, --         .hps_io_usb1_inst_D2
+            hps_io_hps_io_usb1_inst_D3 => hps_io_hps_io_usb1_inst_D3, --         .hps_io_usb1_inst_D3
+            hps_io_hps_io_usb1_inst_D4 => hps_io_hps_io_usb1_inst_D4, --         .hps_io_usb1_inst_D4
+            hps_io_hps_io_usb1_inst_D5 => hps_io_hps_io_usb1_inst_D5, --         .hps_io_usb1_inst_D5
+            hps_io_hps_io_usb1_inst_D6 => hps_io_hps_io_usb1_inst_D6, --         .hps_io_usb1_inst_D6
+            hps_io_hps_io_usb1_inst_D7 => hps_io_hps_io_usb1_inst_D7, --         .hps_io_usb1_inst_D7
+            hps_io_hps_io_usb1_inst_CLK => hps_io_hps_io_usb1_inst_CLK, --         .hps_io_usb1_inst_CLK
+            hps_io_hps_io_usb1_inst_STP => hps_io_hps_io_usb1_inst_STP, --         .hps_io_usb1_inst_STP
+            hps_io_hps_io_usb1_inst_DIR => hps_io_hps_io_usb1_inst_DIR, --         .hps_io_usb1_inst_DIR
+            hps_io_hps_io_usb1_inst_NXT => hps_io_hps_io_usb1_inst_NXT, --         .hps_io_usb1_inst_NXT
+            hps_io_hps_io_spim0_inst_CLK => hps_io_hps_io_spim0_inst_CLK, --         .hps_io_spim0_inst_CLK
+            hps_io_hps_io_spim0_inst_MOSI => hps_io_hps_io_spim0_inst_MOSI, --         .hps_io_spim0_inst_MOSI
+            hps_io_hps_io_spim0_inst_MISO => hps_io_hps_io_spim0_inst_MISO, --         .hps_io_spim0_inst_MISO
+            hps_io_hps_io_spim0_inst_SS0 => hps_io_hps_io_spim0_inst_SS0, --         .hps_io_spim0_inst_SS0
+            hps_io_hps_io_spim1_inst_CLK => hps_io_hps_io_spim1_inst_CLK, --         .hps_io_spim1_inst_CLK
+            hps_io_hps_io_spim1_inst_MOSI => hps_io_hps_io_spim1_inst_MOSI, --         .hps_io_spim1_inst_MOSI
+            hps_io_hps_io_spim1_inst_MISO => hps_io_hps_io_spim1_inst_MISO, --         .hps_io_spim1_inst_MISO
+            hps_io_hps_io_spim1_inst_SS0 => hps_io_hps_io_spim1_inst_SS0, --         .hps_io_spim1_inst_SS0
+            hps_io_hps_io_uart0_inst_RX => hps_io_hps_io_uart0_inst_RX, --         .hps_io_uart0_inst_RX
+            hps_io_hps_io_uart0_inst_TX => hps_io_hps_io_uart0_inst_TX, --         .hps_io_uart0_inst_TX
+            hps_io_hps_io_i2c1_inst_SDA => hps_io_hps_io_i2c1_inst_SDA, --         .hps_io_i2c1_inst_SDA
+            hps_io_hps_io_i2c1_inst_SCL => hps_io_hps_io_i2c1_inst_SCL, --         .hps_io_i2c1_inst_SCL
+            memory_mem_a => memory_mem_a, --   memory.mem_a
+            memory_mem_ba => memory_mem_ba, --         .mem_ba
+            memory_mem_ck => memory_mem_ck, --         .mem_ck
+            memory_mem_ck_n => memory_mem_ck_n, --         .mem_ck_n
+            memory_mem_cke => memory_mem_cke, --         .mem_cke
+            memory_mem_cs_n => memory_mem_cs_n, --         .mem_cs_n
+            memory_mem_ras_n => memory_mem_ras_n, --         .mem_ras_n
+            memory_mem_cas_n => memory_mem_cas_n, --         .mem_cas_n
+            memory_mem_we_n => memory_mem_we_n, --         .mem_we_n
+            memory_mem_reset_n => memory_mem_reset_n, --         .mem_reset_n
+            memory_mem_dq => memory_mem_dq, --         .mem_dq
+            memory_mem_dqs => memory_mem_dqs, --         .mem_dqs
+            memory_mem_dqs_n => memory_mem_dqs_n, --         .mem_dqs_n
+            memory_mem_odt => memory_mem_odt, --         .mem_odt
+            memory_mem_dm => memory_mem_dm, --         .mem_dm
+            memory_oct_rzqin => memory_oct_rzqin, --         .oct_rzqin
+            -- ram_address => CONNECTED_TO_ram_address, --      ram.address
+            ram_chipselect => '1', --         .chipselect
+            ram_clken => '1', --         .clken
+            ram_write => '0', --         .write
+            -- ram_readdata => CONNECTED_TO_ram_readdata, --         .readdata
+            -- ram_writedata => CONNECTED_TO_ram_writedata, --         .writedata
+            reset_reset_n => '1', --CONNECTED_TO_reset_reset_n, --    reset.reset_n
+            clk_100m_clk => w_clock_100m, -- clk_100m.clk
+            ram_clk_clk => w_clock_100m, --  ram_clk.clk
+            ram_rst_reset => '1' --  ram_rst.reset
+        );
 
-    -- next-state logic
-    -- <your code goes here>
+    --------------------------------------------
+    --  Output module
+    --------------------------------------------
 
-    -- outputs
-    -- <your code goes here>
 
-END rtl;
+        output_module_inst : ENTITY work.output_module
+            GENERIC MAP(
+                -- generic parameters - passed here from calling entity
+                g_LED_COUNT => 1024,
+                g_RESET_TIME => 2700 -- must be larger then 50us => 2500 * 20ns =50us
+            )
+            PORT MAP(
+                i_clk => w_clock_100m,
+                i_data => (OTHERS => '0'),
+                i_wr_addr =>(OTHERS => '0'),
+                i_wen => '1',
+                o_data_out => o_data_out,
+                o_sent_done => o_led
+            );
+
+        -- reg-state logic
+        -- <your code goes here>
+
+        -- next-state logic
+        -- <your code goes here>
+
+        -- outputs
+        -- <your code goes here>
+
+    END rtl;

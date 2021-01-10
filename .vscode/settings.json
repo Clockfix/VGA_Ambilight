@@ -2,11 +2,21 @@
     "cSpell.words": [
         "Ambilight",
         "DEMUX",
+        "MDIO",
         "altera",
+        "chipselect",
+        "clken",
+        "emac",
         "leds",
+        "qspi",
         "rdaddress",
         "rden",
-        "wraddress"
+        "readdata",
+        "rzqin",
+        "sdio",
+        "spim",
+        "wraddress",
+        "writedata"
     ],
     "cSpell.enableFiletypes": [
         "vhdl"
