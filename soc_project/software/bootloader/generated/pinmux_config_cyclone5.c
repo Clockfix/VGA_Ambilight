@@ -66,8 +66,8 @@ unsigned long sys_mgr_init_table[CONFIG_HPS_PINMUX_NUM] = {
 	0, /* GENERALIO0 */
 	1, /* GENERALIO1 */
 	1, /* GENERALIO2 */
-	1, /* GENERALIO3 */
-	1, /* GENERALIO4 */
+	0, /* GENERALIO3 */
+	0, /* GENERALIO4 */
 	0, /* GENERALIO5 */
 	0, /* GENERALIO6 */
 	0, /* GENERALIO7 */
@@ -148,7 +148,7 @@ unsigned long sys_mgr_init_table[CONFIG_HPS_PINMUX_NUM] = {
 	0, /* GPLINMUX68 */
 	0, /* GPLINMUX69 */
 	0, /* GPLINMUX70 */
-	1, /* GPLMUX0 */
+	0, /* GPLMUX0 */
 	1, /* GPLMUX1 */
 	1, /* GPLMUX2 */
 	1, /* GPLMUX3 */
@@ -189,7 +189,7 @@ unsigned long sys_mgr_init_table[CONFIG_HPS_PINMUX_NUM] = {
 	1, /* GPLMUX38 */
 	1, /* GPLMUX39 */
 	1, /* GPLMUX40 */
-	1, /* GPLMUX41 */
+	0, /* GPLMUX41 */
 	1, /* GPLMUX42 */
 	1, /* GPLMUX43 */
 	1, /* GPLMUX44 */
@@ -199,12 +199,12 @@ unsigned long sys_mgr_init_table[CONFIG_HPS_PINMUX_NUM] = {
 	1, /* GPLMUX48 */
 	1, /* GPLMUX49 */
 	1, /* GPLMUX50 */
-	1, /* GPLMUX51 */
-	1, /* GPLMUX52 */
-	1, /* GPLMUX53 */
-	1, /* GPLMUX54 */
-	1, /* GPLMUX55 */
-	1, /* GPLMUX56 */
+	0, /* GPLMUX51 */
+	0, /* GPLMUX52 */
+	0, /* GPLMUX53 */
+	0, /* GPLMUX54 */
+	0, /* GPLMUX55 */
+	0, /* GPLMUX56 */
 	1, /* GPLMUX57 */
 	1, /* GPLMUX58 */
 	1, /* GPLMUX59 */

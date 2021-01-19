@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <preferences>
  <debug showDebugMenu="0" />
- <systemtable filter="All Interfaces">
+ <systemtable filter="All Interfaces" showResetDomains="0" showClockDomains="1">
   <columns>
    <connections preferredWidth="127" />
    <irq preferredWidth="34" />
    <inputclock preferredWidth="146" />
   </columns>
  </systemtable>
- <library expandedCategories="Project,Library" />
- <window width="1920" height="1040" x="1280" y="-1" />
+ <library
+   expandedCategories="Project,Library/Processors and Peripherals,Library/Processors and Peripherals/Hard Processor Systems,Library/Processors and Peripherals/Hard Processor Components,Library" />
+ <window width="1920" height="1039" x="1280" y="0" />
  <generation synthesis="VHDL" />
 </preferences>

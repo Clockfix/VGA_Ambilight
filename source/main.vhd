@@ -25,7 +25,7 @@ USE altera_mf.altera_mf_components.ALL;
 ENTITY main IS
     PORT (
         i_clk : IN STD_LOGIC;
-        o_data_out : OUT STD_LOGIC;
+        -- o_data_out : OUT STD_LOGIC;
         o_led : OUT STD_LOGIC;
         --------------------------------------------
         --  HPS connections
@@ -78,8 +78,21 @@ ENTITY main IS
         hps_io_hps_io_spim1_inst_SS0 : OUT STD_LOGIC; -- hps_io_spim1_inst_SS0
         hps_io_hps_io_uart0_inst_RX : IN STD_LOGIC := 'X'; -- hps_io_uart0_inst_RX
         hps_io_hps_io_uart0_inst_TX : OUT STD_LOGIC; -- hps_io_uart0_inst_TX
-        hps_io_hps_io_i2c1_inst_SDA : INOUT STD_LOGIC := 'X'; -- hps_io_i2c1_inst_SDA
-        hps_io_hps_io_i2c1_inst_SCL : INOUT STD_LOGIC := 'X'; -- hps_io_i2c1_inst_SCL
+        -- hps_io_hps_io_i2c1_inst_SDA : INOUT STD_LOGIC := 'X'; -- hps_io_i2c1_inst_SDA
+        -- hps_io_hps_io_i2c1_inst_SCL : INOUT STD_LOGIC := 'X'; -- hps_io_i2c1_inst_SCL
+        hps_io_hps_io_gpio_inst_GPIO09 : INOUT STD_LOGIC := 'X'; -- hps_io_gpio_inst_GPIO09
+        hps_io_hps_io_gpio_inst_GPIO40 : INOUT STD_LOGIC := 'X'; -- hps_io_gpio_inst_GPIO40
+        hps_io_hps_io_gpio_inst_GPIO48 : INOUT STD_LOGIC := 'X'; -- hps_io_gpio_inst_GPIO48
+        hps_io_hps_io_gpio_inst_GPIO61 : INOUT STD_LOGIC := 'X'; -- hps_io_gpio_inst_GPIO61
+        hps_io_hps_io_gpio_inst_GPIO62 : INOUT STD_LOGIC := 'X'; -- hps_io_gpio_inst_GPIO62
+        hps_io_hps_io_gpio_inst_LOANIO00 : INOUT STD_LOGIC := 'X'; -- hps_io_gpio_inst_LOANIO00
+        hps_io_hps_io_gpio_inst_LOANIO41 : INOUT STD_LOGIC := 'X'; -- hps_io_gpio_inst_LOANIO41
+        hps_io_hps_io_gpio_inst_LOANIO51 : INOUT STD_LOGIC := 'X'; -- hps_io_gpio_inst_LOANIO51
+        hps_io_hps_io_gpio_inst_LOANIO52 : INOUT STD_LOGIC := 'X'; -- hps_io_gpio_inst_LOANIO52
+        hps_io_hps_io_gpio_inst_LOANIO53 : INOUT STD_LOGIC := 'X'; -- hps_io_gpio_inst_LOANIO53
+        hps_io_hps_io_gpio_inst_LOANIO54 : INOUT STD_LOGIC := 'X'; -- hps_io_gpio_inst_LOANIO54
+        hps_io_hps_io_gpio_inst_LOANIO55 : INOUT STD_LOGIC := 'X'; -- hps_io_gpio_inst_LOANIO55
+        hps_io_hps_io_gpio_inst_LOANIO56 : INOUT STD_LOGIC := 'X'; -- hps_io_gpio_inst_LOANIO56
         memory_mem_a : OUT STD_LOGIC_VECTOR(14 DOWNTO 0); -- mem_a
         memory_mem_ba : OUT STD_LOGIC_VECTOR(2 DOWNTO 0); -- mem_ba
         memory_mem_ck : OUT STD_LOGIC; -- mem_ck
@@ -95,8 +108,7 @@ ENTITY main IS
         memory_mem_dqs_n : INOUT STD_LOGIC_VECTOR(3 DOWNTO 0) := (OTHERS => 'X'); -- mem_dqs_n
         memory_mem_odt : OUT STD_LOGIC; -- mem_odt
         memory_mem_dm : OUT STD_LOGIC_VECTOR(3 DOWNTO 0); -- mem_dm
-        memory_oct_rzqin : IN STD_LOGIC := 'X'--;             -- oct_rzqin
-
+        memory_oct_rzqin : IN STD_LOGIC := 'X'--; -- oct_rzqin
     );
 END main;
 
@@ -105,6 +117,12 @@ ARCHITECTURE rtl OF main IS
     -- <your code goes here>
     SIGNAL w_clock_100m : STD_LOGIC; -- main clock 100MHz from HPS to FPGA
     SIGNAL w_reset : STD_LOGIC; -- main reset for HPS and FPGA
+
+    SIGNAL w_oe : STD_LOGIC_VECTOR(66 DOWNTO 0); ---- HPS <-> Interconnect <-> FPGA
+    SIGNAL w_output : STD_LOGIC_VECTOR(66 DOWNTO 0); ---- HPS <-> Interconnect <-> FPGA
+    SIGNAL w_input : STD_LOGIC_VECTOR(66 DOWNTO 0); ---- HPS <-> Interconnect <-> FPGA
+	 
+	 SIGNAL w_data_out : STD_LOGIC; -- data line for LED matrix/strip
     --------------------------------------------
     --  SoC HPS system component
     --------------------------------------------
@@ -159,8 +177,21 @@ ARCHITECTURE rtl OF main IS
             hps_io_hps_io_spim1_inst_SS0 : OUT STD_LOGIC; -- hps_io_spim1_inst_SS0
             hps_io_hps_io_uart0_inst_RX : IN STD_LOGIC := 'X'; -- hps_io_uart0_inst_RX
             hps_io_hps_io_uart0_inst_TX : OUT STD_LOGIC; -- hps_io_uart0_inst_TX
-            hps_io_hps_io_i2c1_inst_SDA : INOUT STD_LOGIC := 'X'; -- hps_io_i2c1_inst_SDA
-            hps_io_hps_io_i2c1_inst_SCL : INOUT STD_LOGIC := 'X'; -- hps_io_i2c1_inst_SCL
+            -- hps_io_hps_io_i2c1_inst_SDA : INOUT STD_LOGIC := 'X'; -- hps_io_i2c1_inst_SDA
+            -- hps_io_hps_io_i2c1_inst_SCL : INOUT STD_LOGIC := 'X'; -- hps_io_i2c1_inst_SCL
+            hps_io_hps_io_gpio_inst_GPIO09 : INOUT STD_LOGIC := 'X'; -- hps_io_gpio_inst_GPIO09
+            hps_io_hps_io_gpio_inst_GPIO40 : INOUT STD_LOGIC := 'X'; -- hps_io_gpio_inst_GPIO40
+            hps_io_hps_io_gpio_inst_GPIO48 : INOUT STD_LOGIC := 'X'; -- hps_io_gpio_inst_GPIO48
+            hps_io_hps_io_gpio_inst_GPIO61 : INOUT STD_LOGIC := 'X'; -- hps_io_gpio_inst_GPIO61
+            hps_io_hps_io_gpio_inst_GPIO62 : INOUT STD_LOGIC := 'X'; -- hps_io_gpio_inst_GPIO62
+            hps_io_hps_io_gpio_inst_LOANIO00 : INOUT STD_LOGIC := 'X'; -- hps_io_gpio_inst_LOANIO00
+            hps_io_hps_io_gpio_inst_LOANIO41 : INOUT STD_LOGIC := 'X'; -- hps_io_gpio_inst_LOANIO41
+            hps_io_hps_io_gpio_inst_LOANIO51 : INOUT STD_LOGIC := 'X'; -- hps_io_gpio_inst_LOANIO51
+            hps_io_hps_io_gpio_inst_LOANIO52 : INOUT STD_LOGIC := 'X'; -- hps_io_gpio_inst_LOANIO52
+            hps_io_hps_io_gpio_inst_LOANIO53 : INOUT STD_LOGIC := 'X'; -- hps_io_gpio_inst_LOANIO53
+            hps_io_hps_io_gpio_inst_LOANIO54 : INOUT STD_LOGIC := 'X'; -- hps_io_gpio_inst_LOANIO54
+            hps_io_hps_io_gpio_inst_LOANIO55 : INOUT STD_LOGIC := 'X'; -- hps_io_gpio_inst_LOANIO55
+            hps_io_hps_io_gpio_inst_LOANIO56 : INOUT STD_LOGIC := 'X'; -- hps_io_gpio_inst_LOANIO56
             memory_mem_a : OUT STD_LOGIC_VECTOR(14 DOWNTO 0); -- mem_a
             memory_mem_ba : OUT STD_LOGIC_VECTOR(2 DOWNTO 0); -- mem_ba
             memory_mem_ck : OUT STD_LOGIC; -- mem_ck
@@ -186,12 +217,15 @@ ARCHITECTURE rtl OF main IS
             reset_reset_n : IN STD_LOGIC := 'X'; -- reset_n
             clk_100m_clk : OUT STD_LOGIC; -- clk
             ram_clk_clk : IN STD_LOGIC := 'X'; -- clk
-            ram_rst_reset : IN STD_LOGIC := 'X' -- reset
+            ram_rst_reset : IN STD_LOGIC := 'X'; -- reset
+            d_out_in : OUT STD_LOGIC_VECTOR(66 DOWNTO 0); -- in
+            d_out_out : IN STD_LOGIC_VECTOR(66 DOWNTO 0) := (OTHERS => 'X'); -- out
+            d_out_oe : IN STD_LOGIC_VECTOR(66 DOWNTO 0) := (OTHERS => 'X') -- oe
         );
     END COMPONENT soc_system;
 
 BEGIN
-    soc_system_inst : component soc_system
+    soc_system_inst : COMPONENT soc_system
         PORT MAP(
             clk_clk => i_clk, --      clk.clk
             hps_io_hps_io_emac1_inst_TX_CLK => hps_io_hps_io_emac1_inst_TX_CLK, --   hps_io.hps_io_emac1_inst_TX_CLK
@@ -242,8 +276,21 @@ BEGIN
             hps_io_hps_io_spim1_inst_SS0 => hps_io_hps_io_spim1_inst_SS0, --         .hps_io_spim1_inst_SS0
             hps_io_hps_io_uart0_inst_RX => hps_io_hps_io_uart0_inst_RX, --         .hps_io_uart0_inst_RX
             hps_io_hps_io_uart0_inst_TX => hps_io_hps_io_uart0_inst_TX, --         .hps_io_uart0_inst_TX
-            hps_io_hps_io_i2c1_inst_SDA => hps_io_hps_io_i2c1_inst_SDA, --         .hps_io_i2c1_inst_SDA
-            hps_io_hps_io_i2c1_inst_SCL => hps_io_hps_io_i2c1_inst_SCL, --         .hps_io_i2c1_inst_SCL
+            -- hps_io_hps_io_i2c1_inst_SDA => hps_io_hps_io_i2c1_inst_SDA, --         .hps_io_i2c1_inst_SDA
+            -- hps_io_hps_io_i2c1_inst_SCL => hps_io_hps_io_i2c1_inst_SCL, --         .hps_io_i2c1_inst_SCL
+            hps_io_hps_io_gpio_inst_GPIO09 => hps_io_hps_io_gpio_inst_GPIO09, --         .hps_io_gpio_inst_GPIO09
+            hps_io_hps_io_gpio_inst_GPIO40 => hps_io_hps_io_gpio_inst_GPIO40, --         .hps_io_gpio_inst_GPIO40
+            hps_io_hps_io_gpio_inst_GPIO48 => hps_io_hps_io_gpio_inst_GPIO48, --         .hps_io_gpio_inst_GPIO48
+            hps_io_hps_io_gpio_inst_GPIO61 => hps_io_hps_io_gpio_inst_GPIO61, --         .hps_io_gpio_inst_GPIO61
+            hps_io_hps_io_gpio_inst_GPIO62 => hps_io_hps_io_gpio_inst_GPIO62, --         .hps_io_gpio_inst_GPIO62
+            hps_io_hps_io_gpio_inst_LOANIO00 => hps_io_hps_io_gpio_inst_LOANIO00, --         .hps_io_gpio_inst_LOANIO00
+            hps_io_hps_io_gpio_inst_LOANIO41 => hps_io_hps_io_gpio_inst_LOANIO41, --         .hps_io_gpio_inst_LOANIO41
+            hps_io_hps_io_gpio_inst_LOANIO51 => hps_io_hps_io_gpio_inst_LOANIO51, --         .hps_io_gpio_inst_LOANIO51
+            hps_io_hps_io_gpio_inst_LOANIO52 => hps_io_hps_io_gpio_inst_LOANIO52, --         .hps_io_gpio_inst_LOANIO52
+            hps_io_hps_io_gpio_inst_LOANIO53 => hps_io_hps_io_gpio_inst_LOANIO53, --         .hps_io_gpio_inst_LOANIO53
+            hps_io_hps_io_gpio_inst_LOANIO54 => hps_io_hps_io_gpio_inst_LOANIO54, --         .hps_io_gpio_inst_LOANIO54
+            hps_io_hps_io_gpio_inst_LOANIO55 => hps_io_hps_io_gpio_inst_LOANIO55, --         .hps_io_gpio_inst_LOANIO55
+            hps_io_hps_io_gpio_inst_LOANIO56 => hps_io_hps_io_gpio_inst_LOANIO56, --         .hps_io_gpio_inst_LOANIO56
             memory_mem_a => memory_mem_a, --   memory.mem_a
             memory_mem_ba => memory_mem_ba, --         .mem_ba
             memory_mem_ck => memory_mem_ck, --         .mem_ck
@@ -269,14 +316,29 @@ BEGIN
             reset_reset_n => '1', --CONNECTED_TO_reset_reset_n, --    reset.reset_n
             clk_100m_clk => w_clock_100m, -- clk_100m.clk
             ram_clk_clk => w_clock_100m, --  ram_clk.clk
-            ram_rst_reset => '1' --  ram_rst.reset
+            ram_rst_reset => '1', --  ram_rst.reset
+            d_out_in => w_input, --    d_out.in
+            d_out_out => w_output, --(OTHERS => '0'), --(std_logic_vector(to_unsigned(0,66)) & '1'),--o_data_out), --         .out
+            d_out_oe => w_oe --(OTHERS => '1')--(std_logic_vector(to_unsigned(0,66)) & '1') --         .oe
         );
 
-    --------------------------------------------
-    --  Output module
-    --------------------------------------------
+        --------------------------------------------
+        --  Interconnect module
+        --------------------------------------------
 
+        interconnect_inst : ENTITY work.interconnect
+            PORT MAP(
+                d_out_in => w_input, -- in
+                d_out_out => w_output, -- out
+                d_out_oe => w_oe, -- o
+                -- HPS_GPIO51
+                en_data => '1',
+                o_data => w_data_out --,
+            );
 
+        --------------------------------------------
+        --  Output module
+        --------------------------------------------
         output_module_inst : ENTITY work.output_module
             GENERIC MAP(
                 -- generic parameters - passed here from calling entity
@@ -285,10 +347,10 @@ BEGIN
             )
             PORT MAP(
                 i_clk => w_clock_100m,
-                i_data => (OTHERS => '0'),
-                i_wr_addr =>(OTHERS => '0'),
+                i_data => x"FF0000",
+                i_wr_addr => (OTHERS => '0'),
                 i_wen => '1',
-                o_data_out => o_data_out,
+                o_data_out => w_data_out,
                 o_sent_done => o_led
             );
 

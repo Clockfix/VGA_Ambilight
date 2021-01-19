@@ -357,6 +357,7 @@ set_location_assignment PIN_AD10 -to o_data_out
 set_location_assignment PIN_AF10 -to o_led
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to o_data_out
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to o_led
+set_global_assignment -name VHDL_FILE ../source/interconnect.vhd -hdl_version VHDL_2008
 set_global_assignment -name SDC_FILE main.sdc
 set_global_assignment -name QIP_FILE ../source/ram2port/ram2port.qip
 set_global_assignment -name VHDL_FILE ../source/sender_fsm.vhd -hdl_version VHDL_2008

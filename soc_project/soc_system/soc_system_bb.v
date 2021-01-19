@@ -2,6 +2,9 @@
 module soc_system (
 	clk_clk,
 	clk_100m_clk,
+	d_out_in,
+	d_out_out,
+	d_out_oe,
 	hps_io_hps_io_emac1_inst_TX_CLK,
 	hps_io_hps_io_emac1_inst_TXD0,
 	hps_io_hps_io_emac1_inst_TXD1,
@@ -50,8 +53,19 @@ module soc_system (
 	hps_io_hps_io_spim1_inst_SS0,
 	hps_io_hps_io_uart0_inst_RX,
 	hps_io_hps_io_uart0_inst_TX,
-	hps_io_hps_io_i2c1_inst_SDA,
-	hps_io_hps_io_i2c1_inst_SCL,
+	hps_io_hps_io_gpio_inst_GPIO09,
+	hps_io_hps_io_gpio_inst_GPIO40,
+	hps_io_hps_io_gpio_inst_GPIO48,
+	hps_io_hps_io_gpio_inst_GPIO61,
+	hps_io_hps_io_gpio_inst_GPIO62,
+	hps_io_hps_io_gpio_inst_LOANIO00,
+	hps_io_hps_io_gpio_inst_LOANIO41,
+	hps_io_hps_io_gpio_inst_LOANIO51,
+	hps_io_hps_io_gpio_inst_LOANIO52,
+	hps_io_hps_io_gpio_inst_LOANIO53,
+	hps_io_hps_io_gpio_inst_LOANIO54,
+	hps_io_hps_io_gpio_inst_LOANIO55,
+	hps_io_hps_io_gpio_inst_LOANIO56,
 	memory_mem_a,
 	memory_mem_ba,
 	memory_mem_ck,
@@ -80,6 +94,9 @@ module soc_system (
 
 	input		clk_clk;
 	output		clk_100m_clk;
+	output	[66:0]	d_out_in;
+	input	[66:0]	d_out_out;
+	input	[66:0]	d_out_oe;
 	output		hps_io_hps_io_emac1_inst_TX_CLK;
 	output		hps_io_hps_io_emac1_inst_TXD0;
 	output		hps_io_hps_io_emac1_inst_TXD1;
@@ -128,8 +145,19 @@ module soc_system (
 	output		hps_io_hps_io_spim1_inst_SS0;
 	input		hps_io_hps_io_uart0_inst_RX;
 	output		hps_io_hps_io_uart0_inst_TX;
-	inout		hps_io_hps_io_i2c1_inst_SDA;
-	inout		hps_io_hps_io_i2c1_inst_SCL;
+	inout		hps_io_hps_io_gpio_inst_GPIO09;
+	inout		hps_io_hps_io_gpio_inst_GPIO40;
+	inout		hps_io_hps_io_gpio_inst_GPIO48;
+	inout		hps_io_hps_io_gpio_inst_GPIO61;
+	inout		hps_io_hps_io_gpio_inst_GPIO62;
+	inout		hps_io_hps_io_gpio_inst_LOANIO00;
+	inout		hps_io_hps_io_gpio_inst_LOANIO41;
+	inout		hps_io_hps_io_gpio_inst_LOANIO51;
+	inout		hps_io_hps_io_gpio_inst_LOANIO52;
+	inout		hps_io_hps_io_gpio_inst_LOANIO53;
+	inout		hps_io_hps_io_gpio_inst_LOANIO54;
+	inout		hps_io_hps_io_gpio_inst_LOANIO55;
+	inout		hps_io_hps_io_gpio_inst_LOANIO56;
 	output	[14:0]	memory_mem_a;
 	output	[2:0]	memory_mem_ba;
 	output		memory_mem_ck;

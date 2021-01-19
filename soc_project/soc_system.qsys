@@ -49,14 +49,6 @@
          type = "int";
       }
    }
-   element hps_0.f2h_sdram0_data
-   {
-      datum baseAddress
-      {
-         value = "2048";
-         type = "String";
-      }
-   }
    element hps_0.h2f_lw_axi_master
    {
       datum color
@@ -124,6 +116,7 @@
    internal="clock_bridge_0.out_clk"
    type="clock"
    dir="start" />
+ <interface name="d_out" internal="hps_0.h2f_loan_io" type="conduit" dir="end" />
  <interface name="hps_io" internal="hps_0.hps_io" type="conduit" dir="end" />
  <interface name="memory" internal="hps_0.memory" type="conduit" dir="end" />
  <interface name="ram" internal="onchip_memory2_0.s2" type="avalon" dir="end" />
@@ -250,7 +243,7 @@
   <parameter name="EXPORT_AFI_HALF_CLK" value="false" />
   <parameter name="EXTRA_SETTINGS" value="" />
   <parameter name="F2H_AXI_CLOCK_FREQ" value="100" />
-  <parameter name="F2H_SDRAM0_CLOCK_FREQ" value="100000000" />
+  <parameter name="F2H_SDRAM0_CLOCK_FREQ" value="100" />
   <parameter name="F2H_SDRAM1_CLOCK_FREQ" value="100" />
   <parameter name="F2H_SDRAM2_CLOCK_FREQ" value="100" />
   <parameter name="F2H_SDRAM3_CLOCK_FREQ" value="100" />
@@ -263,8 +256,8 @@
   <parameter name="F2SCLK_SDRAMCLK_Enable" value="false" />
   <parameter name="F2SCLK_SDRAMCLK_FREQ" value="0" />
   <parameter name="F2SCLK_WARMRST_Enable" value="false" />
-  <parameter name="F2SDRAM_Type">Avalon-MM Bidirectional</parameter>
-  <parameter name="F2SDRAM_Width" value="64" />
+  <parameter name="F2SDRAM_Type" value="" />
+  <parameter name="F2SDRAM_Width" value="" />
   <parameter name="F2SINTERRUPT_Enable" value="false" />
   <parameter name="F2S_Width" value="0" />
   <parameter name="FIX_READ_LATENCY" value="8" />
@@ -302,7 +295,7 @@
   <parameter name="FPGA_PERIPHERAL_OUTPUT_CLOCK_FREQ_SDIO_CCLK" value="100" />
   <parameter name="FPGA_PERIPHERAL_OUTPUT_CLOCK_FREQ_SPIM0_SCLK_OUT" value="100" />
   <parameter name="FPGA_PERIPHERAL_OUTPUT_CLOCK_FREQ_SPIM1_SCLK_OUT" value="100" />
-  <parameter name="GPIO_Enable">No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No</parameter>
+  <parameter name="GPIO_Enable">No,No,No,No,No,No,No,No,No,Yes,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,Yes,No,No,No,No,No,No,No,Yes,No,No,No,No,No,No,No,No,No,No,No,No,Yes,Yes,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No</parameter>
   <parameter name="GP_Enable" value="false" />
   <parameter name="H2F_AXI_CLOCK_FREQ" value="100" />
   <parameter name="H2F_CTI_CLOCK_FREQ" value="100" />
@@ -318,8 +311,8 @@
   <parameter name="HPS_PROTOCOL" value="DDR3" />
   <parameter name="I2C0_Mode" value="N/A" />
   <parameter name="I2C0_PinMuxing" value="Unused" />
-  <parameter name="I2C1_Mode" value="I2C" />
-  <parameter name="I2C1_PinMuxing" value="HPS I/O Set 0" />
+  <parameter name="I2C1_Mode" value="N/A" />
+  <parameter name="I2C1_PinMuxing" value="Unused" />
   <parameter name="I2C2_Mode" value="N/A" />
   <parameter name="I2C2_PinMuxing" value="Unused" />
   <parameter name="I2C3_Mode" value="N/A" />
@@ -327,7 +320,7 @@
   <parameter name="INCLUDE_BOARD_DELAY_MODEL" value="false" />
   <parameter name="INCLUDE_MULTIRANK_BOARD_DELAY_MODEL" value="false" />
   <parameter name="IS_ES_DEVICE" value="false" />
-  <parameter name="LOANIO_Enable">No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No</parameter>
+  <parameter name="LOANIO_Enable">Yes,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,Yes,No,No,No,No,No,No,No,No,No,Yes,Yes,Yes,Yes,Yes,Yes,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No,No</parameter>
   <parameter name="LOCAL_ID_WIDTH" value="8" />
   <parameter name="LRDIMM_EXTENDED_CONFIG">0x000000000000000000</parameter>
   <parameter name="LWH2F_Enable" value="true" />
@@ -542,7 +535,7 @@
   <parameter name="SPIS1_Mode" value="N/A" />
   <parameter name="SPIS1_PinMuxing" value="Unused" />
   <parameter name="STARVE_LIMIT" value="10" />
-  <parameter name="STM_Enable" value="true" />
+  <parameter name="STM_Enable" value="false" />
   <parameter name="SYS_INFO_DEVICE_FAMILY" value="Cyclone V" />
   <parameter name="TEST_Enable" value="false" />
   <parameter name="TIMING_BOARD_AC_EYE_REDUCTION_H" value="0.0" />
@@ -933,11 +926,6 @@
    version="20.1"
    start="pll_0.outclk0"
    end="onchip_memory2_0.clk1" />
- <connection
-   kind="clock"
-   version="20.1"
-   start="pll_0.outclk0"
-   end="hps_0.f2h_sdram0_clock" />
  <connection
    kind="clock"
    version="20.1"

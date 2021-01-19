@@ -8,3 +8,4 @@ transcript
 /test_bench/modelsim.ini
 /test_bench/vsim.wlf
 test_bench/altera/
+soc_project/software/

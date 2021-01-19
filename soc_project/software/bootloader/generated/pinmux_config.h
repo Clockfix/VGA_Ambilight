@@ -41,7 +41,7 @@
 #define CONFIG_HPS_UART1 (0)
 #define CONFIG_HPS_TRACE (0)
 #define CONFIG_HPS_I2C0 (0)
-#define CONFIG_HPS_I2C1 (1)
+#define CONFIG_HPS_I2C1 (0)
 #define CONFIG_HPS_I2C2 (0)
 #define CONFIG_HPS_I2C3 (0)
 #define CONFIG_HPS_SPIM0 (1)
