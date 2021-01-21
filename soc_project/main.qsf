@@ -315,14 +315,10 @@ set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to memory_mem_we_n 
 set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to memory_mem_reset_n -tag __hps_sdram_p0
 set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to memory_mem_ck -tag __hps_sdram_p0
 set_instance_assignment -name PACKAGE_SKEW_COMPENSATION OFF -to memory_mem_ck_n -tag __hps_sdram_p0
-set_instance_assignment -name GLOBAL_SIGNAL OFF -to inst|hps_0|hps_io|border|hps_sdram_inst|p0|umemphy|ureset|phy_reset_mem_stable_n -tag __hps_sdram_p0
 set_instance_assignment -name GLOBAL_SIGNAL OFF -to inst|hps_0|hps_io|border|hps_sdram_inst|p0|umemphy|ureset|phy_reset_n -tag __hps_sdram_p0
-set_instance_assignment -name GLOBAL_SIGNAL OFF -to inst|hps_0|hps_io|border|hps_sdram_inst|p0|umemphy|uio_pads|dq_ddio[0].read_capture_clk_buffer -tag __hps_sdram_p0
 set_instance_assignment -name GLOBAL_SIGNAL OFF -to inst|hps_0|hps_io|border|hps_sdram_inst|p0|umemphy|uread_datapath|reset_n_fifo_write_side[0] -tag __hps_sdram_p0
 set_instance_assignment -name GLOBAL_SIGNAL OFF -to inst|hps_0|hps_io|border|hps_sdram_inst|p0|umemphy|uread_datapath|reset_n_fifo_wraddress[0] -tag __hps_sdram_p0
-set_instance_assignment -name GLOBAL_SIGNAL OFF -to inst|hps_0|hps_io|border|hps_sdram_inst|p0|umemphy|uio_pads|dq_ddio[1].read_capture_clk_buffer -tag __hps_sdram_p0
 set_instance_assignment -name GLOBAL_SIGNAL OFF -to inst|hps_0|hps_io|border|hps_sdram_inst|p0|umemphy|uread_datapath|reset_n_fifo_write_side[1] -tag __hps_sdram_p0
-set_instance_assignment -name GLOBAL_SIGNAL OFF -to inst|hps_0|hps_io|border|hps_sdram_inst|p0|umemphy|uread_datapath|reset_n_fifo_wraddress[1] -tag __hps_sdram_p0
 set_instance_assignment -name GLOBAL_SIGNAL OFF -to inst|hps_0|hps_io|border|hps_sdram_inst|p0|umemphy|uio_pads|dq_ddio[2].read_capture_clk_buffer -tag __hps_sdram_p0
 set_instance_assignment -name GLOBAL_SIGNAL OFF -to inst|hps_0|hps_io|border|hps_sdram_inst|p0|umemphy|uread_datapath|reset_n_fifo_write_side[2] -tag __hps_sdram_p0
 set_instance_assignment -name GLOBAL_SIGNAL OFF -to inst|hps_0|hps_io|border|hps_sdram_inst|p0|umemphy|uread_datapath|reset_n_fifo_wraddress[2] -tag __hps_sdram_p0
@@ -353,9 +349,7 @@ set_instance_assignment -name GLOBAL_SIGNAL OFF -to soc_system_inst|hps_0|hps_io
 set_instance_assignment -name GLOBAL_SIGNAL OFF -to soc_system_inst|hps_0|hps_io|border|hps_sdram_inst|p0|umemphy|uread_datapath|reset_n_fifo_wraddress[3] -tag __hps_sdram_p0
 set_instance_assignment -name ENABLE_BENEFICIAL_SKEW_OPTIMIZATION_FOR_NON_GLOBAL_CLOCKS ON -to soc_system_inst|hps_0|hps_io|border|hps_sdram_inst -tag __hps_sdram_p0
 set_instance_assignment -name PLL_COMPENSATION_MODE DIRECT -to soc_system_inst|hps_0|hps_io|border|hps_sdram_inst|pll0|fbout -tag __hps_sdram_p0
-set_location_assignment PIN_AD10 -to o_data_out
 set_location_assignment PIN_AF10 -to o_led
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to o_data_out
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to o_led
 set_global_assignment -name VHDL_FILE ../source/interconnect.vhd -hdl_version VHDL_2008
 set_global_assignment -name SDC_FILE main.sdc

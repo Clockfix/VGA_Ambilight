@@ -27,6 +27,8 @@ ENTITY main IS
         i_clk : IN STD_LOGIC;
         -- o_data_out : OUT STD_LOGIC;
         o_led : OUT STD_LOGIC;
+        -- o_data_out : OUT STD_LOGIC; (copy)
+        o_sw : OUT STD_LOGIC;
         --------------------------------------------
         --  HPS connections
         --------------------------------------------
@@ -121,8 +123,9 @@ ARCHITECTURE rtl OF main IS
     SIGNAL w_oe : STD_LOGIC_VECTOR(66 DOWNTO 0); ---- HPS <-> Interconnect <-> FPGA
     SIGNAL w_output : STD_LOGIC_VECTOR(66 DOWNTO 0); ---- HPS <-> Interconnect <-> FPGA
     SIGNAL w_input : STD_LOGIC_VECTOR(66 DOWNTO 0); ---- HPS <-> Interconnect <-> FPGA
-	 
-	 SIGNAL w_data_out : STD_LOGIC; -- data line for LED matrix/strip
+
+    SIGNAL w_data_out : STD_LOGIC; -- data line for LED matrix/strip
+    SIGNAL w_led_done : STD_LOGIC; -- sent done indicator
     --------------------------------------------
     --  SoC HPS system component
     --------------------------------------------
@@ -342,16 +345,16 @@ BEGIN
         output_module_inst : ENTITY work.output_module
             GENERIC MAP(
                 -- generic parameters - passed here from calling entity
-                g_LED_COUNT => 1024,
-                g_RESET_TIME => 2700 -- must be larger then 50us => 2500 * 20ns =50us
+                g_LED_COUNT => 3, --16*16,
+                g_RESET_TIME => 70000 -- must be larger then 50us => 2500 * 20ns =50us
             )
             PORT MAP(
                 i_clk => w_clock_100m,
-                i_data => x"FF0000",
-                i_wr_addr => (OTHERS => '0'),
+                i_data => x"0F0000",
+                i_wr_addr => "0000000010",
                 i_wen => '1',
                 o_data_out => w_data_out,
-                o_sent_done => o_led
+                o_sent_done => w_led_done
             );
 
         -- reg-state logic
@@ -362,5 +365,6 @@ BEGIN
 
         -- outputs
         -- <your code goes here>
-
+        o_sw <= w_data_out;
+        o_led <= w_led_done;
     END rtl;
