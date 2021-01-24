@@ -5,6 +5,7 @@
         "LOANIO",
         "MDIO",
         "altera",
+        "byteenable",
         "chipselect",
         "clken",
         "emac",

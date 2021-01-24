@@ -87,8 +87,7 @@
 		.ram_write                        (<connected-to-ram_write>),                        //         .write
 		.ram_readdata                     (<connected-to-ram_readdata>),                     //         .readdata
 		.ram_writedata                    (<connected-to-ram_writedata>),                    //         .writedata
-		.ram_clk_clk                      (<connected-to-ram_clk_clk>),                      //  ram_clk.clk
-		.ram_rst_reset                    (<connected-to-ram_rst_reset>),                    //  ram_rst.reset
+		.ram_byteenable                   (<connected-to-ram_byteenable>),                   //         .byteenable
 		.reset_reset_n                    (<connected-to-reset_reset_n>)                     //    reset.reset_n
 	);
 

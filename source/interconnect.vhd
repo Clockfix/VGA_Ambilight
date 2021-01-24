@@ -30,9 +30,15 @@ ENTITY interconnect IS
         d_out_in : IN STD_LOGIC_VECTOR(66 DOWNTO 0); -- in
         d_out_out : OUT STD_LOGIC_VECTOR(66 DOWNTO 0); -- out
         d_out_oe : OUT STD_LOGIC_VECTOR(66 DOWNTO 0); -- o
+        i_ram_readdata : IN STD_LOGIC_VECTOR(31 DOWNTO 0); --         .readdata
+        o_writedata : OUT STD_LOGIC_VECTOR(31 DOWNTO 0); --         .writedata
+        o_ram_byteenable : OUT STD_LOGIC_VECTOR(3 DOWNTO 0); --         .byteenable
+        o_ram_address : OUT STD_LOGIC_VECTOR(12 DOWNTO 0); -- address
         --------------------------------------------
         --  FPGA connections
         --------------------------------------------
+        o_ram_data : OUT STD_LOGIC_VECTOR(23 DOWNTO 0); --         .readdata
+        i_ram_address : IN STD_LOGIC_VECTOR(9 DOWNTO 0); -- address
         -- HPS_GPIO51
         en_data : IN STD_LOGIC;
         o_data : IN STD_LOGIC --;
@@ -45,13 +51,18 @@ ARCHITECTURE rtl OF interconnect IS
     SIGNAL w_oe : STD_LOGIC_VECTOR(66 DOWNTO 0);
     SIGNAL w_output : STD_LOGIC_VECTOR(66 DOWNTO 0);
     SIGNAL w_input : STD_LOGIC_VECTOR(66 DOWNTO 0);
+   
 
 BEGIN
+    ---------------------------------------------
     -- reg-state logic
-    -- <your code goes here>
+    ---------------------------------------------
+    -- 
 
+    ---------------------------------------------
     -- next-state logic
-    -- <your code goes here>
+    ---------------------------------------------
+    -- 
     PROCESS (ALL)
     BEGIN
         w_oe <= (OTHERS => '0');
@@ -61,8 +72,14 @@ BEGIN
         w_oe(51) <= en_data;
         w_output(51) <= o_data;
     END PROCESS;
+    ---------------------------------------------
     -- outputs
-    -- <your code goes here>
+    ---------------------------------------------
+    -- 
     d_out_oe <= w_oe;
     d_out_out <= w_output;
+    -- RAM
+    o_ram_byteenable <= "0111";
+    o_ram_address <= "000" & i_ram_address;
+    o_ram_data <= i_ram_readdata(23 DOWNTO 0); 
 END rtl;

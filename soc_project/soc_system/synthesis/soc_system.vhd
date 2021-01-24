@@ -94,10 +94,9 @@ entity soc_system is
 		ram_chipselect                   : in    std_logic                     := '0';             --         .chipselect
 		ram_clken                        : in    std_logic                     := '0';             --         .clken
 		ram_write                        : in    std_logic                     := '0';             --         .write
-		ram_readdata                     : out   std_logic_vector(7 downto 0);                     --         .readdata
-		ram_writedata                    : in    std_logic_vector(7 downto 0)  := (others => '0'); --         .writedata
-		ram_clk_clk                      : in    std_logic                     := '0';             --  ram_clk.clk
-		ram_rst_reset                    : in    std_logic                     := '0';             --  ram_rst.reset
+		ram_readdata                     : out   std_logic_vector(31 downto 0);                    --         .readdata
+		ram_writedata                    : in    std_logic_vector(31 downto 0) := (others => '0'); --         .writedata
+		ram_byteenable                   : in    std_logic_vector(3 downto 0)  := (others => '0'); --         .byteenable
 		reset_reset_n                    : in    std_logic                     := '0'              --    reset.reset_n
 	);
 end entity soc_system;
@@ -232,25 +231,24 @@ architecture rtl of soc_system is
 
 	component soc_system_onchip_memory2_0 is
 		port (
-			clk         : in  std_logic                     := 'X';             -- clk
 			address     : in  std_logic_vector(12 downto 0) := (others => 'X'); -- address
 			clken       : in  std_logic                     := 'X';             -- clken
 			chipselect  : in  std_logic                     := 'X';             -- chipselect
 			write       : in  std_logic                     := 'X';             -- write
-			readdata    : out std_logic_vector(7 downto 0);                     -- readdata
-			writedata   : in  std_logic_vector(7 downto 0)  := (others => 'X'); -- writedata
-			reset       : in  std_logic                     := 'X';             -- reset
+			readdata    : out std_logic_vector(31 downto 0);                    -- readdata
+			writedata   : in  std_logic_vector(31 downto 0) := (others => 'X'); -- writedata
+			byteenable  : in  std_logic_vector(3 downto 0)  := (others => 'X'); -- byteenable
 			address2    : in  std_logic_vector(12 downto 0) := (others => 'X'); -- address
 			chipselect2 : in  std_logic                     := 'X';             -- chipselect
 			clken2      : in  std_logic                     := 'X';             -- clken
 			write2      : in  std_logic                     := 'X';             -- write
-			readdata2   : out std_logic_vector(7 downto 0);                     -- readdata
-			writedata2  : in  std_logic_vector(7 downto 0)  := (others => 'X'); -- writedata
-			clk2        : in  std_logic                     := 'X';             -- clk
-			reset2      : in  std_logic                     := 'X';             -- reset
-			reset_req   : in  std_logic                     := 'X';             -- reset_req
+			readdata2   : out std_logic_vector(31 downto 0);                    -- readdata
+			writedata2  : in  std_logic_vector(31 downto 0) := (others => 'X'); -- writedata
+			byteenable2 : in  std_logic_vector(3 downto 0)  := (others => 'X'); -- byteenable
+			clk         : in  std_logic                     := 'X';             -- clk
+			reset       : in  std_logic                     := 'X';             -- reset
 			freeze      : in  std_logic                     := 'X';             -- freeze
-			reset_req2  : in  std_logic                     := 'X'              -- reset_req
+			reset_req   : in  std_logic                     := 'X'              -- reset_req
 		);
 	end component soc_system_onchip_memory2_0;
 
@@ -306,8 +304,9 @@ architecture rtl of soc_system is
 			onchip_memory2_0_reset1_reset_bridge_in_reset_reset                 : in  std_logic                     := 'X';             -- reset
 			onchip_memory2_0_s1_address                                         : out std_logic_vector(12 downto 0);                    -- address
 			onchip_memory2_0_s1_write                                           : out std_logic;                                        -- write
-			onchip_memory2_0_s1_readdata                                        : in  std_logic_vector(7 downto 0)  := (others => 'X'); -- readdata
-			onchip_memory2_0_s1_writedata                                       : out std_logic_vector(7 downto 0);                     -- writedata
+			onchip_memory2_0_s1_readdata                                        : in  std_logic_vector(31 downto 0) := (others => 'X'); -- readdata
+			onchip_memory2_0_s1_writedata                                       : out std_logic_vector(31 downto 0);                    -- writedata
+			onchip_memory2_0_s1_byteenable                                      : out std_logic_vector(3 downto 0);                     -- byteenable
 			onchip_memory2_0_s1_chipselect                                      : out std_logic;                                        -- chipselect
 			onchip_memory2_0_s1_clken                                           : out std_logic                                         -- clken
 		);
@@ -417,10 +416,11 @@ architecture rtl of soc_system is
 	signal hps_0_h2f_lw_axi_master_awvalid                  : std_logic;                     -- hps_0:h2f_lw_AWVALID -> mm_interconnect_0:hps_0_h2f_lw_axi_master_awvalid
 	signal hps_0_h2f_lw_axi_master_rvalid                   : std_logic;                     -- mm_interconnect_0:hps_0_h2f_lw_axi_master_rvalid -> hps_0:h2f_lw_RVALID
 	signal mm_interconnect_0_onchip_memory2_0_s1_chipselect : std_logic;                     -- mm_interconnect_0:onchip_memory2_0_s1_chipselect -> onchip_memory2_0:chipselect
-	signal mm_interconnect_0_onchip_memory2_0_s1_readdata   : std_logic_vector(7 downto 0);  -- onchip_memory2_0:readdata -> mm_interconnect_0:onchip_memory2_0_s1_readdata
+	signal mm_interconnect_0_onchip_memory2_0_s1_readdata   : std_logic_vector(31 downto 0); -- onchip_memory2_0:readdata -> mm_interconnect_0:onchip_memory2_0_s1_readdata
 	signal mm_interconnect_0_onchip_memory2_0_s1_address    : std_logic_vector(12 downto 0); -- mm_interconnect_0:onchip_memory2_0_s1_address -> onchip_memory2_0:address
+	signal mm_interconnect_0_onchip_memory2_0_s1_byteenable : std_logic_vector(3 downto 0);  -- mm_interconnect_0:onchip_memory2_0_s1_byteenable -> onchip_memory2_0:byteenable
 	signal mm_interconnect_0_onchip_memory2_0_s1_write      : std_logic;                     -- mm_interconnect_0:onchip_memory2_0_s1_write -> onchip_memory2_0:write
-	signal mm_interconnect_0_onchip_memory2_0_s1_writedata  : std_logic_vector(7 downto 0);  -- mm_interconnect_0:onchip_memory2_0_s1_writedata -> onchip_memory2_0:writedata
+	signal mm_interconnect_0_onchip_memory2_0_s1_writedata  : std_logic_vector(31 downto 0); -- mm_interconnect_0:onchip_memory2_0_s1_writedata -> onchip_memory2_0:writedata
 	signal mm_interconnect_0_onchip_memory2_0_s1_clken      : std_logic;                     -- mm_interconnect_0:onchip_memory2_0_s1_clken -> onchip_memory2_0:clken
 	signal rst_controller_reset_out_reset                   : std_logic;                     -- rst_controller:reset_out -> [mm_interconnect_0:onchip_memory2_0_reset1_reset_bridge_in_reset_reset, onchip_memory2_0:reset]
 	signal rst_controller_001_reset_out_reset               : std_logic;                     -- rst_controller_001:reset_out -> mm_interconnect_0:hps_0_h2f_lw_axi_master_agent_clk_reset_reset_bridge_in_reset_reset
@@ -558,25 +558,24 @@ begin
 
 	onchip_memory2_0 : component soc_system_onchip_memory2_0
 		port map (
-			clk         => pll_0_outclk0_clk,                                --   clk1.clk
 			address     => mm_interconnect_0_onchip_memory2_0_s1_address,    --     s1.address
 			clken       => mm_interconnect_0_onchip_memory2_0_s1_clken,      --       .clken
 			chipselect  => mm_interconnect_0_onchip_memory2_0_s1_chipselect, --       .chipselect
 			write       => mm_interconnect_0_onchip_memory2_0_s1_write,      --       .write
 			readdata    => mm_interconnect_0_onchip_memory2_0_s1_readdata,   --       .readdata
 			writedata   => mm_interconnect_0_onchip_memory2_0_s1_writedata,  --       .writedata
-			reset       => rst_controller_reset_out_reset,                   -- reset1.reset
+			byteenable  => mm_interconnect_0_onchip_memory2_0_s1_byteenable, --       .byteenable
 			address2    => ram_address,                                      --     s2.address
 			chipselect2 => ram_chipselect,                                   --       .chipselect
 			clken2      => ram_clken,                                        --       .clken
 			write2      => ram_write,                                        --       .write
 			readdata2   => ram_readdata,                                     --       .readdata
 			writedata2  => ram_writedata,                                    --       .writedata
-			clk2        => ram_clk_clk,                                      --   clk2.clk
-			reset2      => ram_rst_reset,                                    -- reset2.reset
-			reset_req   => '0',                                              -- (terminated)
+			byteenable2 => ram_byteenable,                                   --       .byteenable
+			clk         => pll_0_outclk0_clk,                                --   clk1.clk
+			reset       => rst_controller_reset_out_reset,                   -- reset1.reset
 			freeze      => '0',                                              -- (terminated)
-			reset_req2  => '0'                                               -- (terminated)
+			reset_req   => '0'                                               -- (terminated)
 		);
 
 	pll_0 : component soc_system_pll_0
@@ -632,6 +631,7 @@ begin
 			onchip_memory2_0_s1_write                                           => mm_interconnect_0_onchip_memory2_0_s1_write,      --                                                              .write
 			onchip_memory2_0_s1_readdata                                        => mm_interconnect_0_onchip_memory2_0_s1_readdata,   --                                                              .readdata
 			onchip_memory2_0_s1_writedata                                       => mm_interconnect_0_onchip_memory2_0_s1_writedata,  --                                                              .writedata
+			onchip_memory2_0_s1_byteenable                                      => mm_interconnect_0_onchip_memory2_0_s1_byteenable, --                                                              .byteenable
 			onchip_memory2_0_s1_chipselect                                      => mm_interconnect_0_onchip_memory2_0_s1_chipselect, --                                                              .chipselect
 			onchip_memory2_0_s1_clken                                           => mm_interconnect_0_onchip_memory2_0_s1_clken       --                                                              .clken
 		);

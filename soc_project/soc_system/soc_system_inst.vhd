@@ -86,10 +86,9 @@
 			ram_chipselect                   : in    std_logic                     := 'X';             -- chipselect
 			ram_clken                        : in    std_logic                     := 'X';             -- clken
 			ram_write                        : in    std_logic                     := 'X';             -- write
-			ram_readdata                     : out   std_logic_vector(7 downto 0);                     -- readdata
-			ram_writedata                    : in    std_logic_vector(7 downto 0)  := (others => 'X'); -- writedata
-			ram_clk_clk                      : in    std_logic                     := 'X';             -- clk
-			ram_rst_reset                    : in    std_logic                     := 'X';             -- reset
+			ram_readdata                     : out   std_logic_vector(31 downto 0);                    -- readdata
+			ram_writedata                    : in    std_logic_vector(31 downto 0) := (others => 'X'); -- writedata
+			ram_byteenable                   : in    std_logic_vector(3 downto 0)  := (others => 'X'); -- byteenable
 			reset_reset_n                    : in    std_logic                     := 'X'              -- reset_n
 		);
 	end component soc_system;
@@ -184,8 +183,7 @@
 			ram_write                        => CONNECTED_TO_ram_write,                        --         .write
 			ram_readdata                     => CONNECTED_TO_ram_readdata,                     --         .readdata
 			ram_writedata                    => CONNECTED_TO_ram_writedata,                    --         .writedata
-			ram_clk_clk                      => CONNECTED_TO_ram_clk_clk,                      --  ram_clk.clk
-			ram_rst_reset                    => CONNECTED_TO_ram_rst_reset,                    --  ram_rst.reset
+			ram_byteenable                   => CONNECTED_TO_ram_byteenable,                   --         .byteenable
 			reset_reset_n                    => CONNECTED_TO_reset_reset_n                     --    reset.reset_n
 		);
 

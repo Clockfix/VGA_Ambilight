@@ -88,8 +88,7 @@ module soc_system (
 	ram_write,
 	ram_readdata,
 	ram_writedata,
-	ram_clk_clk,
-	ram_rst_reset,
+	ram_byteenable,
 	reset_reset_n);	
 
 	input		clk_clk;
@@ -178,9 +177,8 @@ module soc_system (
 	input		ram_chipselect;
 	input		ram_clken;
 	input		ram_write;
-	output	[7:0]	ram_readdata;
-	input	[7:0]	ram_writedata;
-	input		ram_clk_clk;
-	input		ram_rst_reset;
+	output	[31:0]	ram_readdata;
+	input	[31:0]	ram_writedata;
+	input	[3:0]	ram_byteenable;
 	input		reset_reset_n;
 endmodule

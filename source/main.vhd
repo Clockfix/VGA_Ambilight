@@ -124,6 +124,15 @@ ARCHITECTURE rtl OF main IS
     SIGNAL w_output : STD_LOGIC_VECTOR(66 DOWNTO 0); ---- HPS <-> Interconnect <-> FPGA
     SIGNAL w_input : STD_LOGIC_VECTOR(66 DOWNTO 0); ---- HPS <-> Interconnect <-> FPGA
 
+    -- RAM interconnect     HPS <-> Interconnect <-> FPGA
+    SIGNAL w_ram_readdata : STD_LOGIC_VECTOR(31 DOWNTO 0); --         .readdata
+    SIGNAL w_ram_writedata : STD_LOGIC_VECTOR(31 DOWNTO 0); --         .writedata
+    SIGNAL w_ram_byteenable : STD_LOGIC_VECTOR(3 DOWNTO 0); --         .byteenable
+    SIGNAL w_ram_address : STD_LOGIC_VECTOR(12 DOWNTO 0); -- address
+    -- FPGA side
+    SIGNAL w_fpga_ram_address : STD_LOGIC_VECTOR(9 DOWNTO 0); -- address
+    SIGNAL w_fpga_ram_readdata : STD_LOGIC_VECTOR(23 DOWNTO 0); --         .readdata
+
     SIGNAL w_data_out : STD_LOGIC; -- data line for LED matrix/strip
     SIGNAL w_led_done : STD_LOGIC; -- sent done indicator
     --------------------------------------------
@@ -215,12 +224,13 @@ ARCHITECTURE rtl OF main IS
             ram_chipselect : IN STD_LOGIC := 'X'; -- chipselect
             ram_clken : IN STD_LOGIC := 'X'; -- clken
             ram_write : IN STD_LOGIC := 'X'; -- write
-            ram_readdata : OUT STD_LOGIC_VECTOR(7 DOWNTO 0); -- readdata
-            ram_writedata : IN STD_LOGIC_VECTOR(7 DOWNTO 0) := (OTHERS => 'X'); -- writedata
+            ram_readdata : OUT STD_LOGIC_VECTOR(31 DOWNTO 0); -- readdata
+            ram_writedata : IN STD_LOGIC_VECTOR(31 DOWNTO 0) := (OTHERS => 'X'); -- writedata
+            ram_byteenable : IN STD_LOGIC_VECTOR(3 DOWNTO 0) := (OTHERS => 'X'); -- byteenable
             reset_reset_n : IN STD_LOGIC := 'X'; -- reset_n
             clk_100m_clk : OUT STD_LOGIC; -- clk
-            ram_clk_clk : IN STD_LOGIC := 'X'; -- clk
-            ram_rst_reset : IN STD_LOGIC := 'X'; -- reset
+            -- ram_clk_clk : IN STD_LOGIC := 'X'; -- clk
+            -- ram_rst_reset : IN STD_LOGIC := 'X'; -- reset
             d_out_in : OUT STD_LOGIC_VECTOR(66 DOWNTO 0); -- in
             d_out_out : IN STD_LOGIC_VECTOR(66 DOWNTO 0) := (OTHERS => 'X'); -- out
             d_out_oe : IN STD_LOGIC_VECTOR(66 DOWNTO 0) := (OTHERS => 'X') -- oe
@@ -310,16 +320,17 @@ BEGIN
             memory_mem_odt => memory_mem_odt, --         .mem_odt
             memory_mem_dm => memory_mem_dm, --         .mem_dm
             memory_oct_rzqin => memory_oct_rzqin, --         .oct_rzqin
-            -- ram_address => CONNECTED_TO_ram_address, --      ram.address
+            ram_address => w_ram_address, --      ram.address
             ram_chipselect => '1', --         .chipselect
             ram_clken => '1', --         .clken
             ram_write => '0', --         .write
-            -- ram_readdata => CONNECTED_TO_ram_readdata, --         .readdata
-            -- ram_writedata => CONNECTED_TO_ram_writedata, --         .writedata
+            ram_readdata => w_ram_readdata, --         .readdata
+            ram_writedata => w_ram_writedata, --         .writedata
+            ram_byteenable => w_ram_byteenable, --         .byteenable
             reset_reset_n => '1', --CONNECTED_TO_reset_reset_n, --    reset.reset_n
             clk_100m_clk => w_clock_100m, -- clk_100m.clk
-            ram_clk_clk => w_clock_100m, --  ram_clk.clk
-            ram_rst_reset => '1', --  ram_rst.reset
+            -- ram_clk_clk => w_clock_100m, --  ram_clk.clk
+            -- ram_rst_reset => '1', --  ram_rst.reset
             d_out_in => w_input, --    d_out.in
             d_out_out => w_output, --(OTHERS => '0'), --(std_logic_vector(to_unsigned(0,66)) & '1'),--o_data_out), --         .out
             d_out_oe => w_oe --(OTHERS => '1')--(std_logic_vector(to_unsigned(0,66)) & '1') --         .oe
@@ -334,6 +345,14 @@ BEGIN
                 d_out_in => w_input, -- in
                 d_out_out => w_output, -- out
                 d_out_oe => w_oe, -- o
+                -- RAM
+                i_ram_readdata => w_ram_readdata, --         .readdata
+                o_writedata => w_ram_writedata, --         .writedata
+                o_ram_byteenable => w_ram_byteenable, --         .byteenable
+                o_ram_address => w_ram_address, -- address
+                --  FPGA connections
+                o_ram_data => w_fpga_ram_readdata, --         .readdata
+                i_ram_address => w_fpga_ram_address, -- address
                 -- HPS_GPIO51
                 en_data => '1',
                 o_data => w_data_out --,
@@ -354,7 +373,9 @@ BEGIN
                 i_wr_addr => "0000000010",
                 i_wen => '1',
                 o_data_out => w_data_out,
-                o_sent_done => w_led_done
+                o_sent_done => w_led_done,
+                i_ram_data  => w_fpga_ram_readdata,
+                o_ram_addr => w_fpga_ram_address
             );
 
         -- reg-state logic

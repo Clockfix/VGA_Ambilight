@@ -36,7 +36,9 @@ ENTITY output_module IS
         i_wr_addr : IN STD_LOGIC_VECTOR(9 DOWNTO 0);
         i_wen : IN STD_LOGIC;
         o_data_out : OUT STD_LOGIC;
-        o_sent_done : OUT STD_LOGIC
+        o_sent_done : OUT STD_LOGIC;
+        i_ram_data : IN STD_LOGIC_VECTOR(23 DOWNTO 0);
+        o_ram_addr : IN STD_LOGIC_VECTOR(9 DOWNTO 0)
     );
 END ENTITY;
 
@@ -51,16 +53,16 @@ ARCHITECTURE rtl OF output_module IS
     SIGNAL w_send_en : STD_LOGIC; -- connects FSM with bit_sender (enable)
     SIGNAL w_send_dv : STD_LOGIC; -- connects FSM with bit_sender (data valid)
 BEGIN
-    led_ram_inst : ENTITY work.led_ram
-        PORT MAP(
-            i_clk => i_clk,
-            i_data => i_data,
-            o_data => w_rd_data,
-            i_rd_addr => w_rd_addr,
-            i_wr_addr => i_wr_addr,
-            -- i_ren => '1',
-            i_wen => i_wen
-        );
+    -- led_ram_inst : ENTITY work.led_ram
+    --     PORT MAP(
+    --         i_clk => i_clk,
+    --         i_data => i_data,
+    --         o_data => w_rd_data,
+    --         i_rd_addr => w_rd_addr,
+    --         i_wr_addr => i_wr_addr,
+    --         -- i_ren => '1',
+    --         i_wen => i_wen
+    --     );
 
     sender_fsm_inst : ENTITY work.sender_fsm
         GENERIC MAP(
