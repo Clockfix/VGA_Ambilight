@@ -89,7 +89,11 @@ module soc_system_hps_0_hps_io_border(
  ,input wire [1 - 1 : 0 ] hps_io_uart0_inst_RX
  ,output wire [1 - 1 : 0 ] hps_io_uart0_inst_TX
  ,inout wire [1 - 1 : 0 ] hps_io_gpio_inst_GPIO09
+ ,inout wire [1 - 1 : 0 ] hps_io_gpio_inst_GPIO28
+ ,inout wire [1 - 1 : 0 ] hps_io_gpio_inst_GPIO35
  ,inout wire [1 - 1 : 0 ] hps_io_gpio_inst_GPIO40
+ ,inout wire [1 - 1 : 0 ] hps_io_gpio_inst_GPIO42
+ ,inout wire [1 - 1 : 0 ] hps_io_gpio_inst_GPIO43
  ,inout wire [1 - 1 : 0 ] hps_io_gpio_inst_GPIO48
  ,inout wire [1 - 1 : 0 ] hps_io_gpio_inst_GPIO61
  ,inout wire [1 - 1 : 0 ] hps_io_gpio_inst_GPIO62
@@ -124,22 +128,26 @@ assign hps_io_usb1_inst_D7 = intermediate[35] ? intermediate[34] : 'z;
 assign hps_io_spim0_inst_MOSI = intermediate[37] ? intermediate[36] : 'z;
 assign hps_io_spim1_inst_MOSI = intermediate[39] ? intermediate[38] : 'z;
 assign hps_io_gpio_inst_GPIO09 = intermediate[41] ? intermediate[40] : 'z;
-assign hps_io_gpio_inst_GPIO40 = intermediate[43] ? intermediate[42] : 'z;
-assign hps_io_gpio_inst_GPIO48 = intermediate[45] ? intermediate[44] : 'z;
-assign hps_io_gpio_inst_GPIO61 = intermediate[47] ? intermediate[46] : 'z;
-assign hps_io_gpio_inst_GPIO62 = intermediate[49] ? intermediate[48] : 'z;
-assign hps_io_gpio_inst_LOANIO00 = intermediate[51] ? intermediate[50] : 'z;
-assign hps_io_gpio_inst_LOANIO41 = intermediate[53] ? intermediate[52] : 'z;
-assign hps_io_gpio_inst_LOANIO51 = intermediate[55] ? intermediate[54] : 'z;
-assign hps_io_gpio_inst_LOANIO52 = intermediate[57] ? intermediate[56] : 'z;
-assign hps_io_gpio_inst_LOANIO53 = intermediate[59] ? intermediate[58] : 'z;
-assign hps_io_gpio_inst_LOANIO54 = intermediate[61] ? intermediate[60] : 'z;
-assign hps_io_gpio_inst_LOANIO55 = intermediate[63] ? intermediate[62] : 'z;
-assign hps_io_gpio_inst_LOANIO56 = intermediate[65] ? intermediate[64] : 'z;
+assign hps_io_gpio_inst_GPIO28 = intermediate[43] ? intermediate[42] : 'z;
+assign hps_io_gpio_inst_GPIO35 = intermediate[45] ? intermediate[44] : 'z;
+assign hps_io_gpio_inst_GPIO40 = intermediate[47] ? intermediate[46] : 'z;
+assign hps_io_gpio_inst_GPIO42 = intermediate[49] ? intermediate[48] : 'z;
+assign hps_io_gpio_inst_GPIO43 = intermediate[51] ? intermediate[50] : 'z;
+assign hps_io_gpio_inst_GPIO48 = intermediate[53] ? intermediate[52] : 'z;
+assign hps_io_gpio_inst_GPIO61 = intermediate[55] ? intermediate[54] : 'z;
+assign hps_io_gpio_inst_GPIO62 = intermediate[57] ? intermediate[56] : 'z;
+assign hps_io_gpio_inst_LOANIO00 = intermediate[59] ? intermediate[58] : 'z;
+assign hps_io_gpio_inst_LOANIO41 = intermediate[61] ? intermediate[60] : 'z;
+assign hps_io_gpio_inst_LOANIO51 = intermediate[63] ? intermediate[62] : 'z;
+assign hps_io_gpio_inst_LOANIO52 = intermediate[65] ? intermediate[64] : 'z;
+assign hps_io_gpio_inst_LOANIO53 = intermediate[67] ? intermediate[66] : 'z;
+assign hps_io_gpio_inst_LOANIO54 = intermediate[69] ? intermediate[68] : 'z;
+assign hps_io_gpio_inst_LOANIO55 = intermediate[71] ? intermediate[70] : 'z;
+assign hps_io_gpio_inst_LOANIO56 = intermediate[73] ? intermediate[72] : 'z;
 
-wire [66 - 1 : 0] intermediate;
+wire [74 - 1 : 0] intermediate;
 
-wire [90 - 1 : 0] floating;
+wire [135 - 1 : 0] floating;
 
 cyclonev_hps_peripheral_emac emac1_inst(
  .EMAC_GMII_MDO_I({
@@ -354,14 +362,16 @@ cyclonev_hps_peripheral_gpio gpio_inst(
     gpio_loanio_loanio0_o[28:0] // 28:0
   })
 ,.GPIO2_PORTA_O({
-    intermediate[48:48] // 4:4
-   ,intermediate[46:46] // 3:3
+    intermediate[56:56] // 4:4
+   ,intermediate[54:54] // 3:3
    ,floating[2:0] // 2:0
   })
 ,.GPIO0_PORTA_O({
-    intermediate[40:40] // 9:9
-   ,floating[10:3] // 8:1
-   ,intermediate[50:50] // 0:0
+    intermediate[42:42] // 28:28
+   ,floating[20:3] // 27:10
+   ,intermediate[40:40] // 9:9
+   ,floating[28:21] // 8:1
+   ,intermediate[58:58] // 0:0
   })
 ,.LOANIO2_O({
     gpio_loanio_loanio2_o[8:0] // 8:0
@@ -372,42 +382,50 @@ cyclonev_hps_peripheral_gpio gpio_inst(
 ,.GPIO2_PORTA_I({
     hps_io_gpio_inst_GPIO62[0:0] // 4:4
    ,hps_io_gpio_inst_GPIO61[0:0] // 3:3
-   ,floating[13:11] // 2:0
+   ,floating[31:29] // 2:0
   })
 ,.GPIO0_PORTA_I({
-    hps_io_gpio_inst_GPIO09[0:0] // 9:9
-   ,floating[21:14] // 8:1
+    hps_io_gpio_inst_GPIO28[0:0] // 28:28
+   ,floating[49:32] // 27:10
+   ,hps_io_gpio_inst_GPIO09[0:0] // 9:9
+   ,floating[57:50] // 8:1
    ,hps_io_gpio_inst_LOANIO00[0:0] // 0:0
   })
 ,.GPIO2_PORTA_OE({
-    intermediate[49:49] // 4:4
-   ,intermediate[47:47] // 3:3
-   ,floating[24:22] // 2:0
+    intermediate[57:57] // 4:4
+   ,intermediate[55:55] // 3:3
+   ,floating[60:58] // 2:0
   })
 ,.LOANIO2_I({
     gpio_loanio_loanio2_i[8:0] // 8:0
   })
 ,.GPIO0_PORTA_OE({
-    intermediate[41:41] // 9:9
-   ,floating[32:25] // 8:1
-   ,intermediate[51:51] // 0:0
+    intermediate[43:43] // 28:28
+   ,floating[78:61] // 27:10
+   ,intermediate[41:41] // 9:9
+   ,floating[86:79] // 8:1
+   ,intermediate[59:59] // 0:0
   })
 ,.LOANIO0_OE({
     gpio_loanio_loanio0_oe[28:0] // 28:0
   })
 ,.GPIO1_PORTA_O({
-    intermediate[64:64] // 27:27
-   ,intermediate[62:62] // 26:26
-   ,intermediate[60:60] // 25:25
-   ,intermediate[58:58] // 24:24
-   ,intermediate[56:56] // 23:23
-   ,intermediate[54:54] // 22:22
-   ,floating[34:33] // 21:20
-   ,intermediate[44:44] // 19:19
-   ,floating[40:35] // 18:13
-   ,intermediate[52:52] // 12:12
-   ,intermediate[42:42] // 11:11
-   ,floating[51:41] // 10:0
+    intermediate[72:72] // 27:27
+   ,intermediate[70:70] // 26:26
+   ,intermediate[68:68] // 25:25
+   ,intermediate[66:66] // 24:24
+   ,intermediate[64:64] // 23:23
+   ,intermediate[62:62] // 22:22
+   ,floating[88:87] // 21:20
+   ,intermediate[52:52] // 19:19
+   ,floating[92:89] // 18:15
+   ,intermediate[50:50] // 14:14
+   ,intermediate[48:48] // 13:13
+   ,intermediate[60:60] // 12:12
+   ,intermediate[46:46] // 11:11
+   ,floating[96:93] // 10:7
+   ,intermediate[44:44] // 6:6
+   ,floating[102:97] // 5:0
   })
 ,.LOANIO1_O({
     gpio_loanio_loanio1_o[28:0] // 28:0
@@ -422,12 +440,16 @@ cyclonev_hps_peripheral_gpio gpio_inst(
    ,hps_io_gpio_inst_LOANIO53[0:0] // 24:24
    ,hps_io_gpio_inst_LOANIO52[0:0] // 23:23
    ,hps_io_gpio_inst_LOANIO51[0:0] // 22:22
-   ,floating[53:52] // 21:20
+   ,floating[104:103] // 21:20
    ,hps_io_gpio_inst_GPIO48[0:0] // 19:19
-   ,floating[59:54] // 18:13
+   ,floating[108:105] // 18:15
+   ,hps_io_gpio_inst_GPIO43[0:0] // 14:14
+   ,hps_io_gpio_inst_GPIO42[0:0] // 13:13
    ,hps_io_gpio_inst_LOANIO41[0:0] // 12:12
    ,hps_io_gpio_inst_GPIO40[0:0] // 11:11
-   ,floating[70:60] // 10:0
+   ,floating[112:109] // 10:7
+   ,hps_io_gpio_inst_GPIO35[0:0] // 6:6
+   ,floating[118:113] // 5:0
   })
 ,.LOANIO1_I({
     gpio_loanio_loanio1_i[28:0] // 28:0
@@ -436,18 +458,22 @@ cyclonev_hps_peripheral_gpio gpio_inst(
     gpio_loanio_loanio2_oe[8:0] // 8:0
   })
 ,.GPIO1_PORTA_OE({
-    intermediate[65:65] // 27:27
-   ,intermediate[63:63] // 26:26
-   ,intermediate[61:61] // 25:25
-   ,intermediate[59:59] // 24:24
-   ,intermediate[57:57] // 23:23
-   ,intermediate[55:55] // 22:22
-   ,floating[72:71] // 21:20
-   ,intermediate[45:45] // 19:19
-   ,floating[78:73] // 18:13
-   ,intermediate[53:53] // 12:12
-   ,intermediate[43:43] // 11:11
-   ,floating[89:79] // 10:0
+    intermediate[73:73] // 27:27
+   ,intermediate[71:71] // 26:26
+   ,intermediate[69:69] // 25:25
+   ,intermediate[67:67] // 24:24
+   ,intermediate[65:65] // 23:23
+   ,intermediate[63:63] // 22:22
+   ,floating[120:119] // 21:20
+   ,intermediate[53:53] // 19:19
+   ,floating[124:121] // 18:15
+   ,intermediate[51:51] // 14:14
+   ,intermediate[49:49] // 13:13
+   ,intermediate[61:61] // 12:12
+   ,intermediate[47:47] // 11:11
+   ,floating[128:125] // 10:7
+   ,intermediate[45:45] // 6:6
+   ,floating[134:129] // 5:0
   })
 );
 

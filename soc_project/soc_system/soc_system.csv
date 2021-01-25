@@ -1,17 +1,16 @@
-# system info soc_system on 2021.01.24.19:44:26
+# system info soc_system on 2021.01.26.00:25:26
 system_info:
 name,value
 DEVICE,5CSXFC6D6F31C6
 DEVICE_FAMILY,Cyclone V
-GENERATION_ID,1611510230
+GENERATION_ID,1611613500
 #
 #
-# Files generated for soc_system on 2021.01.24.19:44:26
+# Files generated for soc_system on 2021.01.26.00:25:26
 files:
 filepath,kind,attributes,module,is_top
 simulation/soc_system.vhd,VHDL,,soc_system,true
 simulation/submodules/soc_system_hps_0.v,VERILOG,,soc_system_hps_0,false
-simulation/submodules/soc_system_onchip_memory2_0.hex,HEX,,soc_system_onchip_memory2_0,false
 simulation/submodules/soc_system_onchip_memory2_0.vhd,VHDL,,soc_system_onchip_memory2_0,false
 simulation/submodules/soc_system_pll_0.vho,VHDL,,soc_system_pll_0,false
 simulation/submodules/soc_system_mm_interconnect_0.v,VERILOG,,soc_system_mm_interconnect_0,false

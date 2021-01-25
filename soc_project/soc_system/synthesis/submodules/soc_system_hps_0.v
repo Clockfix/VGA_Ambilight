@@ -116,7 +116,11 @@ module soc_system_hps_0 #(
 		input  wire        hps_io_uart0_inst_RX,      //                  .hps_io_uart0_inst_RX
 		output wire        hps_io_uart0_inst_TX,      //                  .hps_io_uart0_inst_TX
 		inout  wire        hps_io_gpio_inst_GPIO09,   //                  .hps_io_gpio_inst_GPIO09
+		inout  wire        hps_io_gpio_inst_GPIO28,   //                  .hps_io_gpio_inst_GPIO28
+		inout  wire        hps_io_gpio_inst_GPIO35,   //                  .hps_io_gpio_inst_GPIO35
 		inout  wire        hps_io_gpio_inst_GPIO40,   //                  .hps_io_gpio_inst_GPIO40
+		inout  wire        hps_io_gpio_inst_GPIO42,   //                  .hps_io_gpio_inst_GPIO42
+		inout  wire        hps_io_gpio_inst_GPIO43,   //                  .hps_io_gpio_inst_GPIO43
 		inout  wire        hps_io_gpio_inst_GPIO48,   //                  .hps_io_gpio_inst_GPIO48
 		inout  wire        hps_io_gpio_inst_GPIO61,   //                  .hps_io_gpio_inst_GPIO61
 		inout  wire        hps_io_gpio_inst_GPIO62,   //                  .hps_io_gpio_inst_GPIO62
@@ -294,7 +298,11 @@ module soc_system_hps_0 #(
 		.hps_io_uart0_inst_RX      (hps_io_uart0_inst_RX),                   //            .hps_io_uart0_inst_RX
 		.hps_io_uart0_inst_TX      (hps_io_uart0_inst_TX),                   //            .hps_io_uart0_inst_TX
 		.hps_io_gpio_inst_GPIO09   (hps_io_gpio_inst_GPIO09),                //            .hps_io_gpio_inst_GPIO09
+		.hps_io_gpio_inst_GPIO28   (hps_io_gpio_inst_GPIO28),                //            .hps_io_gpio_inst_GPIO28
+		.hps_io_gpio_inst_GPIO35   (hps_io_gpio_inst_GPIO35),                //            .hps_io_gpio_inst_GPIO35
 		.hps_io_gpio_inst_GPIO40   (hps_io_gpio_inst_GPIO40),                //            .hps_io_gpio_inst_GPIO40
+		.hps_io_gpio_inst_GPIO42   (hps_io_gpio_inst_GPIO42),                //            .hps_io_gpio_inst_GPIO42
+		.hps_io_gpio_inst_GPIO43   (hps_io_gpio_inst_GPIO43),                //            .hps_io_gpio_inst_GPIO43
 		.hps_io_gpio_inst_GPIO48   (hps_io_gpio_inst_GPIO48),                //            .hps_io_gpio_inst_GPIO48
 		.hps_io_gpio_inst_GPIO61   (hps_io_gpio_inst_GPIO61),                //            .hps_io_gpio_inst_GPIO61
 		.hps_io_gpio_inst_GPIO62   (hps_io_gpio_inst_GPIO62),                //            .hps_io_gpio_inst_GPIO62

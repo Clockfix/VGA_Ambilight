@@ -39,8 +39,9 @@ ENTITY interconnect IS
         --------------------------------------------
         o_ram_data : OUT STD_LOGIC_VECTOR(23 DOWNTO 0); --         .readdata
         i_ram_address : IN STD_LOGIC_VECTOR(9 DOWNTO 0); -- address
-        -- HPS_GPIO51
-        en_data : IN STD_LOGIC;
+        -- HPS LEDs
+        i_led : IN STD_LOGIC_VECTOR(3 DOWNTO 0); --   input from FPGA   
+        --
         o_data : IN STD_LOGIC --;
     );
 END interconnect;
@@ -51,8 +52,6 @@ ARCHITECTURE rtl OF interconnect IS
     SIGNAL w_oe : STD_LOGIC_VECTOR(66 DOWNTO 0);
     SIGNAL w_output : STD_LOGIC_VECTOR(66 DOWNTO 0);
     SIGNAL w_input : STD_LOGIC_VECTOR(66 DOWNTO 0);
-   
-
 BEGIN
     ---------------------------------------------
     -- reg-state logic
@@ -63,15 +62,24 @@ BEGIN
     -- next-state logic
     ---------------------------------------------
     -- 
-    PROCESS (ALL)
-    BEGIN
-        w_oe <= (OTHERS => '0');
-        w_output <= (OTHERS => '0');
-        w_input <= d_out_in;
+ PROCESS (ALL)
+ BEGIN
+    w_oe <= (OTHERS => '0');
+    w_output <= (OTHERS => '0');
+    w_input <= d_out_in;
 
-        w_oe(51) <= en_data;
-        w_output(51) <= o_data;
-    END PROCESS;
+    w_oe(51) <= '1';
+    w_output(51) <= o_data;
+
+    w_oe(53) <= '1';
+    w_oe(54) <= '1';
+    w_oe(55) <= '1';
+    w_oe(56) <= '1';
+    w_output(53) <= i_led(0);
+    w_output(54) <= i_led(1);
+    w_output(55) <= i_led(2);
+    w_output(56) <= i_led(3);
+  END PROCESS;
     ---------------------------------------------
     -- outputs
     ---------------------------------------------
@@ -81,5 +89,5 @@ BEGIN
     -- RAM
     o_ram_byteenable <= "0111";
     o_ram_address <= "000" & i_ram_address;
-    o_ram_data <= i_ram_readdata(23 DOWNTO 0); 
+    o_ram_data <= i_ram_readdata(23 DOWNTO 0);
 END rtl;

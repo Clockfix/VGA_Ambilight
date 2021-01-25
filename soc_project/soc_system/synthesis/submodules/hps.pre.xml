@@ -156,8 +156,16 @@
     <pin_mux name='GENERALIO2' choice='UART0_TX' value='1' />
     <pin_mux name='EMACIO9' choice='GPIO/LoanIO' value='0' />
     <pin_mux name='GPLMUX9' choice='GPIO' value='1' />
+    <pin_mux name='MIXED1IO14' choice='GPIO/LoanIO' value='0' />
+    <pin_mux name='GPLMUX28' choice='GPIO' value='1' />
+    <pin_mux name='MIXED1IO21' choice='GPIO/LoanIO' value='0' />
+    <pin_mux name='GPLMUX35' choice='GPIO' value='1' />
     <pin_mux name='FLASHIO4' choice='GPIO/LoanIO' value='0' />
     <pin_mux name='GPLMUX40' choice='GPIO' value='1' />
+    <pin_mux name='FLASHIO6' choice='GPIO/LoanIO' value='0' />
+    <pin_mux name='GPLMUX42' choice='GPIO' value='1' />
+    <pin_mux name='FLASHIO7' choice='GPIO/LoanIO' value='0' />
+    <pin_mux name='GPLMUX43' choice='GPIO' value='1' />
     <pin_mux name='GENERALIO0' choice='GPIO/LoanIO' value='0' />
     <pin_mux name='GPLMUX48' choice='GPIO' value='1' />
     <pin_mux name='GENERALIO13' choice='GPIO/LoanIO' value='0' />
@@ -206,20 +214,16 @@
     <pin_mux name='GPLMUX25' choice='GPIO' value='1' />
     <pin_mux name='GPLMUX26' choice='GPIO' value='1' />
     <pin_mux name='GPLMUX27' choice='GPIO' value='1' />
-    <pin_mux name='GPLMUX28' choice='GPIO' value='1' />
     <pin_mux name='GPLMUX29' choice='GPIO' value='1' />
     <pin_mux name='GPLMUX30' choice='GPIO' value='1' />
     <pin_mux name='GPLMUX31' choice='GPIO' value='1' />
     <pin_mux name='GPLMUX32' choice='GPIO' value='1' />
     <pin_mux name='GPLMUX33' choice='GPIO' value='1' />
     <pin_mux name='GPLMUX34' choice='GPIO' value='1' />
-    <pin_mux name='GPLMUX35' choice='GPIO' value='1' />
     <pin_mux name='GPLMUX36' choice='GPIO' value='1' />
     <pin_mux name='GPLMUX37' choice='GPIO' value='1' />
     <pin_mux name='GPLMUX38' choice='GPIO' value='1' />
     <pin_mux name='GPLMUX39' choice='GPIO' value='1' />
-    <pin_mux name='GPLMUX42' choice='GPIO' value='1' />
-    <pin_mux name='GPLMUX43' choice='GPIO' value='1' />
     <pin_mux name='GPLMUX44' choice='GPIO' value='1' />
     <pin_mux name='GPLMUX45' choice='GPIO' value='1' />
     <pin_mux name='GPLMUX46' choice='GPIO' value='1' />

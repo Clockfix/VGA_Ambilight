@@ -1,0 +1,64 @@
+-----------------------------
+-- Author - Imants Pulkstenis
+-- Date - 19.01.2021 
+-- Project name - VGA_Ambilight  
+-- Module name - Interconnect between HPS and FPGA (Allow FPGA user HPS GPIO)
+--
+-- Detailed module description
+-- interconnect
+--
+-- Revision:
+-- A - initial design
+-- B - 
+--
+-----------------------------
+LIBRARY ieee; --always use this library
+USE ieee.std_logic_1164.ALL; --always use this library
+USE ieee.numeric_std.ALL; --use this library if arithmetic require
+
+LIBRARY work; -- this is implicit
+USE work.functions.ALL;
+
+LIBRARY altera_mf;
+USE altera_mf.altera_mf_components.ALL;
+
+ENTITY interconnect IS
+    PORT (
+        --------------------------------------------
+        --  HPS connections
+        --------------------------------------------
+        d_out_in : IN STD_LOGIC_VECTOR(66 DOWNTO 0); -- in
+        d_out_out : OUT STD_LOGIC_VECTOR(66 DOWNTO 0); -- out
+        d_out_oe : OUT STD_LOGIC_VECTOR(66 DOWNTO 0); -- o
+        --------------------------------------------
+        --  FPGA connections
+        --------------------------------------------
+        -- HPS_GPIO51
+        en_data : IN STD_LOGIC;
+        o_data : IN STD_LOGIC --;
+    );
+END interconnect;
+
+ARCHITECTURE rtl OF interconnect IS
+    -- signal declaration
+    -- <your code goes here>
+    SIGNAL w_oe : STD_LOGIC_VECTOR(66 DOWNTO 0);
+    SIGNAL w_output : STD_LOGIC_VECTOR(66 DOWNTO 0);
+    SIGNAL w_input : STD_LOGIC_VECTOR(66 DOWNTO 0);
+
+BEGIN
+    w_oe <= (OTHERS => '0');
+    w_output <= (OTHERS => '0');
+    w_input <= d_out_in;
+    -- reg-state logic
+    -- <your code goes here>
+
+    -- next-state logic
+    -- <your code goes here>
+    w_oe[51] <= en_data;
+    w_output[51] <= o_data;
+    -- outputs
+    -- <your code goes here>
+    d_out_oe <= w_oe;
+    d_out_out <= w_output;
+END rtl;

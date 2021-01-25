@@ -54,7 +54,11 @@ module soc_system (
 	hps_io_hps_io_uart0_inst_RX,
 	hps_io_hps_io_uart0_inst_TX,
 	hps_io_hps_io_gpio_inst_GPIO09,
+	hps_io_hps_io_gpio_inst_GPIO28,
+	hps_io_hps_io_gpio_inst_GPIO35,
 	hps_io_hps_io_gpio_inst_GPIO40,
+	hps_io_hps_io_gpio_inst_GPIO42,
+	hps_io_hps_io_gpio_inst_GPIO43,
 	hps_io_hps_io_gpio_inst_GPIO48,
 	hps_io_hps_io_gpio_inst_GPIO61,
 	hps_io_hps_io_gpio_inst_GPIO62,
@@ -82,14 +86,16 @@ module soc_system (
 	memory_mem_odt,
 	memory_mem_dm,
 	memory_oct_rzqin,
-	ram_address,
-	ram_chipselect,
-	ram_clken,
-	ram_write,
-	ram_readdata,
-	ram_writedata,
-	ram_byteenable,
-	reset_reset_n);	
+	reset_reset_n,
+	ram_mm_address,
+	ram_mm_chipselect,
+	ram_mm_clken,
+	ram_mm_write,
+	ram_mm_readdata,
+	ram_mm_writedata,
+	ram_mm_byteenable,
+	ram_clk_clk,
+	ram_reset_reset);	
 
 	input		clk_clk;
 	output		clk_100m_clk;
@@ -145,7 +151,11 @@ module soc_system (
 	input		hps_io_hps_io_uart0_inst_RX;
 	output		hps_io_hps_io_uart0_inst_TX;
 	inout		hps_io_hps_io_gpio_inst_GPIO09;
+	inout		hps_io_hps_io_gpio_inst_GPIO28;
+	inout		hps_io_hps_io_gpio_inst_GPIO35;
 	inout		hps_io_hps_io_gpio_inst_GPIO40;
+	inout		hps_io_hps_io_gpio_inst_GPIO42;
+	inout		hps_io_hps_io_gpio_inst_GPIO43;
 	inout		hps_io_hps_io_gpio_inst_GPIO48;
 	inout		hps_io_hps_io_gpio_inst_GPIO61;
 	inout		hps_io_hps_io_gpio_inst_GPIO62;
@@ -173,12 +183,14 @@ module soc_system (
 	output		memory_mem_odt;
 	output	[3:0]	memory_mem_dm;
 	input		memory_oct_rzqin;
-	input	[12:0]	ram_address;
-	input		ram_chipselect;
-	input		ram_clken;
-	input		ram_write;
-	output	[31:0]	ram_readdata;
-	input	[31:0]	ram_writedata;
-	input	[3:0]	ram_byteenable;
 	input		reset_reset_n;
+	input	[12:0]	ram_mm_address;
+	input		ram_mm_chipselect;
+	input		ram_mm_clken;
+	input		ram_mm_write;
+	output	[31:0]	ram_mm_readdata;
+	input	[31:0]	ram_mm_writedata;
+	input	[3:0]	ram_mm_byteenable;
+	input		ram_clk_clk;
+	input		ram_reset_reset;
 endmodule

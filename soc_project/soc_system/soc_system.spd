@@ -220,10 +220,6 @@
    type="VHDL"
    library="pll_0" />
  <file
-   path="simulation/submodules/soc_system_onchip_memory2_0.hex"
-   type="HEX"
-   library="onchip_memory2_0" />
- <file
    path="simulation/submodules/soc_system_onchip_memory2_0.vhd"
    type="VHDL"
    library="onchip_memory2_0" />

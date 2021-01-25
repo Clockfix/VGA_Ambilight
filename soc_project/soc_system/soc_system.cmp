@@ -54,7 +54,11 @@
 			hps_io_hps_io_uart0_inst_RX      : in    std_logic                     := 'X';             -- hps_io_uart0_inst_RX
 			hps_io_hps_io_uart0_inst_TX      : out   std_logic;                                        -- hps_io_uart0_inst_TX
 			hps_io_hps_io_gpio_inst_GPIO09   : inout std_logic                     := 'X';             -- hps_io_gpio_inst_GPIO09
+			hps_io_hps_io_gpio_inst_GPIO28   : inout std_logic                     := 'X';             -- hps_io_gpio_inst_GPIO28
+			hps_io_hps_io_gpio_inst_GPIO35   : inout std_logic                     := 'X';             -- hps_io_gpio_inst_GPIO35
 			hps_io_hps_io_gpio_inst_GPIO40   : inout std_logic                     := 'X';             -- hps_io_gpio_inst_GPIO40
+			hps_io_hps_io_gpio_inst_GPIO42   : inout std_logic                     := 'X';             -- hps_io_gpio_inst_GPIO42
+			hps_io_hps_io_gpio_inst_GPIO43   : inout std_logic                     := 'X';             -- hps_io_gpio_inst_GPIO43
 			hps_io_hps_io_gpio_inst_GPIO48   : inout std_logic                     := 'X';             -- hps_io_gpio_inst_GPIO48
 			hps_io_hps_io_gpio_inst_GPIO61   : inout std_logic                     := 'X';             -- hps_io_gpio_inst_GPIO61
 			hps_io_hps_io_gpio_inst_GPIO62   : inout std_logic                     := 'X';             -- hps_io_gpio_inst_GPIO62
@@ -82,13 +86,15 @@
 			memory_mem_odt                   : out   std_logic;                                        -- mem_odt
 			memory_mem_dm                    : out   std_logic_vector(3 downto 0);                     -- mem_dm
 			memory_oct_rzqin                 : in    std_logic                     := 'X';             -- oct_rzqin
-			ram_address                      : in    std_logic_vector(12 downto 0) := (others => 'X'); -- address
-			ram_chipselect                   : in    std_logic                     := 'X';             -- chipselect
-			ram_clken                        : in    std_logic                     := 'X';             -- clken
-			ram_write                        : in    std_logic                     := 'X';             -- write
-			ram_readdata                     : out   std_logic_vector(31 downto 0);                    -- readdata
-			ram_writedata                    : in    std_logic_vector(31 downto 0) := (others => 'X'); -- writedata
-			ram_byteenable                   : in    std_logic_vector(3 downto 0)  := (others => 'X'); -- byteenable
+			ram_clk_clk                      : in    std_logic                     := 'X';             -- clk
+			ram_mm_address                   : in    std_logic_vector(12 downto 0) := (others => 'X'); -- address
+			ram_mm_chipselect                : in    std_logic                     := 'X';             -- chipselect
+			ram_mm_clken                     : in    std_logic                     := 'X';             -- clken
+			ram_mm_write                     : in    std_logic                     := 'X';             -- write
+			ram_mm_readdata                  : out   std_logic_vector(31 downto 0);                    -- readdata
+			ram_mm_writedata                 : in    std_logic_vector(31 downto 0) := (others => 'X'); -- writedata
+			ram_mm_byteenable                : in    std_logic_vector(3 downto 0)  := (others => 'X'); -- byteenable
+			ram_reset_reset                  : in    std_logic                     := 'X';             -- reset
 			reset_reset_n                    : in    std_logic                     := 'X'              -- reset_n
 		);
 	end component soc_system;

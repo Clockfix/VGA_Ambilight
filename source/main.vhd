@@ -25,10 +25,8 @@ USE altera_mf.altera_mf_components.ALL;
 ENTITY main IS
     PORT (
         i_clk : IN STD_LOGIC;
-        -- o_data_out : OUT STD_LOGIC;
-        o_led : OUT STD_LOGIC;
-        -- o_data_out : OUT STD_LOGIC; (copy)
-        o_sw : OUT STD_LOGIC;
+        -- o_led : OUT STD_LOGIC;
+        o_led : OUT STD_LOGIC_VECTOR(3 DOWNTO 0); 
         --------------------------------------------
         --  HPS connections
         --------------------------------------------
@@ -83,7 +81,11 @@ ENTITY main IS
         -- hps_io_hps_io_i2c1_inst_SDA : INOUT STD_LOGIC := 'X'; -- hps_io_i2c1_inst_SDA
         -- hps_io_hps_io_i2c1_inst_SCL : INOUT STD_LOGIC := 'X'; -- hps_io_i2c1_inst_SCL
         hps_io_hps_io_gpio_inst_GPIO09 : INOUT STD_LOGIC := 'X'; -- hps_io_gpio_inst_GPIO09
+        hps_io_hps_io_gpio_inst_GPIO28 : INOUT STD_LOGIC := 'X'; -- hps_io_gpio_inst_GPIO28
+        hps_io_hps_io_gpio_inst_GPIO35 : INOUT STD_LOGIC := 'X'; -- hps_io_gpio_inst_GPIO35
         hps_io_hps_io_gpio_inst_GPIO40 : INOUT STD_LOGIC := 'X'; -- hps_io_gpio_inst_GPIO40
+        hps_io_hps_io_gpio_inst_GPIO42 : INOUT STD_LOGIC := 'X'; -- hps_io_gpio_inst_GPIO42
+        hps_io_hps_io_gpio_inst_GPIO43 : INOUT STD_LOGIC := 'X'; -- hps_io_gpio_inst_GPIO43
         hps_io_hps_io_gpio_inst_GPIO48 : INOUT STD_LOGIC := 'X'; -- hps_io_gpio_inst_GPIO48
         hps_io_hps_io_gpio_inst_GPIO61 : INOUT STD_LOGIC := 'X'; -- hps_io_gpio_inst_GPIO61
         hps_io_hps_io_gpio_inst_GPIO62 : INOUT STD_LOGIC := 'X'; -- hps_io_gpio_inst_GPIO62
@@ -110,7 +112,8 @@ ENTITY main IS
         memory_mem_dqs_n : INOUT STD_LOGIC_VECTOR(3 DOWNTO 0) := (OTHERS => 'X'); -- mem_dqs_n
         memory_mem_odt : OUT STD_LOGIC; -- mem_odt
         memory_mem_dm : OUT STD_LOGIC_VECTOR(3 DOWNTO 0); -- mem_dm
-        memory_oct_rzqin : IN STD_LOGIC := 'X'--; -- oct_rzqin
+        memory_oct_rzqin : IN STD_LOGIC := 'X'; -- oct_rzqin
+        HPS_reset_n : IN STD_LOGIC := 'X' --CONNECTED_TO_reset_reset_n, --    reset.reset_n
     );
 END main;
 
@@ -118,7 +121,7 @@ ARCHITECTURE rtl OF main IS
     -- signal declaration
     -- <your code goes here>
     SIGNAL w_clock_100m : STD_LOGIC; -- main clock 100MHz from HPS to FPGA
-    SIGNAL w_reset : STD_LOGIC; -- main reset for HPS and FPGA
+    SIGNAL w_hps_reset_n : STD_LOGIC; -- main reset for HPS and FPGA
 
     SIGNAL w_oe : STD_LOGIC_VECTOR(66 DOWNTO 0); ---- HPS <-> Interconnect <-> FPGA
     SIGNAL w_output : STD_LOGIC_VECTOR(66 DOWNTO 0); ---- HPS <-> Interconnect <-> FPGA
@@ -135,6 +138,7 @@ ARCHITECTURE rtl OF main IS
 
     SIGNAL w_data_out : STD_LOGIC; -- data line for LED matrix/strip
     SIGNAL w_led_done : STD_LOGIC; -- sent done indicator
+
     --------------------------------------------
     --  SoC HPS system component
     --------------------------------------------
@@ -192,7 +196,11 @@ ARCHITECTURE rtl OF main IS
             -- hps_io_hps_io_i2c1_inst_SDA : INOUT STD_LOGIC := 'X'; -- hps_io_i2c1_inst_SDA
             -- hps_io_hps_io_i2c1_inst_SCL : INOUT STD_LOGIC := 'X'; -- hps_io_i2c1_inst_SCL
             hps_io_hps_io_gpio_inst_GPIO09 : INOUT STD_LOGIC := 'X'; -- hps_io_gpio_inst_GPIO09
+            hps_io_hps_io_gpio_inst_GPIO28 : INOUT STD_LOGIC := 'X'; -- hps_io_gpio_inst_GPIO28
+            hps_io_hps_io_gpio_inst_GPIO35 : INOUT STD_LOGIC := 'X'; -- hps_io_gpio_inst_GPIO35
             hps_io_hps_io_gpio_inst_GPIO40 : INOUT STD_LOGIC := 'X'; -- hps_io_gpio_inst_GPIO40
+            hps_io_hps_io_gpio_inst_GPIO42 : INOUT STD_LOGIC := 'X'; -- hps_io_gpio_inst_GPIO42
+            hps_io_hps_io_gpio_inst_GPIO43 : INOUT STD_LOGIC := 'X'; -- hps_io_gpio_inst_GPIO43
             hps_io_hps_io_gpio_inst_GPIO48 : INOUT STD_LOGIC := 'X'; -- hps_io_gpio_inst_GPIO48
             hps_io_hps_io_gpio_inst_GPIO61 : INOUT STD_LOGIC := 'X'; -- hps_io_gpio_inst_GPIO61
             hps_io_hps_io_gpio_inst_GPIO62 : INOUT STD_LOGIC := 'X'; -- hps_io_gpio_inst_GPIO62
@@ -220,17 +228,17 @@ ARCHITECTURE rtl OF main IS
             memory_mem_odt : OUT STD_LOGIC; -- mem_odt
             memory_mem_dm : OUT STD_LOGIC_VECTOR(3 DOWNTO 0); -- mem_dm
             memory_oct_rzqin : IN STD_LOGIC := 'X'; -- oct_rzqin
-            ram_address : IN STD_LOGIC_VECTOR(12 DOWNTO 0) := (OTHERS => 'X'); -- address
-            ram_chipselect : IN STD_LOGIC := 'X'; -- chipselect
-            ram_clken : IN STD_LOGIC := 'X'; -- clken
-            ram_write : IN STD_LOGIC := 'X'; -- write
-            ram_readdata : OUT STD_LOGIC_VECTOR(31 DOWNTO 0); -- readdata
-            ram_writedata : IN STD_LOGIC_VECTOR(31 DOWNTO 0) := (OTHERS => 'X'); -- writedata
-            ram_byteenable : IN STD_LOGIC_VECTOR(3 DOWNTO 0) := (OTHERS => 'X'); -- byteenable
+            ram_mm_address : IN STD_LOGIC_VECTOR(12 DOWNTO 0) := (OTHERS => 'X'); -- address
+            ram_mm_chipselect : IN STD_LOGIC := 'X'; -- chipselect
+            ram_mm_clken : IN STD_LOGIC := 'X'; -- clken
+            ram_mm_write : IN STD_LOGIC := 'X'; -- write
+            ram_mm_readdata : OUT STD_LOGIC_VECTOR(31 DOWNTO 0); -- readdata
+            ram_mm_writedata : IN STD_LOGIC_VECTOR(31 DOWNTO 0) := (OTHERS => 'X'); -- writedata
+            ram_mm_byteenable : IN STD_LOGIC_VECTOR(3 DOWNTO 0) := (OTHERS => 'X'); -- byteenable
             reset_reset_n : IN STD_LOGIC := 'X'; -- reset_n
             clk_100m_clk : OUT STD_LOGIC; -- clk
-            -- ram_clk_clk : IN STD_LOGIC := 'X'; -- clk
-            -- ram_rst_reset : IN STD_LOGIC := 'X'; -- reset
+            ram_clk_clk : IN STD_LOGIC := 'X'; -- clk
+            ram_reset_reset : IN STD_LOGIC := 'X'; -- reset
             d_out_in : OUT STD_LOGIC_VECTOR(66 DOWNTO 0); -- in
             d_out_out : IN STD_LOGIC_VECTOR(66 DOWNTO 0) := (OTHERS => 'X'); -- out
             d_out_oe : IN STD_LOGIC_VECTOR(66 DOWNTO 0) := (OTHERS => 'X') -- oe
@@ -292,7 +300,11 @@ BEGIN
             -- hps_io_hps_io_i2c1_inst_SDA => hps_io_hps_io_i2c1_inst_SDA, --         .hps_io_i2c1_inst_SDA
             -- hps_io_hps_io_i2c1_inst_SCL => hps_io_hps_io_i2c1_inst_SCL, --         .hps_io_i2c1_inst_SCL
             hps_io_hps_io_gpio_inst_GPIO09 => hps_io_hps_io_gpio_inst_GPIO09, --         .hps_io_gpio_inst_GPIO09
-            hps_io_hps_io_gpio_inst_GPIO40 => hps_io_hps_io_gpio_inst_GPIO40, --         .hps_io_gpio_inst_GPIO40
+            hps_io_hps_io_gpio_inst_GPIO28   => hps_io_hps_io_gpio_inst_GPIO28,   --          .hps_io_gpio_inst_GPIO28
+			hps_io_hps_io_gpio_inst_GPIO35   => hps_io_hps_io_gpio_inst_GPIO35,   --          .hps_io_gpio_inst_GPIO35
+			hps_io_hps_io_gpio_inst_GPIO40   => hps_io_hps_io_gpio_inst_GPIO40,   --          .hps_io_gpio_inst_GPIO40
+			hps_io_hps_io_gpio_inst_GPIO42   => hps_io_hps_io_gpio_inst_GPIO42,   --          .hps_io_gpio_inst_GPIO42
+			hps_io_hps_io_gpio_inst_GPIO43   => hps_io_hps_io_gpio_inst_GPIO43,   --          .hps_io_gpio_inst_GPIO43
             hps_io_hps_io_gpio_inst_GPIO48 => hps_io_hps_io_gpio_inst_GPIO48, --         .hps_io_gpio_inst_GPIO48
             hps_io_hps_io_gpio_inst_GPIO61 => hps_io_hps_io_gpio_inst_GPIO61, --         .hps_io_gpio_inst_GPIO61
             hps_io_hps_io_gpio_inst_GPIO62 => hps_io_hps_io_gpio_inst_GPIO62, --         .hps_io_gpio_inst_GPIO62
@@ -320,17 +332,17 @@ BEGIN
             memory_mem_odt => memory_mem_odt, --         .mem_odt
             memory_mem_dm => memory_mem_dm, --         .mem_dm
             memory_oct_rzqin => memory_oct_rzqin, --         .oct_rzqin
-            ram_address => w_ram_address, --      ram.address
-            ram_chipselect => '1', --         .chipselect
-            ram_clken => '1', --         .clken
-            ram_write => '0', --         .write
-            ram_readdata => w_ram_readdata, --         .readdata
-            ram_writedata => w_ram_writedata, --         .writedata
-            ram_byteenable => w_ram_byteenable, --         .byteenable
-            reset_reset_n => '1', --CONNECTED_TO_reset_reset_n, --    reset.reset_n
+            ram_mm_address => w_ram_address, --      ram.address
+            ram_mm_chipselect => '1', --         .chipselect
+            ram_mm_clken => '1', --         .clken
+            ram_mm_write => '0', --         .write
+            ram_mm_readdata => w_ram_readdata, --         .readdata
+            ram_mm_writedata => w_ram_writedata, --         .writedata
+            ram_mm_byteenable => w_ram_byteenable, --         .byteenable
+            reset_reset_n => HPS_reset_n, --CONNECTED_TO_reset_reset_n, --    reset.reset_n
             clk_100m_clk => w_clock_100m, -- clk_100m.clk
-            -- ram_clk_clk => w_clock_100m, --  ram_clk.clk
-            -- ram_rst_reset => '1', --  ram_rst.reset
+            ram_clk_clk => w_clock_100m, --  ram_clk.clk
+            ram_reset_reset => '0', --  ram_rst.reset
             d_out_in => w_input, --    d_out.in
             d_out_out => w_output, --(OTHERS => '0'), --(std_logic_vector(to_unsigned(0,66)) & '1'),--o_data_out), --         .out
             d_out_oe => w_oe --(OTHERS => '1')--(std_logic_vector(to_unsigned(0,66)) & '1') --         .oe
@@ -353,8 +365,8 @@ BEGIN
                 --  FPGA connections
                 o_ram_data => w_fpga_ram_readdata, --         .readdata
                 i_ram_address => w_fpga_ram_address, -- address
-                -- HPS_GPIO51
-                en_data => '1',
+                i_led =>  w_ram_readdata(7 DOWNTO 4), 
+                -- 
                 o_data => w_data_out --,
             );
 
@@ -364,7 +376,7 @@ BEGIN
         output_module_inst : ENTITY work.output_module
             GENERIC MAP(
                 -- generic parameters - passed here from calling entity
-                g_LED_COUNT => 3, --16*16,
+                g_LED_COUNT => 4, --16*16,
                 g_RESET_TIME => 70000 -- must be larger then 50us => 2500 * 20ns =50us
             )
             PORT MAP(
@@ -374,7 +386,7 @@ BEGIN
                 i_wen => '1',
                 o_data_out => w_data_out,
                 o_sent_done => w_led_done,
-                i_ram_data  => w_fpga_ram_readdata,
+                i_ram_data => w_fpga_ram_readdata,
                 o_ram_addr => w_fpga_ram_address
             );
 
@@ -386,6 +398,6 @@ BEGIN
 
         -- outputs
         -- <your code goes here>
-        o_sw <= w_data_out;
-        o_led <= w_led_done;
+        
+        o_led <= w_ram_readdata(3 DOWNTO 0);
     END rtl;
