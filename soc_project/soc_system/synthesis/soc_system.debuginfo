@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <EnsembleReport name="soc_system" kind="system" version="20.1" fabric="QSYS">
  <!-- Format version 20.1 711 (Future versions may contain additional information.) -->
- <!-- 2021.01.26.00:26:46 -->
+ <!-- 2021.01.31.20:21:31 -->
  <!-- A collection of modules and connections -->
  <parameter name="clockCrossingAdapter">
   <type>com.altera.sopcmodel.ensemble.EClockAdapter</type>
@@ -53,7 +53,7 @@
  </parameter>
  <parameter name="generationId">
   <type>int</type>
-  <value>1611613545</value>
+  <value>1612117224</value>
   <derived>false</derived>
   <enabled>true</enabled>
   <visible>true</visible>
@@ -41038,11 +41038,11 @@ the requested settings for a module instance. -->
   </assignment>
   <assignment>
    <name>embeddedsw.CMacro.READ_DURING_WRITE_MODE</name>
-   <value>DONT_CARE</value>
+   <value>OLD_DATA</value>
   </assignment>
   <assignment>
    <name>embeddedsw.CMacro.SINGLE_CLOCK_OP</name>
-   <value>0</value>
+   <value>1</value>
   </assignment>
   <assignment>
    <name>embeddedsw.CMacro.SIZE_MULTIPLE</name>
@@ -41190,7 +41190,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="readDuringWriteMode">
    <type>java.lang.String</type>
-   <value>DONT_CARE</value>
+   <value>OLD_DATA</value>
    <derived>false</derived>
    <enabled>true</enabled>
    <visible>true</visible>
@@ -41214,7 +41214,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="singleClockOperation">
    <type>boolean</type>
-   <value>false</value>
+   <value>true</value>
    <derived>false</derived>
    <enabled>true</enabled>
    <visible>true</visible>
@@ -41222,7 +41222,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="derived_singleClockOperation">
    <type>boolean</type>
-   <value>false</value>
+   <value>true</value>
    <derived>true</derived>
    <enabled>true</enabled>
    <visible>false</visible>
@@ -41383,51 +41383,6 @@ the requested settings for a module instance. -->
    <visible>true</visible>
    <valid>true</valid>
   </parameter>
-  <interface name="clk1" kind="clock_sink" version="20.1">
-   <!-- The connection points exposed by a module instance for the
-particular module parameters. Connection points and their
-parameters are a RESULT of the module parameters. -->
-   <parameter name="externallyDriven">
-    <type>boolean</type>
-    <value>false</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>false</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="ptfSchematicName">
-    <type>java.lang.String</type>
-    <value></value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>false</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="deviceFamily">
-    <type>java.lang.String</type>
-    <value>UNKNOWN</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="generateLegacySim">
-    <type>boolean</type>
-    <value>false</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <type>clock</type>
-   <isStart>false</isStart>
-   <port>
-    <name>clk</name>
-    <direction>Input</direction>
-    <width>1</width>
-    <role>clk</role>
-   </port>
-  </interface>
   <interface name="s1" kind="avalon_slave" version="20.1">
    <!-- The connection points exposed by a module instance for the
 particular module parameters. Connection points and their
@@ -41805,51 +41760,6 @@ parameters are a RESULT of the module parameters. -->
     <role>byteenable</role>
    </port>
   </interface>
-  <interface name="reset1" kind="reset_sink" version="20.1">
-   <!-- The connection points exposed by a module instance for the
-particular module parameters. Connection points and their
-parameters are a RESULT of the module parameters. -->
-   <parameter name="associatedClock">
-    <type>java.lang.String</type>
-    <value>clk1</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="synchronousEdges">
-    <type>com.altera.sopcmodel.reset.Reset$Edges</type>
-    <value>DEASSERT</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="deviceFamily">
-    <type>java.lang.String</type>
-    <value>UNKNOWN</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <parameter name="generateLegacySim">
-    <type>boolean</type>
-    <value>false</value>
-    <derived>false</derived>
-    <enabled>true</enabled>
-    <visible>true</visible>
-    <valid>true</valid>
-   </parameter>
-   <type>reset</type>
-   <isStart>false</isStart>
-   <port>
-    <name>reset</name>
-    <direction>Input</direction>
-    <width>1</width>
-    <role>reset</role>
-   </port>
-  </interface>
   <interface name="s2" kind="avalon_slave" version="20.1">
    <!-- The connection points exposed by a module instance for the
 particular module parameters. Connection points and their
@@ -41912,7 +41822,7 @@ parameters are a RESULT of the module parameters. -->
    </parameter>
    <parameter name="associatedClock">
     <type>java.lang.String</type>
-    <value>clk2</value>
+    <value>clk1</value>
     <derived>false</derived>
     <enabled>true</enabled>
     <visible>true</visible>
@@ -41920,7 +41830,7 @@ parameters are a RESULT of the module parameters. -->
    </parameter>
    <parameter name="associatedReset">
     <type>java.lang.String</type>
-    <value>reset2</value>
+    <value>reset1</value>
     <derived>false</derived>
     <enabled>true</enabled>
     <visible>false</visible>
@@ -42227,7 +42137,7 @@ parameters are a RESULT of the module parameters. -->
     <role>byteenable</role>
    </port>
   </interface>
-  <interface name="clk2" kind="clock_sink" version="20.1">
+  <interface name="clk1" kind="clock_sink" version="20.1">
    <!-- The connection points exposed by a module instance for the
 particular module parameters. Connection points and their
 parameters are a RESULT of the module parameters. -->
@@ -42266,19 +42176,19 @@ parameters are a RESULT of the module parameters. -->
    <type>clock</type>
    <isStart>false</isStart>
    <port>
-    <name>clk2</name>
+    <name>clk</name>
     <direction>Input</direction>
     <width>1</width>
     <role>clk</role>
    </port>
   </interface>
-  <interface name="reset2" kind="reset_sink" version="20.1">
+  <interface name="reset1" kind="reset_sink" version="20.1">
    <!-- The connection points exposed by a module instance for the
 particular module parameters. Connection points and their
 parameters are a RESULT of the module parameters. -->
    <parameter name="associatedClock">
     <type>java.lang.String</type>
-    <value>clk2</value>
+    <value>clk1</value>
     <derived>false</derived>
     <enabled>true</enabled>
     <visible>true</visible>
@@ -42311,7 +42221,7 @@ parameters are a RESULT of the module parameters. -->
    <type>reset</type>
    <isStart>false</isStart>
    <port>
-    <name>reset2</name>
+    <name>reset</name>
     <direction>Input</direction>
     <width>1</width>
     <role>reset</role>
@@ -48505,7 +48415,7 @@ parameters are a RESULT of the module parameters. -->
   <version>20.1</version>
  </plugin>
  <plugin>
-  <instanceCount>9</instanceCount>
+  <instanceCount>8</instanceCount>
   <name>clock_sink</name>
   <type>com.altera.entityinterfaces.IElementClass</type>
   <subtype>com.altera.entityinterfaces.IMutableConnectionPoint</subtype>
@@ -48585,7 +48495,7 @@ parameters are a RESULT of the module parameters. -->
   <version>20.1</version>
  </plugin>
  <plugin>
-  <instanceCount>7</instanceCount>
+  <instanceCount>6</instanceCount>
   <name>reset_sink</name>
   <type>com.altera.entityinterfaces.IElementClass</type>
   <subtype>com.altera.entityinterfaces.IMutableConnectionPoint</subtype>
@@ -48681,5 +48591,5 @@ parameters are a RESULT of the module parameters. -->
   <version>20.1</version>
  </plugin>
  <reportVersion>20.1 711</reportVersion>
- <uniqueIdentifier>7085C23B972A000001773BA7BD0D</uniqueIdentifier>
+ <uniqueIdentifier>7085C23B972A0000017759AD4960</uniqueIdentifier>
 </EnsembleReport>

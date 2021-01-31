@@ -86,7 +86,6 @@
 			memory_mem_odt                   : out   std_logic;                                        -- mem_odt
 			memory_mem_dm                    : out   std_logic_vector(3 downto 0);                     -- mem_dm
 			memory_oct_rzqin                 : in    std_logic                     := 'X';             -- oct_rzqin
-			ram_clk_clk                      : in    std_logic                     := 'X';             -- clk
 			ram_mm_address                   : in    std_logic_vector(12 downto 0) := (others => 'X'); -- address
 			ram_mm_chipselect                : in    std_logic                     := 'X';             -- chipselect
 			ram_mm_clken                     : in    std_logic                     := 'X';             -- clken
@@ -94,7 +93,6 @@
 			ram_mm_readdata                  : out   std_logic_vector(31 downto 0);                    -- readdata
 			ram_mm_writedata                 : in    std_logic_vector(31 downto 0) := (others => 'X'); -- writedata
 			ram_mm_byteenable                : in    std_logic_vector(3 downto 0)  := (others => 'X'); -- byteenable
-			ram_reset_reset                  : in    std_logic                     := 'X';             -- reset
 			reset_reset_n                    : in    std_logic                     := 'X'              -- reset_n
 		);
 	end component soc_system;

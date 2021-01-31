@@ -351,10 +351,8 @@ set_instance_assignment -name ENABLE_BENEFICIAL_SKEW_OPTIMIZATION_FOR_NON_GLOBAL
 set_instance_assignment -name PLL_COMPENSATION_MODE DIRECT -to soc_system_inst|hps_0|hps_io|border|hps_sdram_inst|pll0|fbout -tag __hps_sdram_p0
 set_global_assignment -name VHDL_FILE ../source/interconnect.vhd -hdl_version VHDL_2008
 set_global_assignment -name SDC_FILE main.sdc
-set_global_assignment -name QIP_FILE ../source/ram2port/ram2port.qip
 set_global_assignment -name VHDL_FILE ../source/sender_fsm.vhd -hdl_version VHDL_2008
 set_global_assignment -name VHDL_FILE ../source/output_module.vhd -hdl_version VHDL_2008
-set_global_assignment -name VHDL_FILE ../source/led_ram.vhd -hdl_version VHDL_2008
 set_global_assignment -name VHDL_FILE ../source/bit_sender.vhd -hdl_version VHDL_2008
 set_global_assignment -name VHDL_FILE ../source/functions.vhd -hdl_version VHDL_2008
 set_global_assignment -name VHDL_FILE ../source/main.vhd -hdl_version VHDL_2008

@@ -86,7 +86,6 @@ module soc_system (
 	memory_mem_odt,
 	memory_mem_dm,
 	memory_oct_rzqin,
-	reset_reset_n,
 	ram_mm_address,
 	ram_mm_chipselect,
 	ram_mm_clken,
@@ -94,8 +93,7 @@ module soc_system (
 	ram_mm_readdata,
 	ram_mm_writedata,
 	ram_mm_byteenable,
-	ram_clk_clk,
-	ram_reset_reset);	
+	reset_reset_n);	
 
 	input		clk_clk;
 	output		clk_100m_clk;
@@ -183,7 +181,6 @@ module soc_system (
 	output		memory_mem_odt;
 	output	[3:0]	memory_mem_dm;
 	input		memory_oct_rzqin;
-	input		reset_reset_n;
 	input	[12:0]	ram_mm_address;
 	input		ram_mm_chipselect;
 	input		ram_mm_clken;
@@ -191,6 +188,5 @@ module soc_system (
 	output	[31:0]	ram_mm_readdata;
 	input	[31:0]	ram_mm_writedata;
 	input	[3:0]	ram_mm_byteenable;
-	input		ram_clk_clk;
-	input		ram_reset_reset;
+	input		reset_reset_n;
 endmodule

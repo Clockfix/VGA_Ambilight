@@ -32,13 +32,13 @@ ENTITY output_module IS
     );
     PORT (
         i_clk : IN STD_LOGIC;
-        i_data : IN STD_LOGIC_VECTOR(23 DOWNTO 0);
-        i_wr_addr : IN STD_LOGIC_VECTOR(9 DOWNTO 0);
-        i_wen : IN STD_LOGIC;
+        --i_data : IN STD_LOGIC_VECTOR(23 DOWNTO 0);
+        --i_wr_addr : IN STD_LOGIC_VECTOR(9 DOWNTO 0);
+        --i_wen : IN STD_LOGIC;
         o_data_out : OUT STD_LOGIC;
         o_sent_done : OUT STD_LOGIC;
         i_ram_data : IN STD_LOGIC_VECTOR(23 DOWNTO 0);
-        o_ram_addr : IN STD_LOGIC_VECTOR(9 DOWNTO 0)
+        o_ram_addr : OUT STD_LOGIC_VECTOR(9 DOWNTO 0)
     );
 END ENTITY;
 
@@ -48,21 +48,12 @@ ARCHITECTURE rtl OF output_module IS
     SIGNAL w_send_done : STD_LOGIC; -- connects bit_sender with FSM
 
     SIGNAL w_rd_addr : STD_LOGIC_VECTOR(9 DOWNTO 0); -- connects memory with FSM
-    SIGNAL w_rd_data : STD_LOGIC_VECTOR(23 DOWNTO 0); -- connects memory with bit_sender
+    -- SIGNAL w_rd_data : STD_LOGIC_VECTOR(23 DOWNTO 0); -- connects memory with bit_sender
 
     SIGNAL w_send_en : STD_LOGIC; -- connects FSM with bit_sender (enable)
     SIGNAL w_send_dv : STD_LOGIC; -- connects FSM with bit_sender (data valid)
 BEGIN
-    -- led_ram_inst : ENTITY work.led_ram
-    --     PORT MAP(
-    --         i_clk => i_clk,
-    --         i_data => i_data,
-    --         o_data => w_rd_data,
-    --         i_rd_addr => w_rd_addr,
-    --         i_wr_addr => i_wr_addr,
-    --         -- i_ren => '1',
-    --         i_wen => i_wen
-    --     );
+
 
     sender_fsm_inst : ENTITY work.sender_fsm
         GENERIC MAP(
@@ -89,31 +80,31 @@ BEGIN
         )
         PORT MAP(
             i_clk => i_clk,
-            i_data => -- to mach RGB on LEDs 
-            w_rd_data(0) &
-            w_rd_data(1) &
-            w_rd_data(2) &
-            w_rd_data(3) &
-            w_rd_data(4) &
-            w_rd_data(5) &
-            w_rd_data(6) &
-            w_rd_data(7) &
-            w_rd_data(16) &
-            w_rd_data(17) &
-            w_rd_data(18) &
-            w_rd_data(19) &
-            w_rd_data(20) &
-            w_rd_data(21) &
-            w_rd_data(22) &
-            w_rd_data(23) &
-            w_rd_data(8) &
-            w_rd_data(9) &
-            w_rd_data(10) &
-            w_rd_data(11) &
-            w_rd_data(12) &
-            w_rd_data(13) &
-            w_rd_data(14) &
-            w_rd_data(15), --from memory
+            i_data => i_ram_data,-- to mach RGB on LEDs 
+            -- w_rd_data(0) &
+            -- w_rd_data(1) &
+            -- w_rd_data(2) &
+            -- w_rd_data(3) &
+            -- w_rd_data(4) &
+            -- w_rd_data(5) &
+            -- w_rd_data(6) &
+            -- w_rd_data(7) &
+            -- w_rd_data(16) &
+            -- w_rd_data(17) &
+            -- w_rd_data(18) &
+            -- w_rd_data(19) &
+            -- w_rd_data(20) &
+            -- w_rd_data(21) &
+            -- w_rd_data(22) &
+            -- w_rd_data(23) &
+            -- w_rd_data(8) &
+            -- w_rd_data(9) &
+            -- w_rd_data(10) &
+            -- w_rd_data(11) &
+            -- w_rd_data(12) &
+            -- w_rd_data(13) &
+            -- w_rd_data(14) &
+            -- w_rd_data(15), --from memory
             i_data_valid => w_send_dv,
             i_enable => w_send_en,
             o_send_done => w_send_done, -- to FSM
@@ -124,5 +115,5 @@ BEGIN
     ------------------- next-state logic --------------------
 
     ------------------------ outputs ------------------------
-
+    o_ram_addr <= w_rd_addr;
 END ARCHITECTURE;

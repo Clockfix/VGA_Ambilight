@@ -237,8 +237,8 @@ ARCHITECTURE rtl OF main IS
             ram_mm_byteenable : IN STD_LOGIC_VECTOR(3 DOWNTO 0) := (OTHERS => 'X'); -- byteenable
             reset_reset_n : IN STD_LOGIC := 'X'; -- reset_n
             clk_100m_clk : OUT STD_LOGIC; -- clk
-            ram_clk_clk : IN STD_LOGIC := 'X'; -- clk
-            ram_reset_reset : IN STD_LOGIC := 'X'; -- reset
+            -- ram_clk_clk : IN STD_LOGIC := 'X'; -- clk
+            -- ram_reset_reset : IN STD_LOGIC := 'X'; -- reset
             d_out_in : OUT STD_LOGIC_VECTOR(66 DOWNTO 0); -- in
             d_out_out : IN STD_LOGIC_VECTOR(66 DOWNTO 0) := (OTHERS => 'X'); -- out
             d_out_oe : IN STD_LOGIC_VECTOR(66 DOWNTO 0) := (OTHERS => 'X') -- oe
@@ -341,8 +341,8 @@ BEGIN
             ram_mm_byteenable => w_ram_byteenable, --         .byteenable
             reset_reset_n => HPS_reset_n, --CONNECTED_TO_reset_reset_n, --    reset.reset_n
             clk_100m_clk => w_clock_100m, -- clk_100m.clk
-            ram_clk_clk => w_clock_100m, --  ram_clk.clk
-            ram_reset_reset => '0', --  ram_rst.reset
+            -- ram_clk_clk => w_clock_100m, --  ram_clk.clk
+            -- ram_reset_reset => '0', --  ram_rst.reset
             d_out_in => w_input, --    d_out.in
             d_out_out => w_output, --(OTHERS => '0'), --(std_logic_vector(to_unsigned(0,66)) & '1'),--o_data_out), --         .out
             d_out_oe => w_oe --(OTHERS => '1')--(std_logic_vector(to_unsigned(0,66)) & '1') --         .oe
@@ -376,14 +376,14 @@ BEGIN
         output_module_inst : ENTITY work.output_module
             GENERIC MAP(
                 -- generic parameters - passed here from calling entity
-                g_LED_COUNT => 4, --16*16,
+                g_LED_COUNT => 16*16,
                 g_RESET_TIME => 70000 -- must be larger then 50us => 2500 * 20ns =50us
             )
             PORT MAP(
                 i_clk => w_clock_100m,
-                i_data => x"0F0000",
-                i_wr_addr => "0000000010",
-                i_wen => '1',
+                -- i_data => x"0F0000",
+                -- i_wr_addr => "0000000010",
+                -- i_wen => '1',
                 o_data_out => w_data_out,
                 o_sent_done => w_led_done,
                 i_ram_data => w_fpga_ram_readdata,

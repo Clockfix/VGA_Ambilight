@@ -8,3 +8,5 @@ transcript
 /test_bench/vsim.wlf
 test_bench/altera/
 soc_project/software/
+*.o
+*.elf
