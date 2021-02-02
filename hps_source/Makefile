@@ -1,7 +1,7 @@
 CC:=gcc
 CROSS_COMPILE:=arm-linux-gnueabihf-
 
-CFLAGS:=
+CFLAGS:=  -static -g -Wall 
 LFLAGS:=-static
 
 SRC:=$(shell find . -name "*.c")

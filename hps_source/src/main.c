@@ -1,3 +1,11 @@
+//=================================================================================
+// Some parts of code are from Terasic Technologies Inc. and is was provided with
+// SoC FPGA with license that can be found in other *.c files.
+//
+//
+//=================================================================================
+
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <fcntl.h>
@@ -6,13 +14,15 @@
 #include <sys/mman.h>
 #include <sys/types.h>
 
+
 /* utilities */
 #define _I(fmt, args...) printf(fmt "\n", ##args)
 #define _E(fmt, args...) printf("ERROR: " fmt "\n", ##args)
 
-/* physical address spans */
+/* physical address spans for RAM */
 #define LWHPS2FPGA_BASE 0xff200000 /* physical address of the LWH2F bridge */
 #define LWHPS2FPGA_SPAN 0xf777     /* address span to map */
+
 
 void print_usage()
 {
@@ -24,6 +34,7 @@ void print_usage()
 
 int main(int argc, char *argv[])
 {
+    welcome_screen();
     unsigned long mask;
     unsigned int place;
     int fd;                   /* file descriptor */
