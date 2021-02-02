@@ -26,7 +26,7 @@ ENTITY main IS
     PORT (
         i_clk : IN STD_LOGIC;
         -- o_led : OUT STD_LOGIC;
-        o_led : OUT STD_LOGIC_VECTOR(3 DOWNTO 0); 
+        o_led : OUT STD_LOGIC_VECTOR(3 DOWNTO 0);
         --------------------------------------------
         --  HPS connections
         --------------------------------------------
@@ -300,11 +300,11 @@ BEGIN
             -- hps_io_hps_io_i2c1_inst_SDA => hps_io_hps_io_i2c1_inst_SDA, --         .hps_io_i2c1_inst_SDA
             -- hps_io_hps_io_i2c1_inst_SCL => hps_io_hps_io_i2c1_inst_SCL, --         .hps_io_i2c1_inst_SCL
             hps_io_hps_io_gpio_inst_GPIO09 => hps_io_hps_io_gpio_inst_GPIO09, --         .hps_io_gpio_inst_GPIO09
-            hps_io_hps_io_gpio_inst_GPIO28   => hps_io_hps_io_gpio_inst_GPIO28,   --          .hps_io_gpio_inst_GPIO28
-			hps_io_hps_io_gpio_inst_GPIO35   => hps_io_hps_io_gpio_inst_GPIO35,   --          .hps_io_gpio_inst_GPIO35
-			hps_io_hps_io_gpio_inst_GPIO40   => hps_io_hps_io_gpio_inst_GPIO40,   --          .hps_io_gpio_inst_GPIO40
-			hps_io_hps_io_gpio_inst_GPIO42   => hps_io_hps_io_gpio_inst_GPIO42,   --          .hps_io_gpio_inst_GPIO42
-			hps_io_hps_io_gpio_inst_GPIO43   => hps_io_hps_io_gpio_inst_GPIO43,   --          .hps_io_gpio_inst_GPIO43
+            hps_io_hps_io_gpio_inst_GPIO28 => hps_io_hps_io_gpio_inst_GPIO28, --          .hps_io_gpio_inst_GPIO28
+            hps_io_hps_io_gpio_inst_GPIO35 => hps_io_hps_io_gpio_inst_GPIO35, --          .hps_io_gpio_inst_GPIO35
+            hps_io_hps_io_gpio_inst_GPIO40 => hps_io_hps_io_gpio_inst_GPIO40, --          .hps_io_gpio_inst_GPIO40
+            hps_io_hps_io_gpio_inst_GPIO42 => hps_io_hps_io_gpio_inst_GPIO42, --          .hps_io_gpio_inst_GPIO42
+            hps_io_hps_io_gpio_inst_GPIO43 => hps_io_hps_io_gpio_inst_GPIO43, --          .hps_io_gpio_inst_GPIO43
             hps_io_hps_io_gpio_inst_GPIO48 => hps_io_hps_io_gpio_inst_GPIO48, --         .hps_io_gpio_inst_GPIO48
             hps_io_hps_io_gpio_inst_GPIO61 => hps_io_hps_io_gpio_inst_GPIO61, --         .hps_io_gpio_inst_GPIO61
             hps_io_hps_io_gpio_inst_GPIO62 => hps_io_hps_io_gpio_inst_GPIO62, --         .hps_io_gpio_inst_GPIO62
@@ -365,7 +365,7 @@ BEGIN
                 --  FPGA connections
                 o_ram_data => w_fpga_ram_readdata, --         .readdata
                 i_ram_address => w_fpga_ram_address, -- address
-                i_led =>  w_ram_readdata(7 DOWNTO 4), 
+                i_led => w_ram_readdata(7 DOWNTO 4),
                 -- 
                 o_data => w_data_out --,
             );
@@ -376,7 +376,7 @@ BEGIN
         output_module_inst : ENTITY work.output_module
             GENERIC MAP(
                 -- generic parameters - passed here from calling entity
-                g_LED_COUNT => 16*16,
+                g_LED_COUNT => 16 * 16,
                 g_RESET_TIME => 70000 -- must be larger then 50us => 2500 * 20ns =50us
             )
             PORT MAP(
@@ -398,6 +398,6 @@ BEGIN
 
         -- outputs
         -- <your code goes here>
-        
+
         o_led <= w_ram_readdata(3 DOWNTO 0);
     END rtl;

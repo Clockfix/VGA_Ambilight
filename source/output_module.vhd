@@ -53,8 +53,6 @@ ARCHITECTURE rtl OF output_module IS
     SIGNAL w_send_en : STD_LOGIC; -- connects FSM with bit_sender (enable)
     SIGNAL w_send_dv : STD_LOGIC; -- connects FSM with bit_sender (data valid)
 BEGIN
-
-
     sender_fsm_inst : ENTITY work.sender_fsm
         GENERIC MAP(
             g_RESET_TIME => g_RESET_TIME
@@ -80,31 +78,7 @@ BEGIN
         )
         PORT MAP(
             i_clk => i_clk,
-            i_data => i_ram_data,-- to mach RGB on LEDs 
-            -- w_rd_data(0) &
-            -- w_rd_data(1) &
-            -- w_rd_data(2) &
-            -- w_rd_data(3) &
-            -- w_rd_data(4) &
-            -- w_rd_data(5) &
-            -- w_rd_data(6) &
-            -- w_rd_data(7) &
-            -- w_rd_data(16) &
-            -- w_rd_data(17) &
-            -- w_rd_data(18) &
-            -- w_rd_data(19) &
-            -- w_rd_data(20) &
-            -- w_rd_data(21) &
-            -- w_rd_data(22) &
-            -- w_rd_data(23) &
-            -- w_rd_data(8) &
-            -- w_rd_data(9) &
-            -- w_rd_data(10) &
-            -- w_rd_data(11) &
-            -- w_rd_data(12) &
-            -- w_rd_data(13) &
-            -- w_rd_data(14) &
-            -- w_rd_data(15), --from memory
+            i_data => i_ram_data, -- to mach RGB on LEDs 
             i_data_valid => w_send_dv,
             i_enable => w_send_en,
             o_send_done => w_send_done, -- to FSM

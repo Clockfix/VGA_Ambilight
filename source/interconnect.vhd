@@ -62,24 +62,24 @@ BEGIN
     -- next-state logic
     ---------------------------------------------
     -- 
- PROCESS (ALL)
- BEGIN
-    w_oe <= (OTHERS => '0');
-    w_output <= (OTHERS => '0');
-    w_input <= d_out_in;
+    PROCESS (ALL)
+    BEGIN
+        w_oe <= (OTHERS => '0');
+        w_output <= (OTHERS => '0');
+        w_input <= d_out_in;
 
-    w_oe(51) <= '1';
-    w_output(51) <= o_data;
+        w_oe(51) <= '1';
+        w_output(51) <= o_data;
 
-    w_oe(53) <= '1';
-    w_oe(54) <= '1';
-    w_oe(55) <= '1';
-    w_oe(56) <= '1';
-    w_output(53) <= i_led(0);
-    w_output(54) <= i_led(1);
-    w_output(55) <= i_led(2);
-    w_output(56) <= i_led(3);
-  END PROCESS;
+        w_oe(53) <= '1';
+        w_oe(54) <= '1';
+        w_oe(55) <= '1';
+        w_oe(56) <= '1';
+        w_output(53) <= i_led(0);
+        w_output(54) <= i_led(1);
+        w_output(55) <= i_led(2);
+        w_output(56) <= i_led(3);
+    END PROCESS;
     ---------------------------------------------
     -- outputs
     ---------------------------------------------

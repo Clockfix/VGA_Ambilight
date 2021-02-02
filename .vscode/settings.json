@@ -2,9 +2,16 @@
     "cSpell.words": [
         "Ambilight",
         "DEMUX",
+        "Gongdao",
+        "Hsinchu",
+        "LCDHW",
         "LOANIO",
         "LWHPS",
         "MDIO",
+        "TERASIC",
+        "a'RANGE",
+        "a'REVERSE",
+        "aa'RANGE",
         "altera",
         "byteenable",
         "chipselect",
@@ -23,5 +30,8 @@
     ],
     "cSpell.enableFiletypes": [
         "vhdl"
-    ]
+    ],
+    "files.associations": {
+        "terasic_os_includes.h": "c"
+    }
 }

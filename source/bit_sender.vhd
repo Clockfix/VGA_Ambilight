@@ -42,8 +42,8 @@ ARCHITECTURE rtl OF bit_sender IS
     SIGNAL r_data_in_reg : STD_LOGIC_VECTOR(g_DATA_WIDTH - 1 DOWNTO 0) := (OTHERS => '0'); -- r_data reg NEXT is i_data
     SIGNAL r_sending_reg : STD_LOGIC := '0'; --  r_sending_next is i_data_valid
     -- counter registers
-    SIGNAL r_bit_counter_reg, r_bit_counter_next : unsigned(log2c(g_DATA_WIDTH + 1) - 1 DOWNTO 0) := (OTHERS => '0'); -- counts the time to togle between H and L during BIT transfer or RESET
-    SIGNAL r_timer_reg, r_timer_next : unsigned(log2c(g_BIT_COUNTER_MAX_VALUE + 1) - 1 DOWNTO 0) := (OTHERS => '0'); -- counts whitch bit to transfer
+    SIGNAL r_bit_counter_reg, r_bit_counter_next : unsigned(log2c(g_DATA_WIDTH + 1) - 1 DOWNTO 0) := (OTHERS => '0'); -- counts the time to toggle between H and L during BIT transfer or RESET
+    SIGNAL r_timer_reg, r_timer_next : unsigned(log2c(g_BIT_COUNTER_MAX_VALUE + 1) - 1 DOWNTO 0) := (OTHERS => '0'); -- counts witch bit to transfer
     -- output register
     SIGNAL r_data_out_reg, r_data_out_next : STD_LOGIC := '0';
     SIGNAL r_send_done_reg, r_send_done_next : STD_LOGIC := '0';
@@ -152,7 +152,7 @@ BEGIN
                 END IF;
                 -- data out register
                 IF w_en_data_out THEN
-                    r_data_out_reg <= r_data_out_next ;
+                    r_data_out_reg <= r_data_out_next;
                 END IF;
             END IF;
         END IF;
