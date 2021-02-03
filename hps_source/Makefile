@@ -11,7 +11,7 @@ OBJ:=$(subst .c,.o,$(OBJ))
 OUT:=out/main.elf
 DIR:=$(sort $(dir $(OBJ))) $(sort $(dir $(OUT)))
 INC:=-Iinc
-LIB:=
+LIB:=-lm
 
 all:$(DIR) $(OUT)
 

@@ -64,7 +64,7 @@ int welcome_screen()
     }
 
     //printf("Can you see LCD?(CTRL+C to terminate this program)\r\n");
-    printf("Graphic LCD Demo\r\n");
+    //printf("Graphic LCD Demo\r\n");
 
     LcdCanvas.Width = LCD_WIDTH;
     LcdCanvas.Height = LCD_HEIGHT;

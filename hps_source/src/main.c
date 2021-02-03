@@ -5,7 +5,6 @@
 //
 //=================================================================================
 
-
 #include <stdlib.h>
 #include <stdio.h>
 #include <fcntl.h>
@@ -13,7 +12,20 @@
 #include <sys/stat.h>
 #include <sys/mman.h>
 #include <sys/types.h>
+//#include "utils.h"
+#include <sys/file.h>
+//#include "image.h"
 
+// /* single file library for loading images */
+// #define STB_IMAGE_IMPLEMENTATION
+// #include "stb_image.h"
+
+// /* single file library for sabing images */
+// #define STB_IMAGE_WRITE_IMPLEMENTATION
+// #include "stb_image_write.h"
+
+#include "image.h" /* image API */
+#include "utils.h" /* some useful defines */
 
 /* utilities */
 #define _I(fmt, args...) printf(fmt "\n", ##args)
@@ -22,7 +34,8 @@
 /* physical address spans for RAM */
 #define LWHPS2FPGA_BASE 0xff200000 /* physical address of the LWH2F bridge */
 #define LWHPS2FPGA_SPAN 0xf777     /* address span to map */
-
+#define HPS2FPGA_BASE 0xc0000000   /* physical address of the H2F bridge */
+#define HPS2FPGA_SPAN 0xf777       /* address span to map */
 
 void print_usage()
 {
@@ -32,24 +45,117 @@ void print_usage()
     _I("./main.elf 10 0xf0a41f");
 }
 
-int main(int argc, char *argv[])
+void print_start()
 {
-    welcome_screen();
-    unsigned long mask;
-    unsigned int place;
-    int fd;                   /* file descriptor */
-    unsigned long *mem_lwh2f; /* memory pointer for LW HPS2FPGA bridge */
-                              // unsigned char *mem_h2f;   /* memory pointer for HPS2FPGA bridge */
+    _I("=====================================");
+    _I("|               RTU                 |");
+    _I("|           SoC project             |");
+    _I("|                                   |");
+    _I("=====================================");
+}
+
+/* Function to reverse bits of num */
+unsigned char reverseBits(unsigned char num)
+{
+    unsigned char NO_OF_BITS = sizeof(num) * 8;
+    unsigned char reverse_num = 0, i, temp;
+
+    for (i = 0; i < NO_OF_BITS; i++)
+    {
+        temp = (num & (1 << i));
+        if (temp)
+            reverse_num |= (1 << ((NO_OF_BITS - 1) - i));
+    }
+
+    return reverse_num;
+}
+
+/* Function to corect correct color order */
+// Usage: sort_color(   strtoul(argv[2], NULL, 16)    )
+unsigned long sort_color(unsigned long num)
+{
+    unsigned char red = (num & 0xFF0000) >> 16;
+    unsigned char green = (num & 0x00FF00) >> 8;
+    unsigned char blue = (num & 0x0000FF);
+
+    // _I("red=%2x green=%2x blue=%2x", red, green, blue);
+    /* sorting bits is not needed because it is implemented in FPGA */
+    // red = reverseBits(red);
+    // green = reverseBits(green);
+    // blue = reverseBits(blue);
+    // _I("Reversed:");
+    // _I("red=%2x green=%2x blue=%2x", red, green, blue);
+    unsigned long out = (green << 16) + (red << 8) + blue;
+    // _I("output:%6lx", out);
+    return out;
+}
+
+/* Set LED in specified color */
+// Usage:  write_led(mem_lwh2f, place , color);
+void write_led(unsigned long *mem_lwh2f, unsigned int place, unsigned long color)
+{
     unsigned long *mem_target;
 
+    color = sort_color(color);
+    // _I("write LED");
+    //place = strtoul(argv[1], NULL, 10);
+    if (place > 1024)
+    {
+        _I("%d is outside physical address span of LWHPS2FPGA", place);
+    }
+    else
+    {
+        /* Get LED addrres */
+        mem_target = mem_lwh2f + place;
+        /* get LED mask */
+        //color = strtoul(argv[2], NULL, 16);
+        _I("In %4d addrres are saved this color: 0x%lx ", place, color);
+        *mem_target = color; /* writing mask to the LED output */
+        //_I("Value mask has been written");
+    }
+}
+
+/* select target memory region */
+// Usage:  clear_all_leds(mem_lwh2f, num );
+void clear_all_leds(unsigned long *mem_lwh2f, unsigned int num)
+{
+    unsigned long *mem_target;
+    // _I("Clear all LEDs");
+    for (int i = 0; i < num; i++)
+    {
+        write_led(mem_lwh2f, i, 0);
+    }
+}
+
+int main(int argc, char *argv[])
+{
+    int fd;                   /* file descriptor */
+    unsigned long *mem_lwh2f; /* memory pointer for LW HPS2FPGA bridge */
+    image_t image, imageIn;
+
+    /*---------------------------------------*/
+    /* Initial welcome message               */
+    /* on CLI and LCD                        */
+    /*---------------------------------------*/
+    print_start();
+    welcome_screen();
+
+    /*---------------------------------------*/
+    /* Check is there three input arguments  */
+    /*                                       */
+    /*---------------------------------------*/
     if (argc < 3)
     {
         print_usage();
         return 0;
     }
+    /*---------------------------------------*/
+    /* Preparing bridge and memory map       */
+    /*                                       */
+    /*---------------------------------------*/
 
     /* Acquire "/dev/mem" file's descriptor (use "open" syscall) */
-    _I("Opening (acquiring descriptor) \"/dev/mem\" file");
+    //_I("Opening (acquiring descriptor) \"/dev/mem\" file");
     fd = open("/dev/mem", O_RDWR);
     if (fd == -1)
     {
@@ -57,33 +163,44 @@ int main(int argc, char *argv[])
         return 1;
     }
     /* Map LWHPS2FPGA physical address to this process (use "mmap" syscall) */
-    _I("Mapping physical address of the LWHPS2FPGA");
-    mem_lwh2f = mmap(NULL, LWHPS2FPGA_SPAN, PROT_READ | PROT_WRITE,
-                     MAP_SHARED, fd, LWHPS2FPGA_BASE);
+    //_I("Mapping physical address of the LWHPS2FPGA");
+    mem_lwh2f = mmap(NULL, HPS2FPGA_SPAN, PROT_READ | PROT_WRITE,
+                     MAP_SHARED, fd, HPS2FPGA_BASE);
     if ((int)mem_lwh2f == -1)
     {
         _E("Failed to map physical address LWHPS2FPGA");
         return 1;
     }
 
-    /* select target memory region */
-    place = strtoul(argv[1], NULL, 10);
-    if (place > 1024)
-    {
-        _I("Outside physical address span of LWHPS2FPGA");
-    }
-    else
-    {
-        /* Get LED addrres */
-        mem_target = mem_lwh2f + place;
-        /* get LED mask */
-        mask = strtoul(argv[2], NULL, 16);
-        _I("In %d addrres are saved this number: 0x%lx ", place, mask);
-        *mem_target = mask; /* writing mask to the LED output */
-        _I("Value mask has been written");
-    }
-    _I("Unmapping physical address");
-    munmap(mem_lwh2f, LWHPS2FPGA_SPAN);
+    /*---------------------------------------*/
+    /* Main code                             */
+    /*                                       */
+    /*---------------------------------------*/
+
+    //clear_all_leds(mem_lwh2f, 256);
+
+    // /* open and load image */
+    // _I("Loading input image...");
+    // if (image_load(&image, argv[1]) == -1)
+    // {
+    //     _E("Failed to load image");
+    //     return -1;
+    // }
+
+    //image_display(mem_lwh2f , &image);
+
+    // for (int i = 0; i < 256; i++)
+    // {
+    write_led(mem_lwh2f, strtoul(argv[1], NULL, 10), strtoul(argv[2], NULL, 16));
+    // }
+
+    /*---------------------------------------*/
+    /* Release memory map                    */
+    /*                                       */
+    /*---------------------------------------*/
+
+    //_I("Unmapping physical address");
+    munmap(mem_lwh2f, HPS2FPGA_SPAN);
 
     return 0;
 }

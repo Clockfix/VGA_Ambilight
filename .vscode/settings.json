@@ -8,6 +8,7 @@
         "LOANIO",
         "LWHPS",
         "MDIO",
+        "Sobel",
         "TERASIC",
         "a'RANGE",
         "a'REVERSE",
@@ -16,6 +17,7 @@
         "byteenable",
         "chipselect",
         "clken",
+        "coef",
         "emac",
         "leds",
         "qspi",
@@ -25,6 +27,7 @@
         "rzqin",
         "sdio",
         "spim",
+        "stbi",
         "wraddress",
         "writedata"
     ],
@@ -32,6 +35,7 @@
         "vhdl"
     ],
     "files.associations": {
-        "terasic_os_includes.h": "c"
+        "terasic_os_includes.h": "c",
+        "*.cuh": "c"
     }
 }
