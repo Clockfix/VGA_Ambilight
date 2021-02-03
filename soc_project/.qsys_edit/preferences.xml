@@ -8,7 +8,7 @@
    <inputclock preferredWidth="146" />
   </columns>
  </systemtable>
- <library expandedCategories="Library,Project" />
+ <library expandedCategories="Project,Library" />
  <window width="1920" height="1039" x="1280" y="0" />
  <generation synthesis="VHDL" simulation="VHDL" greybox="0" />
 </preferences>
