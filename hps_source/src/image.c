@@ -38,11 +38,70 @@ int image_load(image_t *image, const char *fname)
     return 0;
 }
 
-int image_savePng(const char *fname, image_t *image)
+void image_display(unsigned long *mem, image_t *imageIn)
 {
-    return stbi_write_png(
-        fname, image->width, image->height, image->channels, image->data, 0);
+    unsigned char h;
+    unsigned char dimm = 0;
+    unsigned char red;
+    unsigned char green;
+    unsigned char blue;
+    for (int l = 0; l < 16; l++) // line
+    {
+        for (int c = 0; c < 16; c++) // column
+        {
+            if (0x1 == (l & 0x1))
+            {
+                // _I("unpair line %2d", l);
+                h = (15 - c) + l * 16;
+            }
+            else
+            {
+                // _I("pair line %2d", l);
+                h = c + l * 16;
+            }
+            // h = c + l * 16;
+            // _I("pixel No.:%3d", h);
+            red = imageIn->data[3 * h];
+            green = imageIn->data[3 * h + 1];
+            blue = imageIn->data[3 * h + 2];
+            if (red < dimm)
+            {
+                red = 0;
+            }
+            else
+            {
+                red = red - dimm;
+            }
+            if (green < dimm)
+            {
+                green = 0;
+            }
+            else
+            {
+                green = green - dimm;
+            }
+            if (blue < dimm)
+            {
+                blue = 0;
+            }
+            else
+            {
+                blue = blue - dimm;
+            }
+            unsigned long temp = (red << 16) + (green << 8) + blue;
+            unsigned char mem_place = (15 - c) + l * 16;
+            // _I("h=%2x ", mem_place);
+            // _I("red=%2x green=%2x blue=%2x", red, green, blue);
+            write_led(mem, mem_place, temp);
+        }
+    }
 }
+
+// int image_savePng(const char *fname, image_t *image)
+// {
+//     return stbi_write_png(
+//         fname, image->width, image->height, image->channels, image->data, 0);
+// }
 
 // /** @brief Converts input image to grayscale and stores result in imageOut
 //  *         struct, the memory is allocated automatically. If input image
@@ -317,22 +376,6 @@ int image_savePng(const char *fname, image_t *image)
 //  *  @param imageIn   structure containing characterization and data of the
 //  *         input image
 //  */
-void image_display(unsigned long *mem, image_t *imageIn)
-{
-
-    for (int h = 0; h < 16 * 16; h++)
-    {
-
-        unsigned char red = imageIn->data[3 * h];
-        unsigned char green = imageIn->data[3 * h + 1];
-        unsigned char blue = imageIn->data[3 * h + 2];
-        unsigned long temp = (red << 16) + (green << 8) + blue;
-
-        _I("h=%2x ", h);
-        _I("red=%2x green=%2x blue=%2x", red, green, blue);
-        write_led(mem, h, temp);
-    }
-}
 
 // int image_averagingFilter(image_t *imageOut, image_t *imageIn)
 // {

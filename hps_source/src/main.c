@@ -40,9 +40,16 @@
 void print_usage()
 {
     _I("USAGE:");
-    _I("./main.elf <led_place>  <led_color>");
+    _I("./main.elf <command>  <led_place>  <led_color>");
+    _I("./main.elf <command>  <option>");
+    _I("COMANDS:");
+    _I("    1 - clear LEDs");
+    _I("    2 - write LED");
+    _I("    3 - read image and write LEDs");
     _I("EXAMPLE:");
-    _I("./main.elf 10 0xf0a41f");
+    _I("./main.elf 2 10 0xf0a41f");
+    _I("./main.elf 3 image.png");
+    _I("./main.elf 1");
 }
 
 void print_start()
@@ -108,10 +115,10 @@ void write_led(unsigned long *mem_lwh2f, unsigned int place, unsigned long color
         /* Get LED addrres */
         mem_target = mem_lwh2f + place;
         /* get LED mask */
-        //color = strtoul(argv[2], NULL, 16);
-        _I("In %4d addrres are saved this color: 0x%lx ", place, color);
+        // color = strtoul(argv[2], NULL, 16);
+        // _I("In %4d addrres are saved this color: 0x%lx ", place, color);
         *mem_target = color; /* writing mask to the LED output */
-        //_I("Value mask has been written");
+        // _I("Value mask has been written");
     }
 }
 
@@ -144,7 +151,17 @@ int main(int argc, char *argv[])
     /* Check is there three input arguments  */
     /*                                       */
     /*---------------------------------------*/
-    if (argc < 3)
+    if ( argc < 2 )
+    {
+        print_usage();
+        return 0;
+    }
+
+    if ( 
+        (argc < 3 & strtoul(argv[1], NULL, 10) == 3) |
+        (argc < 4 & strtoul(argv[1], NULL, 10) == 2) |
+        strtoul(argv[1], NULL, 10) < 1 |
+        strtoul(argv[1], NULL, 10) > 3)
     {
         print_usage();
         return 0;
@@ -177,22 +194,30 @@ int main(int argc, char *argv[])
     /*                                       */
     /*---------------------------------------*/
 
-    //clear_all_leds(mem_lwh2f, 256);
+    /* clear all LEDs */
+    if (strtoul(argv[1], NULL, 10) == 1)
+    {
+        clear_all_leds(mem_lwh2f, 256);
+        _I("Clear LEDs done!");
+    }
 
-    // /* open and load image */
-    // _I("Loading input image...");
-    // if (image_load(&image, argv[1]) == -1)
-    // {
-    //     _E("Failed to load image");
-    //     return -1;
-    // }
-
-    //image_display(mem_lwh2f , &image);
-
-    // for (int i = 0; i < 256; i++)
-    // {
-    write_led(mem_lwh2f, strtoul(argv[1], NULL, 10), strtoul(argv[2], NULL, 16));
-    // }
+    /* open and load image */
+    if (strtoul(argv[1], NULL, 10) == 3)
+    {
+        _I("Loading input image...");
+        if (image_load(&image, argv[2]) == -1)
+        {
+            _E("Failed to load image");
+            return -1;
+        }
+        image_display(mem_lwh2f, &image);
+    }
+    /* write single LED */
+    if (strtoul(argv[1], NULL, 10) == 2)
+    {
+        write_led(mem_lwh2f, strtoul(argv[2], NULL, 10), strtoul(argv[3], NULL, 16));
+        _I("Write LED done!");
+    }
 
     /*---------------------------------------*/
     /* Release memory map                    */
