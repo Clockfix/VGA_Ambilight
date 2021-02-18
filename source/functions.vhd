@@ -13,8 +13,6 @@ LIBRARY ieee; --always use this library
 USE ieee.std_logic_1164.ALL; --always use this library
 USE ieee.numeric_std.ALL; --use this library if arithmetic require
 
-
-
 PACKAGE functions IS
     FUNCTION log2c(input : INTEGER) RETURN INTEGER;
 END PACKAGE;

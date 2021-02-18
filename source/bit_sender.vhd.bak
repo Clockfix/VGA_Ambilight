@@ -1,0 +1,113 @@
+-----------------------------
+-- Author - Imants Pulkstenis
+-- Date - 31.10.2020 
+-- Project name - VGA_Ambilight  
+-- Module name - bit_sender
+--
+-- Detailed module description
+-- bit sender to WS2812B LEDs
+--
+-- Revision:
+-- A - initial design
+-- B - 
+--
+-----------------------------
+LIBRARY ieee; --always use this library
+USE ieee.std_logic_1164.ALL; --always use this library
+USE ieee.numeric_std.ALL; --use this library if arithmetic require
+ENTITY bit_sender IS
+    GENERIC (
+        g_FIRST_MAX_VALUE : NATURAL := 20;
+        g_SECOND_MAX_VALUE : NATURAL := 40;
+        g_BIT_COUNTER_MAX_VALUE : NATURAL := 60;
+        g_RESET_MAX_COUNTER_VALUE : NATURAL := 2500
+    );
+    PORT (
+        i_clk : IN STD_LOGIC;
+        i_data : IN STD_LOGIC_VECTOR(23 DOWNTO 0);
+        i_data_valid : IN STD_LOGIC;
+        i_reset : IN STD_LOGIC;
+        i_enable : IN STD_LOGIC;
+        o_active : OUT STD_LOGIC;
+        o_data_out : OUT STD_LOGIC
+    );
+END ENTITY;
+
+ARCHITECTURE rtl OF bit_sender IS
+    -- signal declaration
+
+    -- input registers 
+    SIGNAL r_data : unsigned(23 DOWNTO 0) := (OTHERS => '0'); -- r_data reg NEXT is i_data
+    SIGNAL r_active_reg, r_active_next, r_reset_reg, r_reset_next : STD_LOGIC := '0';
+    -- counter registers
+    SIGNAL r_bit_counter_reg, r_bit_counter_next : unsigned(4 DOWNTO 0) := (OTHERS => '0'); -- counts the time to togle between H and L during BIT transfer or RESET
+    SIGNAL r_timer_reg, r_timer_next : unsigned(11 DOWNTO 0) := (OTHERS => '0'); -- counts whitch bit to transfer
+    -- wires
+    SIGNAL w_is_active : STD_LOGIC; -- curently sending bits to LED's
+    SIGNAL w_is_reset_max : STD_LOGIC; -- counter is MAX during reset 
+    SIGNAL w_is_bit_max : STD_LOGIC; -- is HIGH when bit_counter = 23
+    SIGNAL w_is_timer_max : STD_LOGIC; -- is HIGH when timer_counter = g_BIT_COUNTER_MAX_VALUE
+    SIGNAL w_max_value_selecter : STD_LOGIC; -- selects on what value to ZERO timer register
+    -- enable signals to registers
+    SIGNAL w_en_data, w_en_active, w_en_reset, w_en_bit_counter, w_en_timer : STD_LOGIC;
+
+BEGIN
+    -- enable wires
+    w_en_reset <= w_is_reset_max OR (i_reset AND (NOT w_is_active));
+    w_en_active <= (w_is_bit_max AND w_is_timer_max) OR ((NOT i_reset) AND (NOT w_is_active) AND i_data_valid);
+    w_en_timer <= r_reset_reg OR r_active_reg;
+    w_en_bit_counter <= r_active_reg AND w_is_timer_max;
+    -- other wires
+    w_max_value_selecter <= w_is_reset_max WHEN r_reset_reg ELSE
+        w_is_timer_max;
+    w_is_active <= (w_is_timer_max and w_is_bit_max) or (w_is_reset_max and r_reset_reg);
+    w_is_timer_max <= '1' when r_timer_reg = g_BIT_COUNTER_MAX_VALUE;
+    w_is_reset_max <= '1' when r_timer_reg = g_RESET_MAX_COUNTER_VALUE;
+    w_is_bit_max <= '1' when r_bit_counter_reg = 23; -- 24 bits of data
+    -- reg-state logic
+    PROCESS (ALL)
+    BEGIN
+        IF (NOT i_enable) THEN
+            -- if i_enable is LOW then registers are reseted
+            r_data <= (OTHERS => '0');
+            r_bit_counter_reg <= (OTHERS => '0');
+            r_timer_reg <= (OTHERS => '0');
+            r_active <= '0';
+            r_reset <= '0';
+        ELSE
+            IF rising_edge(i_clk) THEN
+                -- input data register
+                IF w_en_data THEN
+                    r_data <= unsigned(i_data);
+                END IF;
+                -- input transmit register
+                IF w_en_active THEN
+                    r_active_reg <= r_active_next;
+                END IF;
+                -- input reset register
+                IF w_en_reset THEN
+                    r_reset_reg <= r_reset_next;
+                END IF;
+                -- timer register
+                IF w_en_timer THEN
+                    r_timer_reg <= r_timer_next;
+                END IF;
+                -- bit counter register
+                IF w_en_bit_counter THEN
+                    r_bit_counter_reg <= r_bit_counter_next;
+                END IF;
+            END IF;
+        END IF;
+    END PROCESS;
+
+    -- next-state logic
+    r_active_next <= '0' WHEN (w_is_bit_max AND w_is_timer_max) ELSE
+        '1';
+    r_reset_next <= '0' WHEN w_is_reset_max ELSE
+        '1';
+    r_timer_next <= '0' WHEN w_max_value_selecter ELSE
+        r_timer_reg + 1;
+    r_bit_counter_next <= '0' when w_is_bit_max else r_bit_counter_reg+1;
+    -- outputs
+    o_active <= w_is_active;
+END rtl;

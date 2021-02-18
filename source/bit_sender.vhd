@@ -42,8 +42,8 @@ ARCHITECTURE rtl OF bit_sender IS
     SIGNAL r_data_in_reg : STD_LOGIC_VECTOR(g_DATA_WIDTH - 1 DOWNTO 0) := (OTHERS => '0'); -- r_data reg NEXT is i_data
     SIGNAL r_sending_reg : STD_LOGIC := '0'; --  r_sending_next is i_data_valid
     -- counter registers
-    SIGNAL r_bit_counter_reg, r_bit_counter_next : unsigned(log2c(g_DATA_WIDTH + 1) - 1 DOWNTO 0) := (OTHERS => '0'); -- counts the time to togle between H and L during BIT transfer or RESET
-    SIGNAL r_timer_reg, r_timer_next : unsigned(log2c(g_BIT_COUNTER_MAX_VALUE + 1) - 1 DOWNTO 0) := (OTHERS => '0'); -- counts whitch bit to transfer
+    SIGNAL r_bit_counter_reg, r_bit_counter_next : unsigned(log2c(g_DATA_WIDTH + 1) - 1 DOWNTO 0) := (OTHERS => '0'); -- counts the time to toggle between H and L during BIT transfer or RESET
+    SIGNAL r_timer_reg, r_timer_next : unsigned(log2c(g_BIT_COUNTER_MAX_VALUE + 1) - 1 DOWNTO 0) := (OTHERS => '0'); -- counts witch bit to transfer
     -- output register
     SIGNAL r_data_out_reg, r_data_out_next : STD_LOGIC := '0';
     SIGNAL r_send_done_reg, r_send_done_next : STD_LOGIC := '0';
@@ -91,30 +91,30 @@ BEGIN
         '0';
     -- demux
     WITH r_bit_counter_reg SELECT w_demux_out <=
-        r_data_in_reg(23) WHEN to_unsigned(23, log2c(g_DATA_WIDTH + 1)),
-        r_data_in_reg(22) WHEN to_unsigned(22, log2c(g_DATA_WIDTH + 1)),
-        r_data_in_reg(21) WHEN to_unsigned(21, log2c(g_DATA_WIDTH + 1)),
-        r_data_in_reg(20) WHEN to_unsigned(20, log2c(g_DATA_WIDTH + 1)),
-        r_data_in_reg(19) WHEN to_unsigned(19, log2c(g_DATA_WIDTH + 1)),
-        r_data_in_reg(18) WHEN to_unsigned(18, log2c(g_DATA_WIDTH + 1)),
-        r_data_in_reg(17) WHEN to_unsigned(17, log2c(g_DATA_WIDTH + 1)),
-        r_data_in_reg(16) WHEN to_unsigned(16, log2c(g_DATA_WIDTH + 1)),
-        r_data_in_reg(15) WHEN to_unsigned(15, log2c(g_DATA_WIDTH + 1)),
-        r_data_in_reg(14) WHEN to_unsigned(14, log2c(g_DATA_WIDTH + 1)),
-        r_data_in_reg(13) WHEN to_unsigned(13, log2c(g_DATA_WIDTH + 1)),
-        r_data_in_reg(12) WHEN to_unsigned(12, log2c(g_DATA_WIDTH + 1)),
-        r_data_in_reg(11) WHEN to_unsigned(11, log2c(g_DATA_WIDTH + 1)),
-        r_data_in_reg(10) WHEN to_unsigned(10, log2c(g_DATA_WIDTH + 1)),
-        r_data_in_reg(9) WHEN to_unsigned(9, log2c(g_DATA_WIDTH + 1)),
-        r_data_in_reg(8) WHEN to_unsigned(8, log2c(g_DATA_WIDTH + 1)),
-        r_data_in_reg(7) WHEN to_unsigned(7, log2c(g_DATA_WIDTH + 1)),
-        r_data_in_reg(6) WHEN to_unsigned(6, log2c(g_DATA_WIDTH + 1)),
-        r_data_in_reg(5) WHEN to_unsigned(5, log2c(g_DATA_WIDTH + 1)),
-        r_data_in_reg(4) WHEN to_unsigned(4, log2c(g_DATA_WIDTH + 1)),
-        r_data_in_reg(3) WHEN to_unsigned(3, log2c(g_DATA_WIDTH + 1)),
-        r_data_in_reg(2) WHEN to_unsigned(2, log2c(g_DATA_WIDTH + 1)),
-        r_data_in_reg(1) WHEN to_unsigned(1, log2c(g_DATA_WIDTH + 1)),
-        r_data_in_reg(0) WHEN to_unsigned(0, log2c(g_DATA_WIDTH + 1)),
+        r_data_in_reg(0) WHEN to_unsigned(23, log2c(g_DATA_WIDTH + 1)),
+        r_data_in_reg(1) WHEN to_unsigned(22, log2c(g_DATA_WIDTH + 1)),
+        r_data_in_reg(2) WHEN to_unsigned(21, log2c(g_DATA_WIDTH + 1)),
+        r_data_in_reg(3) WHEN to_unsigned(20, log2c(g_DATA_WIDTH + 1)),
+        r_data_in_reg(4) WHEN to_unsigned(19, log2c(g_DATA_WIDTH + 1)),
+        r_data_in_reg(5) WHEN to_unsigned(18, log2c(g_DATA_WIDTH + 1)),
+        r_data_in_reg(6) WHEN to_unsigned(17, log2c(g_DATA_WIDTH + 1)),
+        r_data_in_reg(7) WHEN to_unsigned(16, log2c(g_DATA_WIDTH + 1)),
+        r_data_in_reg(8) WHEN to_unsigned(15, log2c(g_DATA_WIDTH + 1)),
+        r_data_in_reg(9) WHEN to_unsigned(14, log2c(g_DATA_WIDTH + 1)),
+        r_data_in_reg(10) WHEN to_unsigned(13, log2c(g_DATA_WIDTH + 1)),
+        r_data_in_reg(11) WHEN to_unsigned(12, log2c(g_DATA_WIDTH + 1)),
+        r_data_in_reg(12) WHEN to_unsigned(11, log2c(g_DATA_WIDTH + 1)),
+        r_data_in_reg(13) WHEN to_unsigned(10, log2c(g_DATA_WIDTH + 1)),
+        r_data_in_reg(14) WHEN to_unsigned(9, log2c(g_DATA_WIDTH + 1)),
+        r_data_in_reg(15) WHEN to_unsigned(8, log2c(g_DATA_WIDTH + 1)),
+        r_data_in_reg(16) WHEN to_unsigned(7, log2c(g_DATA_WIDTH + 1)),
+        r_data_in_reg(17) WHEN to_unsigned(6, log2c(g_DATA_WIDTH + 1)),
+        r_data_in_reg(18) WHEN to_unsigned(5, log2c(g_DATA_WIDTH + 1)),
+        r_data_in_reg(19) WHEN to_unsigned(4, log2c(g_DATA_WIDTH + 1)),
+        r_data_in_reg(20) WHEN to_unsigned(3, log2c(g_DATA_WIDTH + 1)),
+        r_data_in_reg(21) WHEN to_unsigned(2, log2c(g_DATA_WIDTH + 1)),
+        r_data_in_reg(22) WHEN to_unsigned(1, log2c(g_DATA_WIDTH + 1)),
+        r_data_in_reg(23) WHEN to_unsigned(0, log2c(g_DATA_WIDTH + 1)),
         '0' WHEN OTHERS;
 
     ------------------ reg-state logic ---------------------
@@ -152,7 +152,7 @@ BEGIN
                 END IF;
                 -- data out register
                 IF w_en_data_out THEN
-                    r_data_out_reg <= r_data_out_next ;
+                    r_data_out_reg <= r_data_out_next;
                 END IF;
             END IF;
         END IF;
