@@ -23,7 +23,7 @@ ENTITY vga_sync_pulse_counter IS
 		v_sync : IN STD_LOGIC;
 		h_sync : IN STD_LOGIC;
 		VGA_clk : IN STD_LOGIC;
-		send : IN STD_LOGIC;
+		--send : IN STD_LOGIC;
 		v : OUT INTEGER RANGE 0 TO 799 := 0;--std_logic_vector(7 downto 0)
 		h : OUT INTEGER RANGE 0 TO 799 := 0
 	);

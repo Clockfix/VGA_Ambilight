@@ -32,9 +32,6 @@ ENTITY output_module IS
     );
     PORT (
         i_clk : IN STD_LOGIC;
-        --i_data : IN STD_LOGIC_VECTOR(23 DOWNTO 0);
-        --i_wr_addr : IN STD_LOGIC_VECTOR(9 DOWNTO 0);
-        --i_wen : IN STD_LOGIC;
         o_data_out : OUT STD_LOGIC;
         o_sent_done : OUT STD_LOGIC;
         i_ram_data : IN STD_LOGIC_VECTOR(23 DOWNTO 0);

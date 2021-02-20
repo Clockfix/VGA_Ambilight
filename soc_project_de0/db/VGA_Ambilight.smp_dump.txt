@@ -1,0 +1,21 @@
+
+State Machine - |main|output_module:output_module_inst|sender_fsm:sender_fsm_inst|state_reg
+Name state_reg.S_SEND_DATA state_reg.S_WAIT state_reg.S_RESET state_reg.S_IDLE 
+state_reg.S_IDLE 0 0 0 0 
+state_reg.S_RESET 0 0 1 1 
+state_reg.S_WAIT 0 1 0 1 
+state_reg.S_SEND_DATA 1 0 0 1 
+
+State Machine - |main|soc_system:soc_system_inst|soc_system_mm_interconnect_0:mm_interconnect_0|altera_merlin_burst_adapter:onchip_memory2_1_s1_burst_adapter|altera_merlin_burst_adapter_13_1:altera_merlin_burst_adapter_13_1.burst_adapter|state
+Name state.ST_IDLE state.ST_UNCOMP_WR_SUBBURST state.ST_UNCOMP_TRANS state.ST_COMP_TRANS 
+state.ST_IDLE 0 0 0 0 
+state.ST_COMP_TRANS 1 0 0 1 
+state.ST_UNCOMP_TRANS 1 0 1 0 
+state.ST_UNCOMP_WR_SUBBURST 1 1 0 0 
+
+State Machine - |main|soc_system:soc_system_inst|soc_system_mm_interconnect_0:mm_interconnect_0|altera_merlin_burst_adapter:onchip_memory2_0_s1_burst_adapter|altera_merlin_burst_adapter_13_1:altera_merlin_burst_adapter_13_1.burst_adapter|state
+Name state.ST_IDLE state.ST_UNCOMP_WR_SUBBURST state.ST_UNCOMP_TRANS state.ST_COMP_TRANS 
+state.ST_IDLE 0 0 0 0 
+state.ST_COMP_TRANS 1 0 0 1 
+state.ST_UNCOMP_TRANS 1 0 1 0 
+state.ST_UNCOMP_WR_SUBBURST 1 1 0 0 
