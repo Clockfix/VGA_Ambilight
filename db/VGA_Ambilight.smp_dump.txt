@@ -1,7 +1,0 @@
-
-State Machine - |output_module|sender_fsm:sender_fsm_inst|state_reg
-Name state_reg.S_SEND_DATA state_reg.S_WAIT state_reg.S_RESET state_reg.S_IDLE 
-state_reg.S_IDLE 0 0 0 0 
-state_reg.S_RESET 0 0 1 1 
-state_reg.S_WAIT 0 1 0 1 
-state_reg.S_SEND_DATA 1 0 0 1 
