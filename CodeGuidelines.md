@@ -21,10 +21,10 @@ This is the most important style you should adopt! Too many designers do not ind
 This is the second most important style you need to use. Indicating if your signal is a register or a wire is hugely important to writing good code. Verilog is nice in that it forces you to declare your signal as a reg or a wire, but VHDL has no such requirement! Therefore this style is especially important for VHDL coders. All signals declared with r_ should have initial conditions. All signals declared with w_ should never appear to the left-hand side of an assignment operator in a sequential process (in VHDL) or a clocked always block (in Verilog). Examples: r_Row_Count, w_Pixel_Done.
 
 ### c_, g_, and t_, prefix
-These are helpful indicators when coding. c_ indicates that you are referring to a constant in VHDL or a parameter in Verilog. g_ is used for all VHDL generics. t_ indicates that you are defining your own data type. I find these helpful. Examples: c_NUM_BYTES, t_MAIN_STATE_MACHINE. For state machines I like using all capital letters... e.g. IDLE, DONE, CLEANUP. In the past I've used s_ to indicate state but I've moved away from that. Preferences change. 
+These are helpful indicators when coding. c_ indicates that you are referring to a constant in VHDL or a parameter in Verilog. g_ is used for all VHDL generics. t_ indicates that you are defining your own data type. I find these helpful. Examples: c_NUM_BYTES, t_MAIN_STATE_MACHINE. For state machines, I like using all capital letters... e.g. IDLE, DONE, CLEANUP. In the past, I've used s_ to indicate state but I've moved away from that. Preferences change. 
 
 ### A Note About Capitalization:
-In this course we capitalize all GENERICS, CONSTANTS and TYPE data types.
+In this course, we capitalize all GENERICS, CONSTANTS and TYPE data types.
 
 Whether or not you want to capitalize your signal names is up to you. As you can see in the examples above, I capitalize all of my signals that are not inputs or outputs, except for the prefix. Should you prefer to name a signal r_Row_Count or r_row_count rather than r_ROW_COUNT, well that's up to you. I would recommend though that you stay consistent! VHDL is not case-sensitive, so r_ROW_COUNT is the same as r_Row_Count, but this is not true in Verilog. Verilog is case sensitive, so maintaining rules about capitalization is very important! You don't want to accidentally create two different signals when you meant to create just one signal or you will have a very bad time.
 
