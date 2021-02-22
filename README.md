@@ -11,8 +11,8 @@ The final project of RTR710 @2020/2021
 
 
 ### Top entity
-![ram2port MegaWizard](https://raw.githubusercontent.com/Clockfix/VGA_Ambilight/LED_controler/doc/top_entity.png) 
+![Top entity](https://raw.githubusercontent.com/Clockfix/VGA_Ambilight/main/doc/top_entity.png) 
 ### Platform Designer [SoC]
-![result of test bench for bit_sender module](https://raw.githubusercontent.com/Clockfix/VGA_Ambilight/LED_controler/doc/platform_designer.png) 
+![Platform Designer](https://raw.githubusercontent.com/Clockfix/VGA_Ambilight/main/doc/platform_designer.png) 
 
 
