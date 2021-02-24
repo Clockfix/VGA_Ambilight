@@ -1,4 +1,10 @@
 
+State Machine - |main|vga_sync_pulse_counter:vga_sync_pulse_counter_inst|State
+Name State.H_start State.H_porch State.Frame_end 
+State.Frame_end 0 0 0 
+State.H_porch 0 1 1 
+State.H_start 1 0 1 
+
 State Machine - |main|output_module:output_module_inst|sender_fsm:sender_fsm_inst|state_reg
 Name state_reg.S_SEND_DATA state_reg.S_WAIT state_reg.S_RESET state_reg.S_IDLE 
 state_reg.S_IDLE 0 0 0 0 

@@ -1,16 +1,4 @@
------------------------------
--- Author - Artis Rusins
--- Date -  
--- Project name - VGA_Ambilight  
--- Module name -  
---
--- Detailed module description
---  
---
--- Revision:
--- A - initial design
--- B -  
------------------------------
+
 -- module for controlling DE1-SOC ADC LTC2308
 
 -- Dependencies (Libraries and packages)
@@ -25,29 +13,28 @@ ENTITY ADC_spi_master IS
 		ADC_DIN : OUT STD_LOGIC; -- 6 configuration bits for ADC operation mode
 		ADC_SCLK : OUT STD_LOGIC; -- ADC clk
 		ADC_CONVST : OUT STD_LOGIC := '0'; -- conversion start (chip select)
-		--config_bits	: in std_logic_vector(5 downto 0) := "100010"
-		test_out : OUT STD_LOGIC_VECTOR(11 DOWNTO 0) := (OTHERS => '0')
+		--config_in	: in std_logic_vector(17 downto 0);
+		valid : OUT STD_LOGIC := '0';
+		data_out : OUT STD_LOGIC_VECTOR(11 DOWNTO 0) := (OTHERS => '0')
 	);
 END ENTITY;
 --define inside of the module
 ARCHITECTURE behavioral OF ADC_spi_master IS
 	SIGNAL config_bits : STD_LOGIC_VECTOR(17 DOWNTO 0) := "100010000000000000"; --channel 0
-	--signal config_bits		: std_logic_vector(17 downto 0) := "110010000000000000";			--channel 5
-	--signal config_bits		: std_logic_vector(17 downto 0) := "100110000000000000";			--channel 2 channel 3 ???
-	SIGNAL done : STD_LOGIC := '0';
-	SIGNAL sampling_active : STD_LOGIC := '0';
+	--signal config_bits		: std_logic_vector(17 downto 0) := "110010000000000000";			--channel 1
+	--signal config_bits		: std_logic_vector(17 downto 0) := "100110000000000000";			--channel 2
 	SIGNAL i : INTEGER RANGE 0 TO 81; -- count to 80 clock cycles (2us) for ADC_CONVST
-	SIGNAL config_counter : INTEGER RANGE 0 TO 81; -- count to 6 clk for config bits
 	SIGNAL sampled_data : STD_LOGIC_VECTOR(11 DOWNTO 0) := (OTHERS => '0');
 	SIGNAL sampled_data_integer : INTEGER RANGE 0 TO 4100;
-
+	SIGNAL output_ready : STD_LOGIC := '0';
+	SIGNAL config_counter : INTEGER RANGE 0 TO 2 := 0; -- for changing configuration bits (ADC input channel)
 	TYPE t_State IS (init_state, tx_state);
 	SIGNAL State : t_State;
 
 BEGIN
 	ADC_SCLK <= ADC_clk;
 	--sampled_data_integer <= to_integer(unsigned(sampled_data));
-	test_out <= sampled_data;
+	data_out <= sampled_data;
 	PROCESS (ADC_clk) IS
 	BEGIN
 		IF rising_edge(ADC_clk) THEN
@@ -57,12 +44,21 @@ BEGIN
 			END IF;
 			CASE State IS
 				WHEN init_state =>
+					--change config bits here
+					CASE config_counter IS
+						WHEN 0 => config_bits <= "100010000000000000"; --ch1
+						WHEN 1 => config_bits <= "110010000000000000"; --ch2
+						WHEN 2 => config_bits <= "100110000000000000"; --ch3
+						WHEN OTHERS => config_bits <= "100010000000000000"; -- ch1
+					END CASE;
 					ADC_CONVST <= '1';
 					ADC_DIN <= '0';
-					sampling_active <= '0';
-					done <= '0';
-					config_counter <= 0;
+					valid <= '0';
 					IF i = 60 THEN
+						config_counter <= config_counter + 1;
+						IF config_counter = 2 THEN
+							config_counter <= 0;
+						END IF;
 						State <= tx_state;
 					END IF;
 
@@ -83,14 +79,17 @@ BEGIN
 						WHEN 73 => ADC_DIN <= config_bits(6);
 						WHEN 74 => ADC_DIN <= config_bits(5);
 						WHEN 75 => ADC_DIN <= config_bits(4);
+							valid <= '1';
 						WHEN 76 => ADC_DIN <= config_bits(3);
+							valid <= '1';
 						WHEN 77 => ADC_DIN <= config_bits(2);
+							valid <= '1';
 						WHEN 78 => ADC_DIN <= config_bits(1);
+							valid <= '1';
 						WHEN 79 => ADC_DIN <= config_bits(0);
+							valid <= '1';
 						WHEN OTHERS => ADC_DIN <= '0';
 					END CASE;
-					sampling_active <= '1';
-					done <= '0';
 					IF i = 79 THEN
 						State <= init_state;
 					END IF;
@@ -114,7 +113,7 @@ BEGIN
 				WHEN 72 => sampled_data(2) <= ADC_DOUT;
 				WHEN 73 => sampled_data(1) <= ADC_DOUT;
 				WHEN 74 => sampled_data(0) <= ADC_DOUT;
-				WHEN OTHERS => done <= '0';
+				WHEN OTHERS => output_ready <= '0';
 			END CASE;
 		END IF;
 	END PROCESS;

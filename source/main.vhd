@@ -124,6 +124,15 @@ ARCHITECTURE rtl OF main IS
     --------------------------------------------
 
     SIGNAL w_adc_data : STD_LOGIC_VECTOR(11 DOWNTO 0);
+    SIGNAL w_adc_valid : STD_LOGIC;
+
+    --------------------------------------------
+    --  vga sync
+    --------------------------------------------
+
+    SIGNAL w_vga_valid : STD_LOGIC;
+    SIGNAL w_horizontal : INTEGER RANGE 0 TO 1023;
+    SIGNAL w_vertical : INTEGER RANGE 0 TO 1023;
 
     --------------------------------------------
     --  LED memory wires
@@ -131,6 +140,15 @@ ARCHITECTURE rtl OF main IS
 
     SIGNAL w_fpga_ram_address : STD_LOGIC_VECTOR(9 DOWNTO 0); -- address
     SIGNAL w_fpga_ram_readdata : STD_LOGIC_VECTOR(31 DOWNTO 0); --         .readdata
+
+    --------------------------------------------
+    --  VGA memory wires
+    --------------------------------------------
+
+    SIGNAL w_vga_address : STD_LOGIC_VECTOR(11 DOWNTO 0);
+    SIGNAL w_vga_ram_en : STD_LOGIC;
+    SIGNAL w_vga_ram_byteenable : STD_LOGIC_VECTOR(3 DOWNTO 0);
+    SIGNAL w_vga_ram_writedata : STD_LOGIC_VECTOR(31 DOWNTO 0);
 
     --------------------------------------------
     --  SoC HPS system component
@@ -305,13 +323,13 @@ BEGIN
             led_ram_readdata => w_fpga_ram_readdata, --              .readdata
             -- led_ram_writedata               => led_ram_writedata,               --              .writedata
             led_ram_byteenable => "1111", --              .byteenable
-            -- vga_ram_address                 => vga_ram_address,                 --       vga_ram.address
+            vga_ram_address => w_vga_address, --       vga_ram.address
             vga_ram_chipselect => '1', --              .chipselect
-            vga_ram_clken => '1', --              .clken
-            -- vga_ram_write                   => vga_ram_write,                   --              .write
+            vga_ram_clken => w_vga_ram_en, --              .clken
+            vga_ram_write => '1', --              .write
             -- vga_ram_readdata                => vga_ram_readdata,                --              .readdata
-            -- vga_ram_writedata               => vga_ram_writedata,               --              .writedata
-            -- vga_ram_byteenable              => vga_ram_byteenable,              --              .byteenable
+            vga_ram_writedata => w_vga_ram_writedata, --              .writedata
+            vga_ram_byteenable => w_vga_ram_byteenable, --              .byteenable
             reset_reset_n => '1' --         reset.reset_n
         );
 
@@ -337,8 +355,22 @@ BEGIN
         --     );
 
         --------------------------------------------
-        --  Output module
+        --  Other modules
         --------------------------------------------
+        marge_inst : ENTITY work.merge
+            PORT MAP(
+                i_clk => w_clock_40m, -- 40 MHz clock is needed
+                i_horizontal => w_horizontal, --: IN INTEGER RANGE 0 TO 1023;
+                i_vertical => w_vertical, --: IN INTEGER RANGE 0 TO 1023;
+                i_ADC_reading => w_adc_data, -- : IN STD_LOGIC_VECTOR(11 DOWNTO 0);
+                i_valid_ADC => w_adc_valid, -- : IN STD_LOGIC;
+                i_valid_VGA => w_vga_valid, -- : IN STD_LOGIC;
+                o_en => w_vga_ram_en, -- : OUT STD_LOGIC;
+                o_byteenable => w_vga_ram_byteenable, --: OUT STD_LOGIC_VECTOR(3 DOWNTO 0);
+                o_data32 => w_vga_ram_writedata, -- : OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
+                o_address => w_vga_address --: OUT STD_LOGIC_VECTOR(11 DOWNTO 0);
+                -- o_test=> -- : OUT STD_LOGIC_VECTOR(31 DOWNTO 0)
+            );
         output_module_inst : ENTITY work.output_module
             GENERIC MAP(
                 -- generic parameters - passed here from calling entity
@@ -361,17 +393,19 @@ BEGIN
                 ADC_SCLK => o_ADC_SCLK, -- ADC clk
                 ADC_CONVST => o_ADC_CONVST, -- conversion start (chip select)
                 --config_bits	=> "100010",
-                test_out => w_adc_data
+                valid => w_adc_valid, --		: out std_logic := '0';
+                data_out => w_adc_data
             );
 
         vga_sync_pulse_counter_inst : ENTITY work.vga_sync_pulse_counter
             PORT MAP(
                 v_sync => i_v_sync,
                 h_sync => i_h_sync,
-                VGA_clk => w_clock_40m--,
+                VGA_clk => w_clock_40m,
                 -- send  => 
-                -- v  => 
-                -- h  => 
+                v => w_vertical,
+                h => w_horizontal,
+                valid => w_vga_valid
             );
 
         -- reg-state logic
