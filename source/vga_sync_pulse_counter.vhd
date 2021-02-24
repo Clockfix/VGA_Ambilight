@@ -1,90 +1,90 @@
--- module for counting VGA signal pixels and resetting on sync pulses 
+-- module for counting VGA signal pixels and reseting on sync pulses 
 --	outputs current coordinate
 
 -- Dependencies (Libraries and packages)
-LIBRARY ieee;
-USE ieee.std_logic_1164.ALL;
-USE ieee.numeric_std.ALL;
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
 
-ENTITY vga_sync_pulse_counter IS
-	PORT (
-		v_sync : IN STD_LOGIC;
-		h_sync : IN STD_LOGIC;
-		VGA_clk : IN STD_LOGIC;
-		-- send : IN STD_LOGIC;
-		v : OUT INTEGER RANGE 0 TO 599 := 0; -- VGA resolution
-		h : OUT INTEGER RANGE 0 TO 799 := 0;
-		valid : OUT STD_LOGIC := '0'
+entity vga_sync_pulse_counter is 
+	port (
+		v_sync	: in std_logic;
+		h_sync	: in std_logic;
+		VGA_clk	: in std_logic;
+		send		: in std_logic;
+		v	: out integer range 0 to 599 := 0;		-- VGA resolution
+		h	: out integer range 0 to 799 := 0;
+		valid : out std_logic := '0'
 	);
-END ENTITY;
+end entity;
 
-ARCHITECTURE behavioral OF vga_sync_pulse_counter IS
-	SIGNAL h_count : INTEGER RANGE 0 TO 799 := 0; -- VGA resolution
-	SIGNAL v_count : INTEGER RANGE 0 TO 599 := 0;
-	SIGNAL h_porch_counter : INTEGER RANGE 0 TO 255 := 0;
-	SIGNAL v_porch_counter : INTEGER RANGE 0 TO 24289 := 0; -- should fit 23 full video frames 
-	SIGNAL h_porch_counter_en : STD_LOGIC := '0';
-	SIGNAL v_porch_counter_en : STD_LOGIC := '0';
-	SIGNAL visible_region_active : STD_LOGIC := '0';
-
-	TYPE t_State IS (H_start, H_porch, Frame_end);
-	SIGNAL State : t_State;
-
-BEGIN
-	PROCESS (VGA_clk, v_count, h_count, v_sync, h_sync) IS
-	BEGIN
-		-- output current coordinates and valid signal when
-		-- we're inside visible region
+architecture behavioral of vga_sync_pulse_counter is
+	signal h_count	: integer range 0 to 799 := 0;		-- VGA resolution
+	signal v_count	: integer range 0 to 599 := 0;
+	signal h_porch_counter : integer range 0 to 255 := 0;
+	signal v_porch_counter : integer range 0 to 24289 := 0; -- should fit 23 full video frames 
+	signal h_porch_counter_en : std_logic := '0';
+	signal v_porch_counter_en : std_logic := '0';
+	signal visible_region_active	: std_logic := '0';
+	
+	type t_State is (H_start, H_porch, Frame_end);
+	signal State : t_State;
+	
+begin
+	process(VGA_clk, v_count, h_count, v_sync, h_sync) is
+	begin
+			-- output current coordinates and valid signal when
+			-- we're inside visible region
 		v <= v_count;
 		h <= h_count;
 		valid <= visible_region_active;
-
-		IF v_sync = '0' THEN
+	
+		if v_sync = '0' then	
 			State <= Frame_end;
 			visible_region_active <= '0';
-		ELSIF rising_edge(VGA_clk) THEN
-
-			--counters
-			IF rising_edge(VGA_clk) AND h_porch_counter_en = '1' THEN
-				h_porch_counter <= h_porch_counter + 1;
-			END IF;
-
-			IF rising_edge(VGA_clk) AND v_porch_counter_en = '1' THEN
-				v_porch_counter <= v_porch_counter + 1;
-			END IF;
-
+		elsif rising_edge(VGA_clk) then
+		
+				--counters
+		if rising_edge(VGA_clk) and h_porch_counter_en = '1' then
+			h_porch_counter <= h_porch_counter + 1;
+		end if;
+		
+		if rising_edge(VGA_clk) and v_porch_counter_en = '1' then
+			v_porch_counter <= v_porch_counter + 1;
+		end if;
+		
 			-- FSM
-			CASE State IS
-				WHEN H_start =>
+			case State is
+				when H_start =>
 					h_count <= h_count + 1;
 					h_porch_counter_en <= '0';
 					h_porch_counter <= 0;
 					v_porch_counter_en <= '0';
 					v_porch_counter <= 0;
 					visible_region_active <= '1';
-					IF h_sync = '0' THEN
+					if h_sync = '0' then
 						v_count <= v_count + 1;
 						State <= H_porch;
-					END IF;
-
-				WHEN H_porch =>
+					end if;
+					
+				when H_porch =>
 					h_porch_counter_en <= '1';
 					h_count <= 0;
 					visible_region_active <= '0';
-					IF h_porch_counter = 88 + 128 THEN -- back porch + horizontal sync pulse 
+					if h_porch_counter = 88+128 then		-- back porch + horizontal sync pulse 
 						State <= H_start;
-					END IF;
-
-				WHEN Frame_end =>
+					end if;
+					
+				when Frame_end =>
 					v_porch_counter_en <= '1';
 					v_count <= 0;
 					h_count <= 0;
 					visible_region_active <= '0';
-					IF v_porch_counter = 23 * 1056 THEN -- 23 full video frames 
+					if v_porch_counter = 23*1056 then 	-- 23 full video frames 
 						State <= H_start;
-					END IF;
-			END CASE;
-		END IF;
+					end if;	
+			end case;
+		end if;
 
-	END PROCESS;
-END ARCHITECTURE;
+	end process;
+end architecture;
