@@ -1,0 +1,782 @@
+
+sockit-ubuntu-core login: sockit
+Password:
+Last login: Wed Dec 31 19:04:26 EST 1969 on ttyS0
+Welcome to Ubuntu 14.04.6 LTS (GNU/Linux 3.10.31-ltsi-05151-gc8b20a4 armv7l)
+
+ * Documentation:  https://help.ubuntu.com/
+sockit@sockit-ubuntu-core:~$ hexdump -C --skip 0x2000000 /dev/mem | head
+-bash: hexdump: command not found
+(failed reverse-i-search)`busy': sudo mv soc_system.rbf fat_drive/soc_system.r^C
+sockit@sockit-ubuntu-core:~$ hexdump -C --skip 0x2000000 /dev/mem | head^C
+sockit@sockit-ubuntu-core:~$ busybox
+.bash_history       .viminfo            hps_lcd
+.bash_logout        .w3m/               main.elf
+.bashrc             Pixelizing/         my_first_hps
+.cache/             SoC/                note.png
+.config/            fat_drive/          poition.png
+.local/             git/                r.png
+.pip/               gsensor             soc_system.rbf
+.profile            hart.png            soc_system_old.rbf
+.selected_editor    hps_gpio            test
+sockit@sockit-ubuntu-core:~$ busybox
+BusyBox v1.21.1 (Ubuntu 1:1.21.0-1ubuntu1.4) multi-call binary.
+BusyBox is copyrighted by many authors between 1998-2012.
+Licensed under GPLv2. See source distribution for detailed
+copyright notices.
+
+Usage: busybox [function [arguments]...]
+   or: busybox --list[-full]
+   or: busybox --install [-s] [DIR]
+   or: function [arguments]...
+
+        BusyBox is a multi-call binary that combines many common Unix
+        utilities into a single executable.  Most people will create a
+        link to busybox for each function they wish to use and BusyBox
+        will act like whatever it was invoked as.
+
+Currently defined functions:
+        [, [[, adjtimex, ar, arp, arping, ash, awk, basename, blockdev, brctl,
+        bunzip2, bzcat, bzip2, cal, cat, chgrp, chmod, chown, chpasswd, chroot,
+        chvt, clear, cmp, cp, cpio, cttyhack, cut, date, dc, dd, deallocvt,
+        depmod, df, diff, dirname, dmesg, dnsdomainname, dos2unix, du,
+        dumpkmap, dumpleases, echo, egrep, env, expand, expr, false, fgrep,
+        find, fold, free, freeramdisk, ftpget, ftpput, getopt, getty, grep,
+        groups, gunzip, gzip, halt, head, hexdump, hostid, hostname, httpd,
+        hwclock, id, ifconfig, init, insmod, ionice, ip, ipcalc, kill, killall,
+        klogd, last, less, ln, loadfont, loadkmap, logger, login, logname,
+        logread, losetup, ls, lsmod, lzcat, lzma, md5sum, mdev, microcom,
+        mkdir, mkfifo, mknod, mkswap, mktemp, modinfo, modprobe, more, mount,
+        mt, mv, nameif, nc, netstat, nslookup, od, openvt, patch, pidof, ping,
+        ping6, pivot_root, poweroff, printf, ps, pwd, rdate, readlink,
+        realpath, reboot, renice, reset, rev, rm, rmdir, rmmod, route, rpm,
+        rpm2cpio, run-parts, sed, seq, setkeycodes, setsid, sh, sha1sum,
+        sha256sum, sha512sum, sleep, sort, start-stop-daemon, stat, static-sh,
+        strings, stty, swapoff, swapon, switch_root, sync, sysctl, syslogd,
+        tac, tail, tar, taskset, tee, telnet, test, tftp, time, timeout, top,
+        touch, tr, traceroute, traceroute6, true, tty, udhcpc, udhcpd, umount,
+        uname, uncompress, unexpand, uniq, unix2dos, unlzma, unxz, unzip,
+        uptime, usleep, uudecode, uuencode, vconfig, vi, watch, watchdog, wc,
+        wget, which, who, whoami, xargs, xz, xzcat, yes, zcat
+
+sockit@sockit-ubuntu-core:~$ busybox hexdump
+^C
+sockit@sockit-ubuntu-core:~$ busybox hexdump -C --skip 0x2000000 /dev/mem | head
+hexdump: invalid option -- '-'
+BusyBox v1.21.1 (Ubuntu 1:1.21.0-1ubuntu1.4) multi-call binary.
+
+Usage: hexdump [-bcCdefnosvx] [FILE]...
+
+Display FILEs (or stdin) in a user specified format
+
+        -b              One-byte octal display
+        -c              One-byte character display
+        -C              Canonical hex+ASCII, 16 bytes per line
+        -d              Two-byte decimal display
+        -e FORMAT_STRING
+        -f FORMAT_FILE
+        -n LENGTH       Interpret only LENGTH bytes of input
+        -o              Two-byte octal display
+        -s OFFSET       Skip OFFSET bytes
+        -v              Display all input data
+        -x              Two-byte hexadecimal display
+
+sockit@sockit-ubuntu-core:~$ busybox hexdump -C -s 0x2000000 /dev/mem | head    hexdump: /dev/mem: Permission denied
+sockit@sockit-ubuntu-core:~$ sudo busybox hexdump -C -s 0x2000000 /dev/mem | head
+[sudo] password for sockit:
+02000000  d0 0d fe ed 00 00 59 96  00 00 00 38 00 00 53 d4  |......Y....8..S.|
+02000010  00 00 00 28 00 00 00 11  00 00 00 10 00 00 00 00  |...(............|
+02000020  00 00 05 c2 00 00 53 9c  00 00 00 00 00 00 00 00  |......S.........|
+02000030  00 00 00 00 00 00 00 00  00 00 00 01 00 00 00 00  |................|
+02000040  00 00 00 03 00 00 00 19  00 00 00 00 41 6c 74 65  |............Alte|
+02000050  72 61 20 53 4f 43 46 50  47 41 20 43 79 63 6c 6f  |ra SOCFPGA Cyclo|
+02000060  6e 65 20 56 00 00 00 00  00 00 00 03 00 00 00 23  |ne V...........#|
+02000070  00 00 00 06 61 6c 74 72  2c 73 6f 63 66 70 67 61  |....altr,socfpga|
+02000080  2d 63 79 63 6c 6f 6e 65  35 00 61 6c 74 72 2c 73  |-cyclone5.altr,s|
+02000090  6f 63 66 70 67 61 00 00  00 00 00 03 00 00 00 04  |ocfpga..........|
+sockit@sockit-ubuntu-core:~$ cd Pixelizing/
+sockit@sockit-ubuntu-core:~/Pixelizing$ sudo python3 devmem.py -r 0x2000000 -n 1
+0x2000000:   edfe0dd0
+sockit@sockit-ubuntu-core:~/Pixelizing$ sudo python3 devmem.py -r 0x2000000 -n 32
+0x2000000:   edfe0dd0  96590000  38000000  d4530000
+0x2000010:   28000000  11000000  10000000  00000000
+0x2000020:   c2050000  9c530000  00000000  00000000
+0x2000030:   00000000  00000000  01000000  00000000
+0x2000040:   03000000  19000000  00000000  65746c41
+0x2000050:   53206172  5046434f  43204147  6f6c6379
+0x2000060:   5620656e  00000000  03000000  23000000
+0x2000070:   06000000  72746c61  636f732c  61677066
+sockit@sockit-ubuntu-core:~/Pixelizing$ sudo python3 devmem.py -r 0xc000000 -n 32
+0xc000000:   fa8eae7e  f36e4d14  3d86e75f  577fdfe9
+0xc000010:   5737d5b8  555fd5bb  69738719  55df719b
+0xc000020:   a3ddf3aa  675dff77  c7f7e98f  34605f67
+0xc000030:   66f9edff  5b32d727  7f4e4bf7  e8fb8553
+0xc000040:   bb9c4f99  fdc07b1f  4d252fd3  6897dfe8
+0xc000050:   75feb8f3  7db7f56d  bf56357e  19bbf2e6
+0xc000060:   51df7e57  d74dadf2  7fb7f959  7f35f8ff
+0xc000070:   b4fddef5  df4fdcff  edd7c9f7  d36ad3ef
+sockit@sockit-ubuntu-core:~/Pixelizing$ sudo busybox hexdump -C -s 0xc000000 /dev/mem | head
+0c000000  7e ae 8e fa 14 4d 6e f3  5f e7 86 3d e9 df 7f 57  |~....Mn._..=...W|
+0c000010  b8 d5 37 57 bb d5 5f 55  19 87 73 69 9b 71 df 55  |..7W.._U..si.q.U|
+0c000020  aa f3 dd a3 77 ff 5d 67  8f e9 f7 c7 67 5f 60 34  |....w.]g....g_`4|
+0c000030  ff ed f9 66 27 d7 32 5b  f7 4b 4e 7f 53 85 fb e8  |...f'.2[.KN.S...|
+0c000040  99 4f 9c bb 1f 7b c0 fd  d3 2f 25 4d e8 df 97 68  |.O...{.../%M...h|
+0c000050  f3 b8 fe 75 6d f5 b7 7d  7e 35 56 bf e6 f2 bb 19  |...um..}~5V.....|
+0c000060  57 7e df 51 f2 ad 4d d7  59 f9 b7 7f ff f8 35 7f  |W~.Q..M.Y.....5.|
+0c000070  f5 de fd b4 ff dc 4f df  f7 c9 d7 ed ef d3 6a d3  |......O.......j.|
+0c000080  d7 dd 71 cf 02 d4 ff eb  f1 7f d5 cd 47 25 7e fb  |..q.........G%~.|
+0c000090  7e ff a4 f5 76 7e fc 27  3f 47 9f f7 eb 37 e1 dd  |~...v~.'?G...7..|
+sockit@sockit-ubuntu-core:~/Pixelizing$ sudo apt install git
+Reading package lists... Done
+Building dependency tree
+Reading state information... Done
+git is already the newest version.
+The following packages were automatically installed and are no longer required:
+  liba52-0.7.4 libass4 libasyncns0 libavcodec54 libavformat54 libavresample1
+  libavutil52 libblas3 libbluray1 libbs2b0 libcaca0 libcdio-cdda1
+  libcdio-paranoia1 libcdio13 libdca0 libdirectfb-1.2-9 libdiscid0 libdv4
+  libdvdread4 libenca0 libfaad2 libflac8 libgfortran3 libgmlib1 libgmtk1
+  libgmtk1-data libgpod4 libgsm1 libjack-jackd2-0 libjs-jquery liblapack3
+  liblircclient0 liblua5.2-0 libmad0 libmp3lame0 libmpg123-0 libmusicbrainz3-6
+  libnautilus-extension1a libneon27-gnutls libogg0 libopenjpeg2 libopus0
+  liborc-0.4-0 libpostproc52 libpulse-mainloop-glib0 libpulse0
+  libpython-stdlib libquvi-scripts libquvi7 libschroedinger-1.0-0
+  libsdl1.2debian libsecret-1-0 libsecret-common libsndfile1 libspeex1
+  libswscale2 libtheora0 libts-0.0-0 libva1 libvdpau1 libvorbis0a
+  libvorbisenc2 libvpx1 libwebp5 libwebpmux1 libx264-142 libxslt1.1 libxss1
+  libxvidcore4 mplayer2 python-minimal python2.7 python2.7-minimal tsconf
+Use 'apt-get autoremove' to remove them.
+0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
+(reverse-i-search)`get ': sudo apt-^Ct install devmem2
+sockit@sockit-ubuntu-core:~/Pixelizing$ wget https://raw.githubusercontent.com/braingram/pydevmem/master/pydevmem.py
+--2021-02-22 10:08:13--  https://raw.githubusercontent.com/braingram/pydevmem/master/pydevmem.py
+Resolving raw.githubusercontent.com (raw.githubusercontent.com)... 185.199.108.133, 185.199.109.133, 185.199.110.133, ...
+Connecting to raw.githubusercontent.com (raw.githubusercontent.com)|185.199.108.133|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 3267 (3.2K) [text/plain]
+Saving to: 'pydevmem.py'
+
+100%[======================================>] 3,267       --.-K/s   in 0s
+
+2021-02-22 10:08:13 (6.45 MB/s) - 'pydevmem.py' saved [3267/3267]
+
+sockit@sockit-ubuntu-core:~/Pixelizing$ python3 pydevmem.py
+  File "pydevmem.py", line 17
+    print mem.size()
+            ^
+SyntaxError: invalid syntax
+sockit@sockit-ubuntu-core:~/Pixelizing$ python pydevmem.py
+Traceback (most recent call last):
+  File "pydevmem.py", line 111, in <module>
+    print value_to_hex(read(0x48002178))
+  File "pydevmem.py", line 32, in read
+    f = os.open("/dev/mem", os.O_RDWR | os.O_SYNC)
+OSError: [Errno 13] Permission denied: '/dev/mem'
+sockit@sockit-ubuntu-core:~/Pixelizing$ sudo python pydevmem.py
+<mmap.mmap object at 0x76ca4d40> 0x48002178Unhandled fault: external abort on non-linefetch (0x1018) at 0x76f5e178
+
+0
+sockit@sockit-ubuntu-core:~/Pixelizing$ git clone https://github.com/kylemanna/pydevmem
+Cloning into 'pydevmem'...
+remote: Enumerating objects: 78, done.
+remote: Counting objects: 100% (78/78), done.
+remote: Compressing objects: 100% (46/46), done.
+remote: Total 134 (delta 30), reused 67 (delta 26), pack-reused 56
+Receiving objects: 100% (134/134), 34.42 KiB | 0 bytes/s, done.
+Resolving deltas: 100% (45/45), done.
+Checking connectivity... done.
+sockit@sockit-ubuntu-core:~/Pixelizing$ cd pydevmem/
+sockit@sockit-ubuntu-core:~/Pixelizing/pydevmem$ python3 setup.py install
+Traceback (most recent call last):
+  File "setup.py", line 7, in <module>
+    README = (pathlib.Path(__file__).parent / "README.md").read_text()
+AttributeError: 'PosixPath' object has no attribute 'read_text'
+sockit@sockit-ubuntu-core:~/Pixelizing/pydevmem$ nano setup.py
+  GNU nano 2.2.6              File: setup.py
+
+#!/usr/bin/env python3
+
+import pathlib
+from setuptools import setup
+
+setup(
+    name="devmem",
+    version="0.1.0",
+    description="Python devmem clone",
+    url="https://github.com/kylemanna/pydevmem",
+    author="Kyle Manna",
+    author_email="kyle@kylemanna.com",
+    license="MIT",
+    classifiers=[
+        "License :: OSI Approved :: MIT License",
+        "Programming Language :: Python :: 3",
+        "Programming Language :: Python :: 3.8",
+    ],
+    packages=["devmem"],
+                               [ Wrote 26 lines ]
+
+sockit@sockit-ubuntu-core:~/Pixelizing/pydevmem$ python3 setup.py install
+running install
+Checking .pth file support in /usr/local/lib/python3.4/dist-packages/
+error: can't create or remove files in install directory
+
+The following error occurred while trying to add or remove files in the
+installation directory:
+
+    [Errno 13] Permission denied: '/usr/local/lib/python3.4/dist-packages/test-easy-install-929.pth'
+
+The installation directory you specified (via --install-dir, --prefix, or
+the distutils default setting) was:
+
+    /usr/local/lib/python3.4/dist-packages/
+
+Perhaps your account does not have write access to this directory?  If the
+installation directory is a system-owned directory, you may need to sign in
+as the administrator or "root" account.  If you do not have administrative
+access to this machine, you may wish to choose a different installation
+directory, preferably one that is listed in your PYTHONPATH environment
+variable.
+
+For information on other options, you may wish to consult the
+documentation at:
+
+  https://pythonhosted.org/setuptools/easy_install.html
+
+Please make the appropriate changes for your system and try again.
+
+sockit@sockit-ubuntu-core:~/Pixelizing/pydevmem$ sudo !!
+sudo python3 setup.py install
+running install
+Checking .pth file support in /usr/local/lib/python3.4/dist-packages/
+/usr/bin/python3 -E -c pass
+TEST PASSED: /usr/local/lib/python3.4/dist-packages/ appears to support .pth files
+running bdist_egg
+running egg_info
+creating devmem.egg-info
+writing dependency_links to devmem.egg-info/dependency_links.txt
+writing top-level names to devmem.egg-info/top_level.txt
+writing entry points to devmem.egg-info/entry_points.txt
+writing devmem.egg-info/PKG-INFO
+writing manifest file 'devmem.egg-info/SOURCES.txt'
+reading manifest file 'devmem.egg-info/SOURCES.txt'
+writing manifest file 'devmem.egg-info/SOURCES.txt'
+installing library code to build/bdist.linux-armv7l/egg
+running install_lib
+running build_py
+creating build
+creating build/lib
+creating build/lib/devmem
+copying devmem/__init__.py -> build/lib/devmem
+copying devmem/__main__.py -> build/lib/devmem
+creating build/bdist.linux-armv7l
+creating build/bdist.linux-armv7l/egg
+creating build/bdist.linux-armv7l/egg/devmem
+copying build/lib/devmem/__init__.py -> build/bdist.linux-armv7l/egg/devmem
+copying build/lib/devmem/__main__.py -> build/bdist.linux-armv7l/egg/devmem
+byte-compiling build/bdist.linux-armv7l/egg/devmem/__init__.py to __init__.cpython-34.pyc
+byte-compiling build/bdist.linux-armv7l/egg/devmem/__main__.py to __main__.cpython-34.pyc
+creating build/bdist.linux-armv7l/egg/EGG-INFO
+copying devmem.egg-info/PKG-INFO -> build/bdist.linux-armv7l/egg/EGG-INFO
+copying devmem.egg-info/SOURCES.txt -> build/bdist.linux-armv7l/egg/EGG-INFO
+copying devmem.egg-info/dependency_links.txt -> build/bdist.linux-armv7l/egg/EGG-INFO
+copying devmem.egg-info/entry_points.txt -> build/bdist.linux-armv7l/egg/EGG-INFO
+copying devmem.egg-info/top_level.txt -> build/bdist.linux-armv7l/egg/EGG-INFO
+zip_safe flag not set; analyzing archive contents...
+creating dist
+creating 'dist/devmem-0.1.0-py3.4.egg' and adding 'build/bdist.linux-armv7l/egg' to it
+removing 'build/bdist.linux-armv7l/egg' (and everything under it)
+Processing devmem-0.1.0-py3.4.egg
+Copying devmem-0.1.0-py3.4.egg to /usr/local/lib/python3.4/dist-packages
+Adding devmem 0.1.0 to easy-install.pth file
+Installing pydevmem script to /usr/local/bin
+
+Installed /usr/local/lib/python3.4/dist-packages/devmem-0.1.0-py3.4.egg
+Processing dependencies for devmem==0.1.0
+Finished processing dependencies for devmem==0.1.0
+sockit@sockit-ubuntu-core:~/Pixelizing/pydevmem$ pydevmem
+usage: pydevmem [-h] (-r ADDR | -w ADDR VALUE) [-n NUM] [-s {1,2,4}] [-m FILE]
+                [-v] [-d]
+pydevmem: error: one of the arguments -r/--read -w/--write is required
+sockit@sockit-ubuntu-core:~/Pixelizing/pydevmem$ pydevmem --help
+usage: pydevmem [-h] (-r ADDR | -w ADDR VALUE) [-n NUM] [-s {1,2,4}] [-m FILE]
+                [-v] [-d]
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -r ADDR, --read ADDR  read a value
+  -w ADDR VALUE, --write ADDR VALUE
+                        write a value
+  -n NUM, --num NUM     number of words to read
+  -s {1,2,4}, --word-size {1,2,4}
+                        size of word when displayed
+  -m FILE, --mmap FILE  file to open with mmap()
+  -v, --verbose         provide more information regarding operation
+  -d, --debug           provide debugging information
+sockit@sockit-ubuntu-core:~/Pixelizing/pydevmem$ pydevmem -r 0xc000000
+Traceback (most recent call last):
+  File "/usr/local/bin/pydevmem", line 9, in <module>
+    load_entry_point('devmem==0.1.0', 'console_scripts', 'pydevmem')()
+  File "/usr/local/lib/python3.4/dist-packages/devmem-0.1.0-py3.4.egg/devmem/__main__.py", line 108, in main
+  File "/usr/local/lib/python3.4/dist-packages/devmem-0.1.0-py3.4.egg/devmem/__init__.py", line 114, in __init__
+PermissionError: [Errno 13] Permission denied: '/dev/mem'
+sockit@sockit-ubuntu-core:~/Pixelizing/pydevmem$ sudo pydevmem -r 0xc000000
+0xc000000:   fa8eae7e
+sockit@sockit-ubuntu-core:~/Pixelizing/pydevmem$ sudo pydevmem -v -w 0xc000000 ^C
+sockit@sockit-ubuntu-core:~/Pixelizing/pydevmem$ sudo pydevmem -v -w 0xc000000 fa8eae7e
+usage: pydevmem [-h] (-r ADDR | -w ADDR VALUE) [-n NUM] [-s {1,2,4}] [-m FILE]
+                [-v] [-d]
+pydevmem: error: argument -w/--write: invalid <lambda> value: 'fa8eae7e'
+sockit@sockit-ubuntu-core:~/Pixelizing/pydevmem$ sudo pydevmem -v -w 0xc000000 oxfa8eae7e
+usage: pydevmem [-h] (-r ADDR | -w ADDR VALUE) [-n NUM] [-s {1,2,4}] [-m FILE]
+                [-v] [-d]
+pydevmem: error: argument -w/--write: invalid <lambda> value: 'oxfa8eae7e'
+sockit@sockit-ubuntu-core:~/Pixelizing/pydevmem$ sudo pydevmem -v -w 0xc000000 0xfa8eae7e
+Value before write:     0xc000000:   fa8eae7e
+Value after write:      0xc000000:   fa8eae7e
+sockit@sockit-ubuntu-core:~/Pixelizing/pydevmem$ sudo pydevmem -v -w 0xc000000 0xfa8eae7f
+Value before write:     0xc000000:   fa8eae7e
+Value after write:      0xc000000:   fa8eae7f
+sockit@sockit-ubuntu-core:~/Pixelizing/pydevmem$ sudo pydevmem -v -d -w 0xc000000 0xfa8eae7f
+DevMem Debug: init with base_addr = 0xc000000 and length = 0x4 on /dev/mem
+DevMem Debug: reading 4 bytes from offset 0x0
+Value before write:     0xc000000:   fa8eae7f
+DevMem Debug: writing 4 bytes to offset 0x0
+DevMem Debug: writing at position = 0: 0xfa8eae7f
+DevMem Debug: reading 4 bytes from offset 0x0
+Value after write:      0xc000000:   fa8eae7f
+sockit@sockit-ubuntu-core:~/Pixelizing/pydevmem$ ifconfig
+eth0      Link encap:Ethernet  HWaddr 76:b7:fc:9e:3d:d7
+          inet addr:192.168.88.109  Bcast:192.168.88.255  Mask:255.255.255.0
+          inet6 addr: fe80::74b7:fcff:fe9e:3dd7/64 Scope:Link
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+          RX packets:3363 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:182 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:1000
+          RX bytes:377633 (377.6 KB)  TX bytes:22020 (22.0 KB)
+          Interrupt:152 Base address:0xc000
+
+lo        Link encap:Local Loopback
+          inet addr:127.0.0.1  Mask:255.0.0.0
+          inet6 addr: ::1/128 Scope:Host
+          UP LOOPBACK RUNNING  MTU:65536  Metric:1
+          RX packets:0 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:0 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:0
+          RX bytes:0 (0.0 B)  TX bytes:0 (0.0 B)
+
+sockit@sockit-ubuntu-core:~/Pixelizing/pydevmem$ cd ..
+sockit@sockit-ubuntu-core:~/Pixelizing$ ls -a
+.           devmem.py      img_rgb.dat  noisy1.png   pypxl_image.py
+..          forest _i.i    img_rgb.txt  pixelate.c   resulTemp.png
+Pixelizing  forest.jpg     lamp.png     pydevmem     resultsOut.txt
+car.png     forest_bl.jpg  mem.dat      pydevmem.py
+sockit@sockit-ubuntu-core:~/Pixelizing$ cd..
+-bash: cd..: command not found
+sockit@sockit-ubuntu-core:~/Pixelizing$ cd ..
+sockit@sockit-ubuntu-core:~$ ls -a
+.              .config           .w3m         gsensor       note.png
+..             .local            Pixelizing   hart.png      poition.png
+.bash_history  .pip              SoC          hps_gpio      r.png
+.bash_logout   .profile          demommap.py  hps_lcd       soc_system.rbf
+.bashrc        .selected_editor  fat_drive    main.elf      soc_system_old.rbf
+.cache         .viminfo          git          my_first_hps  test
+sockit@sockit-ubuntu-core:~$ python3 demommap.py
+[25, 99, 115, 0]
+b'\x19cs\x00'
+writing at position = 0xc000000: b'\x19cs\x00'
+[34, 138, 155, 0]
+b'"\x8a\x9b\x00'
+writing at position = 0xc000001: b'"\x8a\x9b\x00'
+[19, 74, 97, 0]
+b'\x13Ja\x00'
+writing at position = 0xc000002: b'\x13Ja\x00'
+[11, 42, 68, 0]
+b'\x0b*D\x00'
+writing at position = 0xc000003: b'\x0b*D\x00'
+[5, 28, 55, 0]
+b'\x05\x1c7\x00'
+writing at position = 0xc000004: b'\x05\x1c7\x00'
+[4, 26, 53, 0]
+b'\x04\x1a5\x00'
+writing at position = 0xc000005: b'\x04\x1a5\x00'
+[5, 35, 64, 0]
+b'\x05#@\x00'
+writing at position = 0xc000006: b'\x05#@\x00'
+[4, 29, 55, 0]
+b'\x04\x1d7\x00'
+writing at position = 0xc000007: b'\x04\x1d7\x00'
+[3, 20, 45, 0]
+b'\x03\x14-\x00'
+writing at position = 0xc000008: b'\x03\x14-\x00'
+[3, 19, 44, 0]
+b'\x03\x13,\x00'
+writing at position = 0xc000009: b'\x03\x13,\x00'
+sockit@sockit-ubuntu-core:~$ cd Pixelizing/
+sockit@sockit-ubuntu-core:~/Pixelizing$ wget https://paste.debian.net/plain/1186443
+--2021-02-22 11:07:56--  https://paste.debian.net/plain/1186443
+Resolving paste.debian.net (paste.debian.net)... 148.251.236.38, 2a01:4f8:201:3437::2
+Connecting to paste.debian.net (paste.debian.net)|148.251.236.38|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: unspecified [text/plain]
+Saving to: '1186443'
+
+    [ <=>                                   ] 1,156       --.-K/s   in 0s
+
+2021-02-22 11:07:57 (29.5 MB/s) - '1186443' saved [1156]
+
+sockit@sockit-ubuntu-core:~/Pixelizing$ ls -a
+.           car.png      forest_bl.jpg  mem.dat     pydevmem.py
+..          devmem.py    img_rgb.dat    noisy1.png  pypxl_image.py
+1186443     forest _i.i  img_rgb.txt    pixelate.c  resulTemp.png
+Pixelizing  forest.jpg   lamp.png       pydevmem    resultsOut.txt
+sockit@sockit-ubuntu-core:~/Pixelizing$ mv 1186443 testmmap.py
+sockit@sockit-ubuntu-core:~/Pixelizing$ python3 testmmap.py
+Traceback (most recent call last):
+  File "testmmap.py", line 15, in <module>
+    f = os.open(fname, os.O_RDWR | os.O_SYNC)
+NameError: name 'os' is not defined
+sockit@sockit-ubuntu-core:~/Pixelizing$ nano testmmap.py
+  GNU nano 2.2.6             File: testmmap.py                        Modified
+
+import struct
+import mmap
+import os
+
+a = [(16, 87, 109), (14, 81, 105), (13, 74, 100), (13, 71, 98), (12, 68, 96), ($
+b = [(16, 87, 109), (25, 110, 134), (39, 124, 140), (16, 64, 93), (6, 35, 64), $
+c = [(25, 99, 115), (34, 138, 155), (19, 74, 97), (11, 42, 68), (5, 28, 55), (4$
+
+list_to_write = c
+
+base_addr = 0xc000000
+
+fname = '/dev/mem'
+
+mem_window_size = len(list_to_write)*4
+f = os.open(fname, os.O_RDWR | os.O_SYNC)
+mem = mmap.mmap(f, mem_window_size, mmap.MAP_SHARED,
+    mmap.PROT_READ | mmap.PROT_WRITE,
+    offset=base_addr)
+                               [ Read 28 lines ]
+^G Get Help  ^O WriteOut  ^R Read File ^Y Prev Page ^K Cut Text  ^C Cur Pos
+Use "fg" to return to nano.W Where Is  ^V Next Page ^U UnCut Text^T To Spell
+
+[1]+  Stopped                 nano testmmap.py
+sockit@sockit-ubuntu-core:~/Pixelizing$ nano testmmap.py
+  GNU nano 2.2.6             File: testmmap.py
+
+import struct
+import mmap
+import os
+
+a = [(16, 87, 109), (14, 81, 105), (13, 74, 100), (13, 71, 98), (12, 68, 96), ($
+b = [(16, 87, 109), (25, 110, 134), (39, 124, 140), (16, 64, 93), (6, 35, 64), $
+c = [(25, 99, 115), (34, 138, 155), (19, 74, 97), (11, 42, 68), (5, 28, 55), (4$
+
+list_to_write = c
+
+base_addr = 0xc000000
+
+fname = '/dev/mem'
+
+mem_window_size = len(list_to_write)*4
+f = os.open(fname, os.O_RDWR | os.O_SYNC)
+mem = mmap.mmap(f, mem_window_size, mmap.MAP_SHARED,
+    mmap.PROT_READ | mmap.PROT_WRITE,
+    offset=base_addr)
+                               [ Wrote 29 lines ]
+
+sockit@sockit-ubuntu-core:~/Pixelizing$ python3 testmmap.py
+Traceback (most recent call last):
+  File "testmmap.py", line 16, in <module>
+    f = os.open(fname, os.O_RDWR | os.O_SYNC)
+PermissionError: [Errno 13] Permission denied: '/dev/mem'
+sockit@sockit-ubuntu-core:~/Pixelizing$ sudo python3 testmmap.py
+[sudo] password for sockit:
+writing at position = 0: b'\x19cs\x00', initial data: [25, 99, 115, 0]
+writing at position = 4: b'"\x8a\x9b\x00', initial data: [34, 138, 155, 0]
+writing at position = 8: b'\x13Ja\x00', initial data: [19, 74, 97, 0]
+writing at position = 12: b'\x0b*D\x00', initial data: [11, 42, 68, 0]
+writing at position = 16: b'\x05\x1c7\x00', initial data: [5, 28, 55, 0]
+writing at position = 20: b'\x04\x1a5\x00', initial data: [4, 26, 53, 0]
+writing at position = 24: b'\x05#@\x00', initial data: [5, 35, 64, 0]
+writing at position = 28: b'\x04\x1d7\x00', initial data: [4, 29, 55, 0]
+writing at position = 32: b'\x03\x14-\x00', initial data: [3, 20, 45, 0]
+writing at position = 36: b'\x03\x13,\x00', initial data: [3, 19, 44, 0]
+sockit@sockit-ubuntu-core:~/Pixelizing$ sudo pydevmem -r 0xc000000              0xc000000:   00736319
+sockit@sockit-ubuntu-core:~/Pixelizing$ sudo busybox hexdump -C -s 0xc000000 /dev/mem | head
+0c000000  19 63 73 00 22 8a 9b 00  13 4a 61 00 0b 2a 44 00  |.cs."....Ja..*D.|
+0c000010  05 1c 37 00 04 1a 35 00  05 23 40 00 04 1d 37 00  |..7...5..#@...7.|
+0c000020  03 14 2d 00 03 13 2c 00  8f e9 f7 c7 67 5f 60 34  |..-...,.....g_`4|
+0c000030  ff ed f9 66 27 d7 32 5b  f7 4b 4e 7f 53 85 fb e8  |...f'.2[.KN.S...|
+0c000040  99 4f 9c bb 1f 7b c0 fd  d3 2f 25 4d e8 df 97 68  |.O...{.../%M...h|
+0c000050  f3 b8 fe 75 6d f5 b7 7d  7e 35 56 bf e6 f2 bb 19  |...um..}~5V.....|
+0c000060  57 7e df 51 f2 ad 4d d7  59 f9 b7 7f ff f8 35 7f  |W~.Q..M.Y.....5.|
+0c000070  f5 de fd b4 ff dc 4f df  f7 c9 d7 ed ef d3 6a d3  |......O.......j.|
+0c000080  d7 dd 71 cf 02 d4 ff eb  f1 7f d5 cd 47 25 7e fb  |..q.........G%~.|
+0c000090  7e ff a4 f5 76 7e fc 27  3f 47 9f f7 eb 37 e1 dd  |~...v~.'?G...7..|
+sockit@sockit-ubuntu-core:~/Pixelizing$ wget https://paste.debian.net/plain/1186445
+--2021-02-22 11:14:57--  https://paste.debian.net/plain/1186445
+Resolving paste.debian.net (paste.debian.net)... 148.251.236.38, 2a01:4f8:201:3437::2
+Connecting to paste.debian.net (paste.debian.net)|148.251.236.38|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: unspecified [text/plain]
+Saving to: '1186445'
+
+    [ <=>                                   ] 1,265       --.-K/s   in 0s
+
+2021-02-22 11:14:57 (31.3 MB/s) - '1186445' saved [1265]
+
+sockit@sockit-ubuntu-core:~/Pixelizing$ mv 1186445 testmmap.py
+sockit@sockit-ubuntu-core:~/Pixelizing$ nano testmmap.py                          GNU nano 2.2.6             File: testmmap.py
+
+import struct
+import mmap
+import os
+
+a = [(16, 87, 109), (14, 81, 105), (13, 74, 100), (13, 71, 98), (12, 68, 96), ($
+b = [(16, 87, 109), (25, 110, 134), (39, 124, 140), (16, 64, 93), (6, 35, 64), $
+c = [(25, 99, 115), (34, 138, 155), (19, 74, 97), (11, 42, 68), (5, 28, 55), (4$
+
+list_to_write = c
+
+base_addr = 0xc000000
+
+fname = '/dev/mem'
+
+mem_window_size = len(list_to_write)*4
+f = os.open(fname, os.O_RDWR | os.O_SYNC)
+mem = mmap.mmap(f, mem_window_size, mmap.MAP_SHARED,
+    mmap.PROT_READ | mmap.PROT_WRITE,
+    offset=base_addr)
+                               [ Wrote 32 lines ]
+
+sockit@sockit-ubuntu-core:~/Pixelizing$ sudo python3 testmmap.py
+writing at position = 0: b'\x19cs\x00', initial data: [25, 99, 115, 0]
+writing at position = 4: b'"\x8a\x9b\x00', initial data: [34, 138, 155, 0]
+writing at position = 8: b'\x13Ja\x00', initial data: [19, 74, 97, 0]
+writing at position = 12: b'\x0b*D\x00', initial data: [11, 42, 68, 0]
+writing at position = 16: b'\x05\x1c7\x00', initial data: [5, 28, 55, 0]
+writing at position = 20: b'\x04\x1a5\x00', initial data: [4, 26, 53, 0]
+writing at position = 24: b'\x05#@\x00', initial data: [5, 35, 64, 0]
+writing at position = 28: b'\x04\x1d7\x00', initial data: [4, 29, 55, 0]
+writing at position = 32: b'\x03\x14-\x00', initial data: [3, 20, 45, 0]
+writing at position = 36: b'\x03\x13,\x00', initial data: [3, 19, 44, 0]
+Traceback (most recent call last):
+  File "testmmap.py", line 29, in <module>
+    mem.seek(base_addr)
+ValueError: seek out of range
+sockit@sockit-ubuntu-core:~/Pixelizing$ nano testmmap.py
+  GNU nano 2.2.6             File: testmmap.py
+
+for rgb_el in list_to_write:
+    data_portion = list(rgb_el)+[0]
+    word = struct.pack('BBBB', *data_portion)
+    print('writing at position = {}: {}, initial data: {}'.
+                format(mem.tell(), word, data_portion))
+    #debugger #import pdb;pdb.set_trace()
+    mem.write(word)
+
+mem.seek(0)
+
+for i in range(len(base_addr)//4):
+    print(struct.unpack('I', mem.read(self.word))[0])
+
+
+
+
+
+
+
+                               [ Wrote 32 lines ]
+
+sockit@sockit-ubuntu-core:~/Pixelizing$ sudo python3 testmmap.py
+writing at position = 0: b'\x19cs\x00', initial data: [25, 99, 115, 0]
+writing at position = 4: b'"\x8a\x9b\x00', initial data: [34, 138, 155, 0]
+writing at position = 8: b'\x13Ja\x00', initial data: [19, 74, 97, 0]
+writing at position = 12: b'\x0b*D\x00', initial data: [11, 42, 68, 0]
+writing at position = 16: b'\x05\x1c7\x00', initial data: [5, 28, 55, 0]
+writing at position = 20: b'\x04\x1a5\x00', initial data: [4, 26, 53, 0]
+writing at position = 24: b'\x05#@\x00', initial data: [5, 35, 64, 0]
+writing at position = 28: b'\x04\x1d7\x00', initial data: [4, 29, 55, 0]
+writing at position = 32: b'\x03\x14-\x00', initial data: [3, 20, 45, 0]
+writing at position = 36: b'\x03\x13,\x00', initial data: [3, 19, 44, 0]
+Traceback (most recent call last):
+  File "testmmap.py", line 31, in <module>
+    for i in range(len(base_addr)//4):
+TypeError: object of type 'int' has no len()
+sockit@sockit-ubuntu-core:~/Pixelizing$ nano testmmap.py
+  GNU nano 2.2.6             File: testmmap.py
+
+    print('writing at position = {}: {}, initial data: {}'.
+                format(mem.tell(), word, data_portion))
+    #debugger #import pdb;pdb.set_trace()
+    mem.write(word)
+
+mem.seek(0)
+
+for i in range(len(list_to_write)):
+    print(struct.unpack('I', mem.read(self.word))[0])
+
+
+
+
+
+
+
+
+
+
+                               [ Wrote 32 lines ]
+
+sockit@sockit-ubuntu-core:~/Pixelizing$ sudo python3 testmmap.py
+writing at position = 0: b'\x19cs\x00', initial data: [25, 99, 115, 0]
+writing at position = 4: b'"\x8a\x9b\x00', initial data: [34, 138, 155, 0]
+writing at position = 8: b'\x13Ja\x00', initial data: [19, 74, 97, 0]
+writing at position = 12: b'\x0b*D\x00', initial data: [11, 42, 68, 0]
+writing at position = 16: b'\x05\x1c7\x00', initial data: [5, 28, 55, 0]
+writing at position = 20: b'\x04\x1a5\x00', initial data: [4, 26, 53, 0]
+writing at position = 24: b'\x05#@\x00', initial data: [5, 35, 64, 0]
+writing at position = 28: b'\x04\x1d7\x00', initial data: [4, 29, 55, 0]
+writing at position = 32: b'\x03\x14-\x00', initial data: [3, 20, 45, 0]
+writing at position = 36: b'\x03\x13,\x00', initial data: [3, 19, 44, 0]
+Traceback (most recent call last):
+  File "testmmap.py", line 32, in <module>
+    print(struct.unpack('I', mem.read(self.word))[0])
+NameError: name 'self' is not defined
+sockit@sockit-ubuntu-core:~/Pixelizing$ nano testmmap.py
+  GNU nano 2.2.6             File: testmmap.py
+
+    mmap.PROT_READ | mmap.PROT_WRITE,
+    offset=base_addr)
+
+for rgb_el in list_to_write:
+    data_portion = list(rgb_el)+[0]
+    word = struct.pack('BBBB', *data_portion)
+    print('writing at position = {}: {}, initial data: {}'.
+                format(mem.tell(), word, data_portion))
+    #debugger #import pdb;pdb.set_trace()
+    mem.write(word)
+
+mem.seek(0)
+
+for i in range(len(list_to_write)):
+    print(struct.unpack('I', mem.read(4))[0])
+
+
+
+
+                               [ Wrote 32 lines ]
+
+sockit@sockit-ubuntu-core:~/Pixelizing$ sudo python3 testmmap.py
+writing at position = 0: b'\x19cs\x00', initial data: [25, 99, 115, 0]
+writing at position = 4: b'"\x8a\x9b\x00', initial data: [34, 138, 155, 0]
+writing at position = 8: b'\x13Ja\x00', initial data: [19, 74, 97, 0]
+writing at position = 12: b'\x0b*D\x00', initial data: [11, 42, 68, 0]
+writing at position = 16: b'\x05\x1c7\x00', initial data: [5, 28, 55, 0]
+writing at position = 20: b'\x04\x1a5\x00', initial data: [4, 26, 53, 0]
+writing at position = 24: b'\x05#@\x00', initial data: [5, 35, 64, 0]
+writing at position = 28: b'\x04\x1d7\x00', initial data: [4, 29, 55, 0]
+writing at position = 32: b'\x03\x14-\x00', initial data: [3, 20, 45, 0]
+writing at position = 36: b'\x03\x13,\x00', initial data: [3, 19, 44, 0]
+7562009
+10193442
+6375955
+4467211
+3611653
+3480068
+4203269
+3611908
+2954243
+2888451
+sockit@sockit-ubuntu-core:~/Pixelizing$ nano testmmap.py
+  GNU nano 2.2.6             File: testmmap.py
+
+    mmap.PROT_READ | mmap.PROT_WRITE,
+    offset=base_addr)
+
+for rgb_el in list_to_write:
+    data_portion = list(rgb_el)+[0]
+    word = struct.pack('BBBB', *data_portion)
+    print('writing at position = {}: {}, initial data: {}'.
+                format(mem.tell(), word, data_portion))
+    #debugger #import pdb;pdb.set_trace()
+    mem.write(word)
+
+mem.seek(0)
+
+for i in range(len(list_to_write)):
+    print(struct.unpack('BBBB', mem.read(4))[0])
+
+
+
+
+                               [ Wrote 32 lines ]
+
+sockit@sockit-ubuntu-core:~/Pixelizing$ sudo python3 testmmap.py
+writing at position = 0: b'\x19cs\x00', initial data: [25, 99, 115, 0]
+writing at position = 4: b'"\x8a\x9b\x00', initial data: [34, 138, 155, 0]
+writing at position = 8: b'\x13Ja\x00', initial data: [19, 74, 97, 0]
+writing at position = 12: b'\x0b*D\x00', initial data: [11, 42, 68, 0]
+writing at position = 16: b'\x05\x1c7\x00', initial data: [5, 28, 55, 0]
+writing at position = 20: b'\x04\x1a5\x00', initial data: [4, 26, 53, 0]
+writing at position = 24: b'\x05#@\x00', initial data: [5, 35, 64, 0]
+writing at position = 28: b'\x04\x1d7\x00', initial data: [4, 29, 55, 0]
+writing at position = 32: b'\x03\x14-\x00', initial data: [3, 20, 45, 0]
+writing at position = 36: b'\x03\x13,\x00', initial data: [3, 19, 44, 0]
+25
+34
+19
+11
+5
+4
+5
+4
+3
+3
+sockit@sockit-ubuntu-core:~/Pixelizing$ nano testmmap.py
+  GNU nano 2.2.6             File: testmmap.py
+
+    mmap.PROT_READ | mmap.PROT_WRITE,
+    offset=base_addr)
+
+for rgb_el in list_to_write:
+    data_portion = list(rgb_el)+[0]
+    word = struct.pack('BBBB', *data_portion)
+    print('writing at position = {}: {}, initial data: {}'.
+                format(mem.tell(), word, data_portion))
+    #debugger #import pdb;pdb.set_trace()
+    mem.write(word)
+
+mem.seek(0)
+
+for i in range(len(list_to_write)):
+    print(struct.unpack('BBBB', mem.read(4)))
+
+
+
+
+                               [ Wrote 32 lines ]
+
+sockit@sockit-ubuntu-core:~/Pixelizing$ sudo python3 testmmap.py
+writing at position = 0: b'\x19cs\x00', initial data: [25, 99, 115, 0]
+writing at position = 4: b'"\x8a\x9b\x00', initial data: [34, 138, 155, 0]
+writing at position = 8: b'\x13Ja\x00', initial data: [19, 74, 97, 0]
+writing at position = 12: b'\x0b*D\x00', initial data: [11, 42, 68, 0]
+writing at position = 16: b'\x05\x1c7\x00', initial data: [5, 28, 55, 0]
+writing at position = 20: b'\x04\x1a5\x00', initial data: [4, 26, 53, 0]
+writing at position = 24: b'\x05#@\x00', initial data: [5, 35, 64, 0]
+writing at position = 28: b'\x04\x1d7\x00', initial data: [4, 29, 55, 0]
+writing at position = 32: b'\x03\x14-\x00', initial data: [3, 20, 45, 0]
+writing at position = 36: b'\x03\x13,\x00', initial data: [3, 19, 44, 0]
+(25, 99, 115, 0)
+(34, 138, 155, 0)
+(19, 74, 97, 0)
+(11, 42, 68, 0)
+(5, 28, 55, 0)
+(4, 26, 53, 0)
+(5, 35, 64, 0)
+(4, 29, 55, 0)
+(3, 20, 45, 0)
+(3, 19, 44, 0)
+sockit@sockit-ubuntu-core:~/Pixelizing$
