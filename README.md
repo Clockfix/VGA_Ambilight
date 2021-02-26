@@ -9,14 +9,15 @@
 # VGA_Ambilight
 The final project of  @2020/2021 RTR710 (Signal processing in heterogeneous systems containing FPGA)
 ![goal](https://raw.githubusercontent.com/Clockfix/VGA_Ambilight/main/doc/goal.jpg) 
-### Block diagram
+## Block diagram
 ![Block diagram](https://raw.githubusercontent.com/Clockfix/VGA_Ambilight/main/doc/block-diagram.png) 
-### Top entity
+## Top entity
 ![Top entity](https://raw.githubusercontent.com/Clockfix/VGA_Ambilight/main/doc/top_entity.png) 
-### Platform Designer [SoC]
+## Platform Designer [SoC]
 ![Platform Designer](https://raw.githubusercontent.com/Clockfix/VGA_Ambilight/main/doc/platform_designer.png) 
 
-### Hardware
+## Hardware
 ![hardware](https://raw.githubusercontent.com/Clockfix/VGA_Ambilight/main/doc/HDMI-toVGA_and_DE0_nano_SoC.jpeg) 
 
-
+## LED driver test
+https://1drv.ms/v/s!AmVr8IF4ESQjlvxT72VzeN5S2eCTJg?e=QbaRtv
